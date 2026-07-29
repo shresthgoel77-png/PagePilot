@@ -32,7 +32,6 @@ export function PdfUploadDropzone({ projectId }: { projectId: string }) {
         }
     }, [uploadPdf]);
 
-
     const onDrop = useCallback((acceptedFiles: File[]) => {
         acceptedFiles.forEach(file => {
             processUpload(file);
