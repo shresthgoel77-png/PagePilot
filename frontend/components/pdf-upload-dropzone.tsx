@@ -32,6 +32,7 @@ export function PdfUploadDropzone({ projectId }: { projectId: string }) {
         }
     }, [uploadPdf]);
 
+
     const onDrop = useCallback((acceptedFiles: File[]) => {
         acceptedFiles.forEach(file => {
             processUpload(file);
@@ -49,7 +50,7 @@ export function PdfUploadDropzone({ projectId }: { projectId: string }) {
             <div
                 {...getRootProps()}
                 className={`flex flex-col items-center justify-center p-12 border-2 border-dashed rounded-lg cursor-pointer transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${isDragReject ? 'border-red-400 bg-red-50' :
-                        isDragActive ? 'border-blue-500 bg-blue-50 scale-105 shadow-inner' : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50'
+                    isDragActive ? 'border-blue-500 bg-blue-50 scale-105 shadow-inner' : 'border-slate-300 hover:border-slate-400 hover:bg-slate-50'
                     }`}
                 role="button"
                 tabIndex={0}
