@@ -149,7 +149,7 @@ function ListViewRow({ project }: { project: any }) {
             <td className="px-6 py-4 font-bold text-zinc-100 min-w-[200px]">
                 <div className="flex items-center space-x-3">
                     <div className="w-2 h-2 rounded-full bg-cyan-500 mr-1 shadow-[0_0_8px_rgba(6,182,212,0.5)]"></div>
-                    <Link href={`/dashboard/projects/${project.id}`} className="hover:text-cyan-400 transition-colors">
+                    <Link href={`/projects/${project.id}`} className="hover:text-cyan-400 transition-colors">
                         {project.name}
                     </Link>
                 </div>
@@ -161,7 +161,7 @@ function ListViewRow({ project }: { project: any }) {
                 {format(new Date(project.updated_at), "MMM d, yyyy")}
             </td>
             <td className="px-6 py-4 text-right space-x-1">
-                <Link href={`/dashboard/projects/${project.id}`}>
+                <Link href={`/projects/${project.id}`}>
                     <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/10">
                         <ExternalLink className="h-4 w-4" />
                     </Button>

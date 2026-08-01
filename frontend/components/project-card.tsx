@@ -61,7 +61,7 @@ export function ProjectCard({ project }: { project: ProjectProps }) {
             </CardContent>
 
             <CardFooter className="flex justify-between items-center border-t border-zinc-800/50 bg-zinc-950/30 py-3">
-                <Link href={`/dashboard/projects/${project.id}`}>
+                <Link href={`/projects/${project.id}`}>
                     <Button variant="ghost" size="sm" className="text-cyan-500 hover:text-cyan-400 hover:bg-cyan-500/10 font-bold px-3">
                         <ExternalLink className="w-4 h-4 mr-2" /> Open Hub
                     </Button>

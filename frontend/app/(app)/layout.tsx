@@ -3,22 +3,28 @@
 import { useAuthStore } from "@/stores/authStore";
 import { useHealthStatus } from "@/hooks/useHealthStatus";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
-import { Home, Folder, Moon, Sun, Monitor, LogOut } from "lucide-react";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Home, Folder, LogOut } from "lucide-react";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useUIStore } from "@/stores/uiStore";
+import { usePathname } from "next/navigation";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     const { user, logout } = useAuthStore();
     const health = useHealthStatus(10000);
-    const { theme, setTheme } = useUIStore();
+    const pathname = usePathname();
+
+    const isProjectContextRoute = pathname.startsWith('/projects/') && pathname.split('/').length > 2;
 
     const navItems = [
         { title: "Home", url: "/dashboard", icon: Home },
-        { title: "Projects", url: "/dashboard/projects", icon: Folder },
+        { title: "Projects", url: "/projects", icon: Folder },
     ];
+
+    if (isProjectContextRoute) {
+        return <div className="h-full w-full bg-zinc-950 text-white">{children}</div>;
+    }
 
     return (
         <SidebarProvider>
@@ -31,7 +37,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                                 <SidebarMenu>
                                     {navItems.map((item) => (
                                         <SidebarMenuItem key={item.title}>
-                                            <SidebarMenuButton asChild>
+                                            <SidebarMenuButton asChild isActive={pathname === item.url || (item.url === '/projects' && pathname.startsWith('/projects'))}>
                                                 <a href={item.url}>
                                                     <item.icon className="h-4 w-4" />
                                                     <span>{item.title}</span>
@@ -58,7 +64,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                                 <span className={`h-2.5 w-2.5 rounded-full ${health === 'green' ? 'bg-emerald-500' :
-                                        health === 'yellow' ? 'bg-yellow-500' : 'bg-red-500'
+                                    health === 'yellow' ? 'bg-yellow-500' : 'bg-red-500'
                                     } shadow-[0_0_8px_rgba(0,0,0,0.5)]`} />
                             </div>
 
