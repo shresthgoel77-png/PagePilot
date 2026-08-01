@@ -23,7 +23,7 @@ Make sure you have Docker Desktop (Windows/Mac) or Docker Engine (Linux) install
    bash scripts/dev-up.sh
    ```
    This script will automatically load the environment variables, launch Docker Compose in detached mode, and poll the containers until all four database services are completely healthy.
-
+      
 ### Tear Down
 
 To stop the containers gracefully, run:

@@ -2,10 +2,7 @@ import logging
 import fitz
 import traceback
 from typing import List, Dict, Any
-try:
-    from docling.document_converter import DocumentConverter
-except ImportError:
-    DocumentConverter = None
+# Heavy local OCR (docling) dependencies removed
 
 logger = logging.getLogger("researchos.pdf_parser")
 
@@ -18,31 +15,17 @@ class PDFParserService:
         extracted_pages = []
         
         try:
-            # 1. Primary Layout Extractor (Docling structurally maps context intuitively mapping Markdown boundaries)
-            if DocumentConverter:
-                converter = DocumentConverter()
-                result = converter.convert(file_path)
-                if result and result.document:
-                    for page_meta in result.document.pages.values():
-                        # Iterate bounding tracking execution reliably avoiding memory blocks implicitly
-                        page_text = result.document.export_to_markdown(page_nos=[page_meta.page_no])
-                        extracted_pages.append({
-                            "page": page_meta.page_no,
-                            "text": page_text
-                        })
-            
-            # 2. Resettable Fallback (PyMuPDF extracts strings tracking linear configurations statically natively)
-            if not extracted_pages:
-                doc = fitz.open(file_path)
-                for page_num in range(len(doc)):
-                    page = doc.load_page(page_num)
-                    text = page.get_text("text").strip()
-                    if text:
-                        extracted_pages.append({
-                            "page": page_num + 1,
-                            "text": text
-                        })
-                doc.close()
+            # 1. Primary Layout Extractor (PyMuPDF extracts strings directly avoiding heavy local OCR)
+            doc = fitz.open(file_path)
+            for page_num in range(len(doc)):
+                page = doc.load_page(page_num)
+                text = page.get_text("text").strip()
+                if text:
+                    extracted_pages.append({
+                        "page": page_num + 1,
+                        "text": text
+                    })
+            doc.close()
                 
             if not extracted_pages:
                 logger.warning(f"Warning: Absolute absence of valid OCR structures found inside PDF target intrinsically isolated bounding variables natively '{file_path}'.")

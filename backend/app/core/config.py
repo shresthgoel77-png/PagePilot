@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     QDRANT_URL: str = Field(..., description="Vector database Qdrant URL")
     SECRET_KEY: str = Field(..., description="JWT Auth Secret Key")
     UPLOAD_DIR: str = Field(..., description="Local PDF Upload Directory")
-    OPENAI_API_KEY: str = Field(..., description="OpenAI LLM Key")
+    GEMINI_API_KEY: str = Field(..., description="Gemini LLM Key")
 
     # Security & Networking
     FRONTEND_URLS: List[str] = ["http://localhost:3000"]

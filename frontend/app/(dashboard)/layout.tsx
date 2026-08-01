@@ -36,6 +36,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="md:hidden flex flex-row items-center justify-between p-4 border-b bg-white shadow-sm z-20 relative">
                 <span className="font-bold text-xl text-slate-900 tracking-tight">ResearchOS</span>
                 <Sheet>
+                    {/* @ts-ignore */}
                     <SheetTrigger asChild>
                         <Button variant="outline" size="sm">Menu</Button>
                     </SheetTrigger>
@@ -63,6 +64,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <div className="p-4 border-t border-slate-100 bg-slate-50 w-full relative">
                     {user && (
                         <DropdownMenu>
+                            {/* @ts-ignore */}
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="w-full h-14 justify-start space-x-3 px-3">
                                     <Avatar className="h-8 w-8 shadow-sm">

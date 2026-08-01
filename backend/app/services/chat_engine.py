@@ -3,13 +3,8 @@ import logging
 import asyncio
 from typing import AsyncGenerator, Dict, Any, List
 
-# Implicit wrappers supporting LangChain executions cleanly handling missing pointers correctly natively globally 
-try:
-    from langchain_openai import ChatOpenAI
-    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-    from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-except ImportError:
-    pass
+from google import genai
+from google.genai import types
 
 from app.core.config import settings
 from app.services.retrieval import RetrievalService
@@ -21,7 +16,7 @@ class ChatEngine:
     def __init__(self, chat_service: ChatService):
         self.chat_service = chat_service
         self.retrieval_service = RetrievalService()
-        self.llm = ChatOpenAI(model="gpt-4o", openai_api_key=settings.OPENAI_API_KEY, timeout=60.0)
+        self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
     def _format_context(self, chunks: List[Dict[str, Any]]) -> str:
         formatted_chunks = []
@@ -42,13 +37,10 @@ class ChatEngine:
             yield f"data: {json.dumps({'type': 'error', 'content': 'System constraints explicitly failed execution boundaries.'})}\n\n"
             return
 
-        # Max-10 bounds encapsulating historical states dynamically mapping bounds optimally globally 
-        history_msgs = []
+        contents = []
         for m in db_messages[-10:]:
-            if m.role == "user":
-                history_msgs.append(HumanMessage(content=m.content))
-            elif m.role == "assistant":
-                history_msgs.append(AIMessage(content=m.content))
+            role = "user" if m.role == "user" else "model"
+            contents.append(types.Content(role=role, parts=[types.Part.from_text(text=m.content)]))
 
         # Invoke CrossEncoder mappings executing strict vector constraints implicitly locating boundaries efficiently 
         retrieved_chunks = self.retrieval_service.retrieve(
@@ -82,11 +74,7 @@ class ChatEngine:
         # Register user state persistently tracking database mapping structures gracefully natively properly 
         await self.chat_service.add_message(session_id, "user", message)
         
-        prompt_template = ChatPromptTemplate.from_messages([
-            ("system", system_instruction),
-            MessagesPlaceholder(variable_name="history"),
-            ("human", "{input}")
-        ])
+        contents.append(types.Content(role="user", parts=[types.Part.from_text(text=message)]))
         
         if not retrieved_chunks:
             yield f"data: {json.dumps({'type': 'token', 'content': system_instruction})}\n\n"
@@ -95,15 +83,22 @@ class ChatEngine:
             return
 
         try:
-            chain = prompt_template | self.llm
-            response_contents = []
+            config = types.GenerateContentConfig(
+                system_instruction=system_instruction,
+            )
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
-            async for chunk in chain.astream({"history": history_msgs, "input": message}):
-                content = chunk.content
-                if content:
-                    response_contents.append(content)
-                    payload = json.dumps({"type": "token", "content": content})
+            response_stream = await self.client.aio.models.generate_content_stream(
+                model="gemini-2.5-flash",
+                contents=contents,
+                config=config
+            )
+            
+            response_contents = []
+            async for chunk in response_stream:
+                if chunk.text:
+                    response_contents.append(chunk.text)
+                    payload = json.dumps({"type": "token", "content": chunk.text})
                     yield f"data: {payload}\n\n"
                     # Synchronize OS buffer bounds actively resolving explicitly mapping loops smoothly implicitly securely 
                     await asyncio.sleep(0.01)
@@ -115,5 +110,5 @@ class ChatEngine:
             await self.chat_service.add_message(session_id, "assistant", full_response, sources_payload)
             
         except Exception as e:
-            logger.error(f"LangChain orchestration collapsed safely globally intrinsically bounded inherently mapped: {e}")
+            logger.error(f"Gemini orchestration collapsed safely globally intrinsically bounded inherently mapped: {e}")
             yield f"data: {json.dumps({'type': 'error', 'content': 'Context Provider unresolvable intrinsically tracking limits.'})}\n\n"

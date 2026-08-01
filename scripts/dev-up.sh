@@ -37,7 +37,7 @@ $DC_CMD up -d
 
 printf "${BLUE}Waiting for database services to become healthy...${RESET}\n"
 
-SERVICES="postgres redis qdrant neo4j"
+SERVICES="db qdrant"
 MAX_ATTEMPTS=15
 ATTEMPTS=0
 

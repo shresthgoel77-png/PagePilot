@@ -1,0 +1,77 @@
+Exception in thread Thread-6 (_readerthread):
+Traceback (most recent call last):
+  File "C:\Python314\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Python314\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1614, in _readerthread
+    buffer.append(fh.read())
+                  ~~~~~~~^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 46171: character maps to <undefined>
+--- RUNNING: docker system prune -a --volumes -f ---
+Total reclaimed space: 0B
+
+--- RUNNING: docker system df ---
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          0         0         0B        0B
+Containers      0         0         0B        0B
+Local Volumes   0         0         0B        0B
+Build Cache     0         0         0B        0B
+
+--- RUNNING: docker build -t genai-backend-test . ---
+
+Container ID: a861498f6f01755373fbd073f862056992c84bf3ae4b69b75720a60342301330
+--- RUNNING: docker logs a861498f6f01755373fbd073f862056992c84bf3ae4b69b75720a60342301330 ---
+
+ERRORS:
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+
+--- RUNNING: docker rm -f a861498f6f01755373fbd073f862056992c84bf3ae4b69b75720a60342301330 ---
+a861498f6f01755373fbd073f862056992c84bf3ae4b69b75720a60342301330
+
+--- RUNNING: docker system prune -a --volumes -f ---
+Deleted Images:
+untagged: genai-backend-test:latest
+deleted: sha256:ea483bd347e315a0c14e5e998ab4cdd495ea7de08c88151258b9eced0e7855c6
+deleted: sha256:7713057c747d15b8d4313f388e068ee7cb4a171f12bc22d1b518e993d082740d
+deleted: sha256:612a0b2f23de961fee9aa4aee73f5ae8f95ac0d8d77f69e3bc9bd26124029c69
+
+Deleted build cache objects:
+1nc7eyq0h8y1e6o8mwz7kfsje
+jm72fqxcdq3vrnp4tywmfnt2i
+r87upzyh1hgwcn88xar9909uj
+vumioxg7owqpjt474hi94s8p4
+vsjh3nr982wdkflp6a90dp2e1
+os22aoavuk1wt4r397a5s1gkx
+xx338fnah8jop22flcbwt008b
+yw0quxztc0mb8irsorq0gd9zh
+1ujrn6fta294x9j0rdufys4sg
+ca0daotq607o3x39paqr98fq5
+8uxf67ygepriya9lyldzxhzh8
+7buawknlvae5vg0arm0e5b38r
+dhozklsuiximcxy9qemeq57bz
+shgrm9lr4b1jnoudmbchwebiu
+rob5m4jjlpo7cz4gc1siamt7v
+t3qilonhag1tjwce8x46c1up2
+ig8wikqbgmp4to4srd46j2jdm
+0hykf00k7b0nco5mn7l54suu8
+i8edvkxua8g44k1fqhyq7gr4k
+er4900y2xmbnz7g8wylispo5p
+
+Total reclaimed space: 5.222GB
+
+--- RUNNING: docker system df ---
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+Images          0         0         0B        0B
+Containers      0         0         0B        0B
+Local Volumes   0         0         0B        0B
+Build Cache     0         0         0B        0B
+

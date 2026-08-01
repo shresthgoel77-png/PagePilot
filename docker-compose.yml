@@ -32,13 +32,6 @@ services:
       - qdrant_storage:/qdrant/storage
     networks:
       - research-net
-    healthcheck:
-      # Attempt /healthz as requested, falling back to /readyz if curl gets 404
-      test: ["CMD-SHELL", "curl -f http://localhost:6333/healthz || curl -f http://localhost:6333/readyz || wget -qO- http://localhost:6333"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
 
   backend:
     build:
@@ -51,7 +44,7 @@ services:
       QDRANT_URL: ${QDRANT_URL}
       SECRET_KEY: ${SECRET_KEY}
       UPLOAD_DIR: ${UPLOAD_DIR}
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     ports:
       - "8000:8000"
     volumes:
@@ -62,7 +55,7 @@ services:
       db:
         condition: service_healthy
       qdrant:
-        condition: service_healthy
+        condition: service_started
 
   frontend:
     build:

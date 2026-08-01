@@ -6,8 +6,11 @@ import { Button } from '@/components/ui/button';
 import { PdfUploadDropzone } from '@/components/pdf-upload-dropzone';
 import { PdfList } from '@/components/pdf-list';
 
-export default function ProjectDetailView({ params }: { params: { projectId: string } }) {
-    const { data: project, isLoading, isError } = useProject(params.projectId);
+import { use } from 'react';
+
+export default function ProjectDetailView({ params }: { params: Promise<{ projectId: string }> }) {
+    const resolvedParams = use(params);
+    const { data: project, isLoading, isError } = useProject(resolvedParams.projectId);
 
     if (isLoading) {
         return (
@@ -53,13 +56,13 @@ export default function ProjectDetailView({ params }: { params: { projectId: str
                 {/* Left Constraints Column */}
                 <div className="xl:col-span-1 space-y-6">
                     <h3 className="text-sm font-extrabold uppercase tracking-widest text-slate-500 mb-2 pl-2">Ingestion Vectors Source Modules ideally</h3>
-                    <PdfUploadDropzone projectId={params.projectId} />
+                    <PdfUploadDropzone projectId={resolvedParams.projectId} />
                 </div>
 
                 {/* Right Logical State Views */}
                 <div className="xl:col-span-2 space-y-6">
                     <h3 className="text-sm font-extrabold uppercase tracking-widest text-slate-500 mb-2 pl-2">Tracked Environmental Architecture Bounded Cache</h3>
-                    <PdfList projectId={params.projectId} />
+                    <PdfList projectId={resolvedParams.projectId} />
                 </div>
             </div>
         </div>

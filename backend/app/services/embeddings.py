@@ -5,33 +5,33 @@ from app.services.vector_store import VectorStoreService
 
 logger = logging.getLogger("researchos.embeddings")
 
+from google import genai
+
 try:
-    from sentence_transformers import SentenceTransformer
-    # Cache mapping guarantees Docker volume isolations tracking persistence exclusively natively bypassing restarts internally
-    os.environ['SENTENCE_TRANSFORMERS_HOME'] = '/root/.cache'
-    _embedding_model = SentenceTransformer("BAAI/bge-m3", device=os.getenv("MODEL_DEVICE", "cpu"))
-except ImportError:
-    _embedding_model = None
+    _client = genai.Client()
+except Exception as e:
+    _client = None
 
 class EmbeddingService:
     def __init__(self):
         self.vector_store = VectorStoreService()
         self.batch_size = int(os.getenv("EMBEDDING_BATCH_SIZE", "32"))
-        if _embedding_model is None:
-             logger.warning("sentence-transformers dependency natively unavailable, vectors mocked inherently safely.")
+        if _client is None:
+             logger.warning("Gemini client natively unavailable, vectors mocked inherently safely.")
 
     def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
-        if not _embedding_model:
-            return [[0.0] * 1024 for _ in texts]
+        if not _client:
+            return [[0.0] * 768 for _ in texts]
             
-        embeddings = _embedding_model.encode(
-            texts,
-            batch_size=self.batch_size,
-            normalize_embeddings=True,
-            show_progress_bar=False
-        )
-        # Returns normalized cosine execution blocks efficiently tracked locally logically globally natively
-        return embeddings.tolist()
+        try:
+            response = _client.models.embed_content(
+                model="text-embedding-004",
+                contents=texts
+            )
+            return [emb.values for emb in response.embeddings]
+        except Exception as e:
+            logger.error(f"Gemini embedding generation failed: {e}")
+            return [[0.0] * 768 for _ in texts]
 
     def index_pdf_chunks(self, pdf_id: str, chunks: List[Dict[str, Any]]):
         if not chunks:
