@@ -32,7 +32,7 @@ app = FastAPI(
 # Connect cross origin mappings allowing authentication credentials over explicitly allowed client boundaries
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.FRONTEND_URLS,
+    allow_origins=["http://localhost:3000"] + settings.FRONTEND_URLS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
