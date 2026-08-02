@@ -57,6 +57,9 @@ export default function RegisterPage() {
             {/* Top-center radial gradient */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
 
+            {/* Subtle Noise Texture Mapping Gracefully */}
+            <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none mix-blend-overlay"></div>
+
             <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl relative z-10 overflow-hidden flex flex-col p-8 my-8">
 
                 <div className="text-center mb-8">

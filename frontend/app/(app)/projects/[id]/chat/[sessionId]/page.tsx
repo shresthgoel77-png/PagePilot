@@ -11,6 +11,7 @@ import { CitationPanel } from "@/components/citation-panel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronRight, PanelRightClose, PanelRightOpen, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ActiveChatSessionPage() {
     const params = useParams();
@@ -62,8 +63,10 @@ export default function ActiveChatSessionPage() {
             <div className={`flex-1 flex flex-col transition-all overflow-hidden ${isRightPanelOpen ? 'mr-80' : ''}`}>
                 <div className="flex-1 overflow-y-auto p-6 space-y-6 flex flex-col">
                     {messagesLoading && (
-                        <div className="w-full flex justify-center py-10 opacity-30">
-                            <Loader2 className="w-8 h-8 text-cyan-500 animate-spin" />
+                        <div className="w-full flex flex-col space-y-6 py-6 opacity-30">
+                            <Skeleton className="h-20 w-3/4 self-start bg-zinc-800 rounded-2xl rounded-tl-sm mx-4" />
+                            <Skeleton className="h-16 w-3/4 self-end bg-zinc-800 rounded-2xl rounded-tr-sm mx-4" />
+                            <Skeleton className="h-32 w-3/4 self-start bg-zinc-800 rounded-2xl rounded-tl-sm mx-4" />
                         </div>
                     )}
 

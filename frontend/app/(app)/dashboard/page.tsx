@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/stores/authStore";
 import { useProjects } from "@/hooks/useProjects";
 import { CreateProjectModal } from "@/components/create-project-modal";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import {
     FileText,
@@ -67,7 +68,7 @@ const containerVariants = {
 
 const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+    show: { opacity: 1, y: 0, transition: { duration: 0.4 } }
 };
 
 export default function DashboardPage() {
@@ -87,8 +88,23 @@ export default function DashboardPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-[50vh]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+            <div className="flex flex-col space-y-8 pb-8 p-6 w-full h-[80vh]">
+                <div className="flex justify-between items-center">
+                    <div className="space-y-4">
+                        <Skeleton className="h-10 w-48 bg-zinc-800" />
+                        <Skeleton className="h-4 w-32 bg-zinc-800" />
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+                    <Skeleton className="h-32 bg-zinc-800 rounded-xl" />
+                    <Skeleton className="h-32 bg-zinc-800 rounded-xl" />
+                    <Skeleton className="h-32 bg-zinc-800 rounded-xl" />
+                    <Skeleton className="h-32 bg-zinc-800 rounded-xl" />
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+                    <Skeleton className="h-64 lg:col-span-2 bg-zinc-800 rounded-xl" />
+                    <Skeleton className="h-64 lg:col-span-1 bg-zinc-800 rounded-xl" />
+                </div>
             </div>
         );
     }
