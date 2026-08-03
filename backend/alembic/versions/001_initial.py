@@ -21,6 +21,7 @@ def upgrade() -> None:
         sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column('email', sa.String(), nullable=False),
         sa.Column('hashed_password', sa.String(), nullable=False),
+        sa.Column('is_guest', sa.Boolean(), server_default='false', nullable=False),
         sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )

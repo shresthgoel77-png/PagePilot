@@ -50,7 +50,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # Generic top-level application exception boundary isolating logic failures from leaking stacks 
 @app.exception_handler(Exception)
 async def generic_exception_handler(request: Request, exc: Exception):
-    logger.error(f"Critical unhandled exception encountered natively on payload handler {request.url} -> {exc}")
+    logger.error(f"Critical unhandled exception encountered natively on payload handler {request.url} -> {exc}", exc_info=True)
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={"detail": "An internal server error occurred.", "type": str(type(exc).__name__)},
@@ -74,7 +74,7 @@ from app.db.session import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.services.vector_store import VectorStoreService
 
-@app.get("/health")
+@app.get("/health/deep")
 async def check_architecture(db: AsyncSession = Depends(get_db)):
     try:
         await db.execute(text("SELECT 1"))

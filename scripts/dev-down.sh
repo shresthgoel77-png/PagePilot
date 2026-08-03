@@ -20,9 +20,9 @@ fi
 
 if [ "$1" = "--volumes" ]; then
   printf "${YELLOW}Warning: Removing persistent volumes...${RESET}\n"
-  $DC_CMD down --volumes
+  $DC_CMD -f docker-compose.infra.yml down --volumes
 else
-  $DC_CMD down
+  $DC_CMD -f docker-compose.infra.yml down
 fi
 
 printf "${GREEN}Infrastructure stopped gracefully.${RESET}\n"

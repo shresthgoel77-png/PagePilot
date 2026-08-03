@@ -33,7 +33,7 @@ else
   exit 1
 fi
 
-$DC_CMD up -d
+$DC_CMD -f docker-compose.infra.yml up -d
 
 printf "${BLUE}Waiting for database services to become healthy...${RESET}\n"
 
@@ -77,7 +77,11 @@ while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
   if check_health; then
     printf "\n${GREEN}All database services are up and healthy!${RESET}\n"
     printf "Qdrant Dashboard: http://localhost:6333/dashboard\n"
-    printf "Neo4j Browser: http://localhost:7474\n"
+    printf "\n${BLUE}To run the backend:${RESET}\n"
+    printf "Windows: .\\scripts\\start-backend.ps1\n"
+    printf "Unix/macOS: ./scripts/start-backend.sh\n"
+    printf "\n${BLUE}To run the frontend:${RESET}\n"
+    printf "cd frontend && npm run dev\n"
     exit 0
   fi
   ATTEMPTS=$((ATTEMPTS+1))
@@ -88,5 +92,5 @@ while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
 done
 
 printf "${RED}Timeout reached. Some services failed to become healthy.\n${RESET}"
-$DC_CMD ps
+$DC_CMD -f docker-compose.infra.yml ps
 exit 1
