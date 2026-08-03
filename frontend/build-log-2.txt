@@ -1,0 +1,29 @@
+
+> frontend@0.1.0 build
+> next build
+
+⚠ `eslint` configuration in next.config.mjs is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.mjs options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.2.12 (Turbopack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+> Build error occurred
+Error: Ambiguous app routes detected:
+
+Ambiguous route pattern "/projects/[*]/chat/[*]" matches multiple routes:
+  - /projects/[id]/chat/[sessionId]
+  - /projects/[projectId]/chat/[sessionId]
+
+Ambiguous route pattern "/projects/[*]/chat" matches multiple routes:
+  - /projects/[id]/chat
+  - /projects/[projectId]/chat
+
+Ambiguous route pattern "/projects/[*]" matches multiple routes:
+  - /projects/[id]
+  - /projects/[projectId]
+
+These routes cannot be distinguished from each other when matching URLs. Please ensure that dynamic segments have unique patterns or use different static segments.
+    at ignore-listed frames

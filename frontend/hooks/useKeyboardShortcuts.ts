@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { useUiStore } from '@/stores/uiStore';
+import { useUIStore } from '@/stores/uiStore';
 import { useRouter, usePathname } from 'next/navigation';
 
 export function useKeyboardShortcuts() {
-    const { toggleCommandPalette } = useUiStore();
+    const { commandPaletteOpen, setCommandPaletteOpen } = useUIStore();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -14,7 +14,7 @@ export function useKeyboardShortcuts() {
 
             if (modifier && e.key === 'k') {
                 e.preventDefault();
-                toggleCommandPalette();
+                setCommandPaletteOpen(!commandPaletteOpen);
             } else if (modifier && e.key === 'n') {
                 e.preventDefault();
                 // If we are in Dashboard / Projects, maybe open the New Project modal natively
@@ -35,5 +35,5 @@ export function useKeyboardShortcuts() {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [toggleCommandPalette, router, pathname]);
+    }, [commandPaletteOpen, setCommandPaletteOpen, router, pathname]);
 }

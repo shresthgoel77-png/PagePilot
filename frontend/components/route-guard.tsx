@@ -12,13 +12,24 @@ export function RouteGuard({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         setMounted(true);
-        if (mounted) {
-            const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/register");
-            if (!token && !isAuthRoute) {
-                router.push("/login");
-            } else if (token && isAuthRoute) {
-                router.push("/dashboard");
-            }
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
+        const isAuthRoute = pathname.startsWith("/login") || pathname.startsWith("/register");
+        const protectedPaths = ['/settings', '/dashboard', '/projects'];
+        const isProtected = protectedPaths.some(p => pathname.startsWith(p));
+
+        // Inject / ensure guest token is cleanly populated client-side globally
+        if (typeof window !== 'undefined' && !localStorage.getItem('guest_session_id')) {
+            localStorage.setItem('guest_session_id', crypto.randomUUID());
+        }
+
+        if (!token && isProtected) {
+            router.push("/login");
+        } else if (token && isAuthRoute) {
+            router.push("/dashboard");
         }
     }, [token, router, pathname, mounted]);
 

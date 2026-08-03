@@ -3,7 +3,7 @@
 import { useProjectStore } from "@/stores/projectStore";
 import { motion } from "framer-motion";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { LayoutDashboard, Target, Gauge, GitNetwork } from "lucide-react";
+import { LayoutDashboard, Target, Gauge, Network } from "lucide-react";
 
 export default function ProjectOverviewPage() {
     const { currentProject } = useProjectStore();

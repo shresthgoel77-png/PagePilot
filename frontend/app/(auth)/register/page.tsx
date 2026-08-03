@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRegister } from "@/hooks/useAuth";
-import { Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const registerSchema = z.object({
     email: z.string().email("Invalid email format"),
@@ -27,6 +27,8 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
     const { mutate: registerUser, isPending, isError, error } = useRegister();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
     });
@@ -83,13 +85,23 @@ export default function RegisterPage() {
 
                     <div className="space-y-2">
                         <Label htmlFor="password" className="text-zinc-300">Password</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            className="bg-zinc-950 border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-cyan-500 focus-visible:border-cyan-500"
-                            {...register("password")}
-                            disabled={isPending}
-                        />
+                        <div className="relative">
+                            <Input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                className="bg-zinc-950 border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-cyan-500 focus-visible:border-cyan-500 pr-10"
+                                {...register("password")}
+                                disabled={isPending}
+                            />
+                            <button
+                                type="button"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 focus:outline-none"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                            >
+                                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </button>
+                        </div>
                         {errors.password && <p className="text-xs text-red-500 font-medium">{errors.password.message}</p>}
 
                         {/* Dummy Password Strength Component */}
@@ -110,13 +122,23 @@ export default function RegisterPage() {
 
                     <div className="space-y-2">
                         <Label htmlFor="confirmPassword" className="text-zinc-300">Confirm Password</Label>
-                        <Input
-                            id="confirmPassword"
-                            type="password"
-                            className="bg-zinc-950 border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-cyan-500 focus-visible:border-cyan-500"
-                            {...register("confirmPassword")}
-                            disabled={isPending}
-                        />
+                        <div className="relative">
+                            <Input
+                                id="confirmPassword"
+                                type={showConfirmPassword ? "text" : "password"}
+                                className="bg-zinc-950 border-zinc-800 text-zinc-100 placeholder:text-zinc-600 focus-visible:ring-cyan-500 focus-visible:border-cyan-500 pr-10"
+                                {...register("confirmPassword")}
+                                disabled={isPending}
+                            />
+                            <button
+                                type="button"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 focus:outline-none"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                            >
+                                {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </button>
+                        </div>
                         {errors.confirmPassword && <p className="text-xs text-red-500 font-medium">{errors.confirmPassword.message}</p>}
                     </div>
 

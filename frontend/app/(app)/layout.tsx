@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import { CommandPalette } from "@/components/command-palette";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import Template from "./template";
+import Link from "next/link";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     useKeyboardShortcuts();
@@ -45,10 +46,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                                         {navItems.map((item) => (
                                             <SidebarMenuItem key={item.title}>
                                                 <SidebarMenuButton asChild isActive={pathname === item.url || (item.url === '/projects' && pathname.startsWith('/projects'))}>
-                                                    <a href={item.url}>
+                                                    <Link href={item.url}>
                                                         <item.icon className="h-4 w-4" />
                                                         <span>{item.title}</span>
-                                                    </a>
+                                                    </Link>
                                                 </SidebarMenuButton>
                                             </SidebarMenuItem>
                                         ))}
@@ -99,7 +100,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                             </div>
                         </header>
 
-                        <div className="flex-1 overflow-auto p-6 bg-zinc-50 relative">
+                        <div className="flex-1 overflow-auto p-6 bg-zinc-950 relative">
                             <Template>
                                 {children}
                             </Template>

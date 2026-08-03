@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-    // Extract tracking cookies defining logical access across explicit Next routers
     const token = request.cookies.get('auth-token')?.value || request.cookies.get('access_token')?.value;
 
-    if (request.nextUrl.pathname.startsWith('/dashboard')) {
+    const protectedPaths = ['/settings'];
+    const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p));
+
+    if (isProtected) {
         if (!token) {
             return NextResponse.redirect(new URL('/login', request.url));
         }
@@ -15,5 +17,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*'],
+    matcher: ['/settings/:path*'],
 };

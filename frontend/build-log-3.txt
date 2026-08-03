@@ -1,0 +1,310 @@
+
+> frontend@0.1.0 build
+> next build
+
+⚠ `eslint` configuration in next.config.mjs is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.mjs options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.2.12 (Turbopack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 10 errors:
+./components/command-palette.tsx:6:1
+Module not found: Can't resolve '@/components/ui/command'
+  [90m 4 |[0m [36mimport[0m { useRouter } [36mfrom[0m [32m"next/navigation"[0m;
+  [90m 5 |[0m [36mimport[0m { useUIStore } [36mfrom[0m [32m"@/stores/uiStore"[0m;
+[31m[1m>[0m [90m 6 |[0m [36mimport[0m {
+  [90m   |[0m [31m[1m^^^^^^^[0m
+[31m[1m>[0m [90m 7 |[0m     [33mCommandDialog[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m 8 |[0m     [33mCommandEmpty[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m 9 |[0m     [33mCommandGroup[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m10 |[0m     [33mCommandInput[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m11 |[0m     [33mCommandItem[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m12 |[0m     [33mCommandList[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m13 |[0m     [33mCommandSeparator[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m14 |[0m     [33mCommandShortcut[0m,
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^[0m
+[31m[1m>[0m [90m15 |[0m } [36mfrom[0m [32m"@/components/ui/command"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m16 |[0m [36mimport[0m { [33mLayoutDashboard[0m, [33mFolder[0m, [33mHexagon[0m, [33mSettings[0m, [33mPlus[0m, [33mUploadCloud[0m } [36mfrom[0m [32m"lucide-react"[0m;
+  [90m17 |[0m
+  [90m18 |[0m [36mexport[0m [36mfunction[0m [33mCommandPalette[0m() {
+
+Import map: aliased to relative './src/components/ui/command' inside of [project]/ | aliased to relative './components/ui/command' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/command-palette.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/command-palette.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/chat-message.tsx:6:1
+Module not found: Can't resolve 'react-syntax-highlighter'
+  [90m4 |[0m [36mimport[0m remarkGfm [36mfrom[0m [32m'remark-gfm'[0m;
+  [90m5 |[0m [36mimport[0m { [33mUser[0m, [33mSparkles[0m } [36mfrom[0m [32m'lucide-react'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { [33mPrismLight[0m [36mas[0m [33mSyntaxHighlighter[0m } [36mfrom[0m [32m'react-syntax-highlighter'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m ts [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/typescript'[0m;
+  [90m8 |[0m [36mimport[0m py [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/python'[0m;
+  [90m9 |[0m [36mimport[0m js [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/javascript'[0m;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/chat-message.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/chat-message.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/chat-message.tsx:10:1
+Module not found: Can't resolve 'react-syntax-highlighter/dist/cjs/languages/prism/bash'
+  [90m 8 |[0m [36mimport[0m py [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/python'[0m;
+  [90m 9 |[0m [36mimport[0m js [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/javascript'[0m;
+[31m[1m>[0m [90m10 |[0m [36mimport[0m bash [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/bash'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m11 |[0m [36mimport[0m json [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/json'[0m;
+  [90m12 |[0m [36mimport[0m { vscDarkPlus } [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/styles/prism'[0m;
+  [90m13 |[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/chat-message.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/chat-message.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/chat-message.tsx:9:1
+Module not found: Can't resolve 'react-syntax-highlighter/dist/cjs/languages/prism/javascript'
+  [90m 7 |[0m [36mimport[0m ts [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/typescript'[0m;
+  [90m 8 |[0m [36mimport[0m py [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/python'[0m;
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m js [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/javascript'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m bash [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/bash'[0m;
+  [90m11 |[0m [36mimport[0m json [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/json'[0m;
+  [90m12 |[0m [36mimport[0m { vscDarkPlus } [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/styles/prism'[0m;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/chat-message.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/chat-message.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/chat-message.tsx:11:1
+Module not found: Can't resolve 'react-syntax-highlighter/dist/cjs/languages/prism/json'
+  [90m 9 |[0m [36mimport[0m js [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/javascript'[0m;
+  [90m10 |[0m [36mimport[0m bash [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/bash'[0m;
+[31m[1m>[0m [90m11 |[0m [36mimport[0m json [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/json'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m12 |[0m [36mimport[0m { vscDarkPlus } [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/styles/prism'[0m;
+  [90m13 |[0m
+  [90m14 |[0m [33mSyntaxHighlighter[0m.registerLanguage([32m'typescript'[0m, ts);
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/chat-message.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/chat-message.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/chat-message.tsx:8:1
+Module not found: Can't resolve 'react-syntax-highlighter/dist/cjs/languages/prism/python'
+  [90m 6 |[0m [36mimport[0m { [33mPrismLight[0m [36mas[0m [33mSyntaxHighlighter[0m } [36mfrom[0m [32m'react-syntax-highlighter'[0m;
+  [90m 7 |[0m [36mimport[0m ts [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/typescript'[0m;
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m py [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/python'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m js [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/javascript'[0m;
+  [90m10 |[0m [36mimport[0m bash [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/bash'[0m;
+  [90m11 |[0m [36mimport[0m json [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/json'[0m;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/chat-message.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/chat-message.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/chat-message.tsx:7:1
+Module not found: Can't resolve 'react-syntax-highlighter/dist/cjs/languages/prism/typescript'
+  [90m 5 |[0m [36mimport[0m { [33mUser[0m, [33mSparkles[0m } [36mfrom[0m [32m'lucide-react'[0m;
+  [90m 6 |[0m [36mimport[0m { [33mPrismLight[0m [36mas[0m [33mSyntaxHighlighter[0m } [36mfrom[0m [32m'react-syntax-highlighter'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m ts [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/typescript'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m py [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/python'[0m;
+  [90m 9 |[0m [36mimport[0m js [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/javascript'[0m;
+  [90m10 |[0m [36mimport[0m bash [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/bash'[0m;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/chat-message.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/chat-message.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/chat-message.tsx:12:1
+Module not found: Can't resolve 'react-syntax-highlighter/dist/cjs/styles/prism'
+  [90m10 |[0m [36mimport[0m bash [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/bash'[0m;
+  [90m11 |[0m [36mimport[0m json [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/languages/prism/json'[0m;
+[31m[1m>[0m [90m12 |[0m [36mimport[0m { vscDarkPlus } [36mfrom[0m [32m'react-syntax-highlighter/dist/cjs/styles/prism'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m13 |[0m
+  [90m14 |[0m [33mSyntaxHighlighter[0m.registerLanguage([32m'typescript'[0m, ts);
+  [90m15 |[0m [33mSyntaxHighlighter[0m.registerLanguage([32m'python'[0m, py);
+
+
+
+Import traces:
+  Client Component Browser:
+    ./components/chat-message.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/chat-message.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./hooks/useKeyboardShortcuts.ts:2:1
+Export useUiStore doesn't exist in target module
+  [90m1 |[0m [36mimport[0m { useEffect } [36mfrom[0m [32m'react'[0m;
+[31m[1m>[0m [90m2 |[0m [36mimport[0m { useUiStore } [36mfrom[0m [32m'@/stores/uiStore'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m [36mimport[0m { useRouter, usePathname } [36mfrom[0m [32m'next/navigation'[0m;
+  [90m4 |[0m
+  [90m5 |[0m [36mexport[0m [36mfunction[0m useKeyboardShortcuts() {
+
+The export useUiStore was not found in module [project]/stores/uiStore.ts [app-client] (ecmascript).
+Did you mean to import useUIStore?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./hooks/useKeyboardShortcuts.ts [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./hooks/useKeyboardShortcuts.ts [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+
+./hooks/useKeyboardShortcuts.ts:2:1
+Export useUiStore doesn't exist in target module
+  [90m1 |[0m [36mimport[0m { useEffect } [36mfrom[0m [32m'react'[0m;
+[31m[1m>[0m [90m2 |[0m [36mimport[0m { useUiStore } [36mfrom[0m [32m'@/stores/uiStore'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m3 |[0m [36mimport[0m { useRouter, usePathname } [36mfrom[0m [32m'next/navigation'[0m;
+  [90m4 |[0m
+  [90m5 |[0m [36mexport[0m [36mfunction[0m useKeyboardShortcuts() {
+
+The export useUiStore was not found in module [project]/stores/uiStore.ts [app-ssr] (ecmascript).
+Did you mean to import useUIStore?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./hooks/useKeyboardShortcuts.ts [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./hooks/useKeyboardShortcuts.ts [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+
+    at <unknown> (./components/command-palette.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/chat-message.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/chat-message.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/chat-message.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/chat-message.tsx:11:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/chat-message.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/chat-message.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/chat-message.tsx:12:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./hooks/useKeyboardShortcuts.ts:2:1)
+    at <unknown> (./hooks/useKeyboardShortcuts.ts:2:1)

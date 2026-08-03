@@ -1,0 +1,673 @@
+
+> frontend@0.1.0 build
+> next build
+
+⚠ `eslint` configuration in next.config.mjs is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.mjs options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.2.12 (Turbopack)
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 22 errors:
+./components/ui/sidebar.tsx:8:1
+Module not found: Can't resolve '@/hooks/use-mobile'
+  [90m 6 |[0m [36mimport[0m { cva, [36mtype[0m [33mVariantProps[0m } [36mfrom[0m [32m"class-variance-authority"[0m
+  [90m 7 |[0m
+[31m[1m>[0m [90m 8 |[0m [36mimport[0m { useIsMobile } [36mfrom[0m [32m"@/hooks/use-mobile"[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 9 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m10 |[0m [36mimport[0m { [33mButton[0m } [36mfrom[0m [32m"@/components/ui/button"[0m
+  [90m11 |[0m [36mimport[0m { [33mInput[0m } [36mfrom[0m [32m"@/components/ui/input"[0m
+
+Import map: aliased to relative './src/hooks/use-mobile' inside of [project]/ | aliased to relative './hooks/use-mobile' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/sidebar.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/sidebar.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/alert-dialog.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mAlertDialog[0m [36mas[0m [33mAlertDialogPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/alert-dialog"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mButton[0m } [36mfrom[0m [32m"@/components/ui/button"[0m
+  [90m8 |[0m
+  [90m9 |[0m [36mfunction[0m [33mAlertDialog[0m({ ...props }: [33mAlertDialogPrimitive[0m.[33mRoot[0m.[33mProps[0m) {
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/alert-dialog.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/alert-dialog.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/avatar.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mAvatar[0m [36mas[0m [33mAvatarPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/avatar"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mfunction[0m [33mAvatar[0m({
+  [90m9 |[0m   className,
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/avatar.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/avatar.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/badge.tsx:5:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m3 |[0m [36mimport[0m { cva, [36mtype[0m [33mVariantProps[0m } [36mfrom[0m [32m"class-variance-authority"[0m
+  [90m4 |[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m
+  [90m7 |[0m [36mconst[0m badgeVariants = cva(
+  [90m8 |[0m   [32m"group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hi...[0m
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/badge.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/badge.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/breadcrumb.tsx:5:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m3 |[0m [36mimport[0m { useRender } [36mfrom[0m [32m"@base-ui/react/use-render"[0m
+  [90m4 |[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m { [33mChevronRightIcon[0m, [33mMoreHorizontalIcon[0m } [36mfrom[0m [32m"lucide-react"[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mfunction[0m [33mBreadcrumb[0m({ className, ...props }: [33mReact[0m.[33mComponentProps[0m<[32m"nav"[0m>) {
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/breadcrumb.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/breadcrumb.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/button.tsx:4:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m2 |[0m [36mimport[0m { cva, [36mtype[0m [33mVariantProps[0m } [36mfrom[0m [32m"class-variance-authority"[0m
+  [90m3 |[0m
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m
+  [90m6 |[0m [36mconst[0m buttonVariants = cva(
+  [90m7 |[0m   [32m"group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-t...[0m
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/button.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/button.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/card.tsx:3:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m1 |[0m [36mimport[0m * [36mas[0m [33mReact[0m [36mfrom[0m [32m"react"[0m
+  [90m2 |[0m
+[31m[1m>[0m [90m3 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m4 |[0m
+  [90m5 |[0m [36mfunction[0m [33mCard[0m({
+  [90m6 |[0m   className,
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/card.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/card.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/command.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mCommand[0m [36mas[0m [33mCommandPrimitive[0m } [36mfrom[0m [32m"cmdk"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m {
+  [90m8 |[0m   [33mDialog[0m,
+  [90m9 |[0m   [33mDialogContent[0m,
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/command.tsx [Client Component Browser]
+    ./components/command-palette.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/command.tsx [Client Component SSR]
+    ./components/command-palette.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/dialog.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mDialog[0m [36mas[0m [33mDialogPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/dialog"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mButton[0m } [36mfrom[0m [32m"@/components/ui/button"[0m
+  [90m8 |[0m [36mimport[0m { [33mXIcon[0m } [36mfrom[0m [32m"lucide-react"[0m
+  [90m9 |[0m
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/dialog.tsx [Client Component Browser]
+    ./components/ui/command.tsx [Client Component Browser]
+    ./components/command-palette.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/dialog.tsx [Client Component SSR]
+    ./components/ui/command.tsx [Client Component SSR]
+    ./components/command-palette.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/dropdown-menu.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mMenu[0m [36mas[0m [33mMenuPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/menu"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mChevronRightIcon[0m, [33mCheckIcon[0m } [36mfrom[0m [32m"lucide-react"[0m
+  [90m8 |[0m
+  [90m9 |[0m [36mfunction[0m [33mDropdownMenu[0m({ ...props }: [33mMenuPrimitive[0m.[33mRoot[0m.[33mProps[0m) {
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/dropdown-menu.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/dropdown-menu.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/input-group.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { cva, [36mtype[0m [33mVariantProps[0m } [36mfrom[0m [32m"class-variance-authority"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mButton[0m } [36mfrom[0m [32m"@/components/ui/button"[0m
+  [90m8 |[0m [36mimport[0m { [33mInput[0m } [36mfrom[0m [32m"@/components/ui/input"[0m
+  [90m9 |[0m [36mimport[0m { [33mTextarea[0m } [36mfrom[0m [32m"@/components/ui/textarea"[0m
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/input-group.tsx [Client Component Browser]
+    ./components/ui/command.tsx [Client Component Browser]
+    ./components/command-palette.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/input-group.tsx [Client Component SSR]
+    ./components/ui/command.tsx [Client Component SSR]
+    ./components/command-palette.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/input.tsx:4:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m2 |[0m [36mimport[0m { [33mInput[0m [36mas[0m [33mInputPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/input"[0m
+  [90m3 |[0m
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m
+  [90m6 |[0m [36mfunction[0m [33mInput[0m({ className, [36mtype[0m, ...props }: [33mReact[0m.[33mComponentProps[0m<[32m"input"[0m>) {
+  [90m7 |[0m   [36mreturn[0m (
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/input.tsx [Client Component Browser]
+    ./app/(auth)/login/page.tsx [Client Component Browser]
+    ./app/(auth)/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/input.tsx [Client Component SSR]
+    ./app/(auth)/login/page.tsx [Client Component SSR]
+    ./app/(auth)/login/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/label.tsx:5:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m3 |[0m [36mimport[0m * [36mas[0m [33mReact[0m [36mfrom[0m [32m"react"[0m
+  [90m4 |[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m
+  [90m7 |[0m [36mfunction[0m [33mLabel[0m({ className, ...props }: [33mReact[0m.[33mComponentProps[0m<[32m"label"[0m>) {
+  [90m8 |[0m   [36mreturn[0m (
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/label.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/label.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/popover.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mPopover[0m [36mas[0m [33mPopoverPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/popover"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mfunction[0m [33mPopover[0m({ ...props }: [33mPopoverPrimitive[0m.[33mRoot[0m.[33mProps[0m) {
+  [90m9 |[0m   [36mreturn[0m <[33mPopoverPrimitive[0m.[33mRoot[0m data-slot=[32m"popover"[0m {...props} />
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/popover.tsx [Client Component Browser]
+    ./components/chat-input.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/popover.tsx [Client Component SSR]
+    ./components/chat-input.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/chat/[sessionId]/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/progress.tsx:5:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m3 |[0m [36mimport[0m { [33mProgress[0m [36mas[0m [33mProgressPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/progress"[0m
+  [90m4 |[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m
+  [90m7 |[0m [36mfunction[0m [33mProgress[0m({
+  [90m8 |[0m   className,
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/progress.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/progress.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/scroll-area.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mScrollArea[0m [36mas[0m [33mScrollAreaPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/scroll-area"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mfunction[0m [33mScrollArea[0m({
+  [90m9 |[0m   className,
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/scroll-area.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/scroll-area.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/separator.tsx:5:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m3 |[0m [36mimport[0m { [33mSeparator[0m [36mas[0m [33mSeparatorPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/separator"[0m
+  [90m4 |[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m
+  [90m7 |[0m [36mfunction[0m [33mSeparator[0m({
+  [90m8 |[0m   className,
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/separator.tsx [Client Component Browser]
+    ./app/(app)/dashboard/page.tsx [Client Component Browser]
+    ./app/(app)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/separator.tsx [Client Component SSR]
+    ./app/(app)/dashboard/page.tsx [Client Component SSR]
+    ./app/(app)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/sheet.tsx:6:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m4 |[0m [36mimport[0m { [33mDialog[0m [36mas[0m [33mSheetPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/dialog"[0m
+  [90m5 |[0m
+[31m[1m>[0m [90m6 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m { [33mButton[0m } [36mfrom[0m [32m"@/components/ui/button"[0m
+  [90m8 |[0m [36mimport[0m { [33mXIcon[0m } [36mfrom[0m [32m"lucide-react"[0m
+  [90m9 |[0m
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/sheet.tsx [Client Component Browser]
+    ./components/ui/sidebar.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/sheet.tsx [Client Component SSR]
+    ./components/ui/sidebar.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/sidebar.tsx:9:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m 7 |[0m
+  [90m 8 |[0m [36mimport[0m { useIsMobile } [36mfrom[0m [32m"@/hooks/use-mobile"[0m
+[31m[1m>[0m [90m 9 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m10 |[0m [36mimport[0m { [33mButton[0m } [36mfrom[0m [32m"@/components/ui/button"[0m
+  [90m11 |[0m [36mimport[0m { [33mInput[0m } [36mfrom[0m [32m"@/components/ui/input"[0m
+  [90m12 |[0m [36mimport[0m { [33mSeparator[0m } [36mfrom[0m [32m"@/components/ui/separator"[0m
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/sidebar.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/sidebar.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/skeleton.tsx:1:1
+Module not found: Can't resolve '@/lib/utils'
+[31m[1m>[0m [90m1 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m2 |[0m
+  [90m3 |[0m [36mfunction[0m [33mSkeleton[0m({ className, ...props }: [33mReact[0m.[33mComponentProps[0m<[32m"div"[0m>) {
+  [90m4 |[0m   [36mreturn[0m (
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/skeleton.tsx [Client Component Browser]
+    ./components/ui/sidebar.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/skeleton.tsx [Client Component SSR]
+    ./components/ui/sidebar.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/textarea.tsx:3:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m1 |[0m [36mimport[0m * [36mas[0m [33mReact[0m [36mfrom[0m [32m"react"[0m
+  [90m2 |[0m
+[31m[1m>[0m [90m3 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m4 |[0m
+  [90m5 |[0m [36mfunction[0m [33mTextarea[0m({ className, ...props }: [33mReact[0m.[33mComponentProps[0m<[32m"textarea"[0m>) {
+  [90m6 |[0m   [36mreturn[0m (
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/textarea.tsx [Client Component Browser]
+    ./components/ui/input-group.tsx [Client Component Browser]
+    ./components/ui/command.tsx [Client Component Browser]
+    ./components/command-palette.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Client Component Browser]
+    ./app/(app)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/textarea.tsx [Client Component SSR]
+    ./components/ui/input-group.tsx [Client Component SSR]
+    ./components/ui/command.tsx [Client Component SSR]
+    ./components/command-palette.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Client Component SSR]
+    ./app/(app)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./components/ui/tooltip.tsx:5:1
+Module not found: Can't resolve '@/lib/utils'
+  [90m3 |[0m [36mimport[0m { [33mTooltip[0m [36mas[0m [33mTooltipPrimitive[0m } [36mfrom[0m [32m"@base-ui/react/tooltip"[0m
+  [90m4 |[0m
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { cn } [36mfrom[0m [32m"@/lib/utils"[0m
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m
+  [90m7 |[0m [36mfunction[0m [33mTooltipProvider[0m({
+  [90m8 |[0m   delay = [35m0[0m,
+
+Import map: aliased to relative './src/lib/utils' inside of [project]/ | aliased to relative './lib/utils' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./components/ui/tooltip.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component Browser]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./components/ui/tooltip.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Client Component SSR]
+    ./app/(app)/projects/[id]/pdfs/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./components/ui/sidebar.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/alert-dialog.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/avatar.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/badge.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/breadcrumb.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/button.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/card.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/command.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/dialog.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/dropdown-menu.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/input-group.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/input.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/label.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/popover.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/progress.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/scroll-area.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/separator.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/sheet.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/sidebar.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/skeleton.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/textarea.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./components/ui/tooltip.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)

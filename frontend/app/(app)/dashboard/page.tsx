@@ -123,15 +123,21 @@ export default function DashboardPage() {
                     <p className="text-zinc-400 mt-1">{greeting}, {displayName}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
-                    <Button variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors">
-                        <UploadCloud className="w-4 h-4 mr-2" /> Upload PDF
-                    </Button>
-                    <Button variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors">
-                        <MessageSquare className="w-4 h-4 mr-2" /> Start Chat
-                    </Button>
-                    <Button variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors">
-                        <BarChart className="w-4 h-4 mr-2" /> Run Analysis
-                    </Button>
+                    <Link href="/projects">
+                        <Button variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-cyan-500 hover:bg-zinc-800 transition-colors">
+                            <UploadCloud className="w-4 h-4 mr-2" /> Upload PDF
+                        </Button>
+                    </Link>
+                    <Link href="/projects">
+                        <Button variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-cyan-500 hover:bg-zinc-800 transition-colors">
+                            <MessageSquare className="w-4 h-4 mr-2" /> Start Chat
+                        </Button>
+                    </Link>
+                    <Link href="/projects">
+                        <Button variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-cyan-500 hover:bg-zinc-800 transition-colors">
+                            <BarChart className="w-4 h-4 mr-2" /> Run Analysis
+                        </Button>
+                    </Link>
                     <CreateProjectModal />
                 </div>
             </motion.div>
@@ -218,14 +224,14 @@ export default function DashboardPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {projects.slice(0, 4).map((project: any) => (
-                                    <Link href={`/dashboard/projects/${project.id}`} key={project.id}>
+                                    <Link href={`/projects/${project.id}`} key={project.id}>
                                         <Card className="bg-zinc-900 border-zinc-800 hover:border-cyan-500/50 transition-all cursor-pointer h-full flex flex-col group hover:-translate-y-1 overflow-hidden">
                                             <div className="h-16 w-full bg-gradient-to-r from-zinc-800 to-zinc-900 group-hover:from-cyan-900/40 group-hover:to-zinc-900 transition-colors relative overflow-hidden">
                                                 <div className="absolute inset-0 bg-[url('https://transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
                                             </div>
                                             <CardContent className="pt-4 flex-1">
                                                 <div className="flex justify-between items-start mb-2">
-                                                    <h3 className="font-bold text-zinc-100 truncate">{project.title || "Untitled Project"}</h3>
+                                                    <h3 className="font-bold text-zinc-100 truncate">{project.name || "Untitled Project"}</h3>
                                                     <Badge variant="secondary" className="bg-zinc-800 text-zinc-300 pointer-events-none shrink-0 min-w-[50px] justify-center ml-2 border-zinc-700">
                                                         4 Docs
                                                     </Badge>
