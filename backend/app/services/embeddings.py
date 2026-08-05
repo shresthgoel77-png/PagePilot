@@ -31,7 +31,7 @@ class EmbeddingService:
             return [emb.values for emb in response.embeddings]
         except Exception as e:
             logger.error(f"Gemini embedding generation failed: {e}")
-            return [[0.0] * 768 for _ in texts]
+            raise
 
     def index_pdf_chunks(self, pdf_id: str, chunks: List[Dict[str, Any]]):
         if not chunks:
