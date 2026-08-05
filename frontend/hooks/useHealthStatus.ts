@@ -10,7 +10,7 @@ export function useHealthStatus(intervalMs: number = 10000) {
 
         const checkHealth = async () => {
             try {
-                const res = await fetch('/api/health');
+                const res = await fetch('http://localhost:8000/health');
                 if (res.ok) {
                     const data = await res.json();
                     if (isMounted) {

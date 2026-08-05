@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, DateTime, ForeignKey, Text
 from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.orm import relationship
 from app.db.base import Base
 
 class ChatSession(Base):
@@ -13,6 +14,8 @@ class ChatSession(Base):
     title = Column(String, default="New Chat", nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+    project = relationship("Project", back_populates="chat_sessions")
 
 class ChatMessage(Base):
     __tablename__ = "chat_messages"

@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, DateTime, ForeignKey, Integer, Enum, Text
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from app.db.base import Base
 
 class PDFStatus(str, enum.Enum):
@@ -23,3 +24,5 @@ class PDF(Base):
     parsed_text = Column(Text, nullable=True)
     status = Column(Enum(PDFStatus), default=PDFStatus.uploaded, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+    project = relationship("Project", back_populates="pdfs")

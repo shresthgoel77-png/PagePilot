@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { useChatSessions, useUpdateSessionTitle, useDeleteSession } from '@/hooks/useChatSessions';
 import { Edit2, Trash2, Plus, MessageSquare } from 'lucide-react';
 
+
 export function ChatSidebar({ projectId }: { projectId: string }) {
     const { data: sessions, isLoading } = useChatSessions(projectId);
     const { mutate: updateTitle } = useUpdateSessionTitle();
@@ -74,8 +75,8 @@ export function ChatSidebar({ projectId }: { projectId: string }) {
                             <div
                                 key={s.id}
                                 className={`group flex flex-col p-3 rounded-xl cursor-pointer transition-all border ${isActive
-                                        ? 'bg-zinc-900 border-zinc-700 shadow-sm'
-                                        : 'border-transparent hover:bg-zinc-900/50 hover:border-zinc-800'
+                                    ? 'bg-zinc-900 border-zinc-700 shadow-sm'
+                                    : 'border-transparent hover:bg-zinc-900/50 hover:border-zinc-800'
                                     }`}
                             >
                                 <div className="flex justify-between items-start">

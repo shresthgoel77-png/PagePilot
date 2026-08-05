@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, DateTime, Boolean
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from app.db.base import Base
 
 class User(Base):
@@ -12,3 +13,5 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_guest = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+    projects = relationship("Project", back_populates="user", cascade="all, delete-orphan")

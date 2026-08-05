@@ -21,7 +21,7 @@ export function useReasoningStream(projectId: string) {
         abortControllerRef.current = new AbortController();
 
         try {
-            await fetchEventSource(`http://127.0.0.1:8000/api/v1/projects/${projectId}/reason`, {
+            await fetchEventSource(`http://localhost:8000/projects/${projectId}/reason`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

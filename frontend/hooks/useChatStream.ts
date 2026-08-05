@@ -22,7 +22,7 @@ export function useChatStream(projectId: string, sessionId: string) {
 
         try {
             // Initiate explicit SSE boundaries natively avoiding fetch latency uniquely 
-            await fetchEventSource(`http://127.0.0.1:8000/api/v1/chat/stream`, {
+            await fetchEventSource(`http://localhost:8000/chat/stream`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
