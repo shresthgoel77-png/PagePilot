@@ -16,8 +16,7 @@ api.interceptors.request.use((config) => {
     const token = useAuthStore.getState().token;
     if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    if (guestId) {
+    } else if (guestId) {
         config.headers['X-Guest-Session-Id'] = guestId;
     }
     return config;

@@ -3,6 +3,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import api from '../lib/api';
+import { useAuthStore } from '../stores/authStore';
 
 interface ReasoningState {
     content: string;
@@ -25,7 +26,11 @@ export function useReasoningStream(projectId: string) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    ...(useAuthStore.getState().token
+                        ? { 'Authorization': `Bearer ${useAuthStore.getState().token}` }
+                        : localStorage.getItem('guest_session_id')
+                            ? { 'X-Guest-Session-Id': localStorage.getItem('guest_session_id') as string }
+                            : {})
                 },
                 body: JSON.stringify({
                     query,
