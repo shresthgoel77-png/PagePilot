@@ -22,7 +22,6 @@ export const useUploadPdf = (projectId: string) => {
             formData.append('file', file);
 
             const { data } = await api.post(`/projects/${projectId}/pdfs`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
                 onUploadProgress: (progressEvent) => {
                     if (onProgress && progressEvent.total) {
                         onProgress(Math.round((progressEvent.loaded * 100) / progressEvent.total));

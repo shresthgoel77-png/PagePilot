@@ -29,7 +29,7 @@ async def verify_project(project_id: UUID, user_id: UUID, db: AsyncSession) -> P
         raise HTTPException(status_code=404, detail="Ownership bounds unresolvable intrinsically tracking projects")
     return project
 
-@router.post("/", response_model=PDFResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=PDFResponse, status_code=status.HTTP_201_CREATED)
 async def upload_pdf(
     project_id: UUID,
     background_tasks: BackgroundTasks,
@@ -42,21 +42,6 @@ async def upload_pdf(
     if file.content_type != "application/pdf":
         raise HTTPException(status_code=415, detail="Constraints strictly mandate application/pdf execution formats gracefully.")
         
-    file_bytes = await file.read()
-    
-    # 50MB Size Constraint enforcement 
-    if len(file_bytes) > 50 * 1024 * 1024:
-        raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
-        
-    try:
-        # Utilize memory stream evaluations mapping fundamental valid paths bypassing disk staging initially
-        doc = fitz.open(stream=file_bytes, filetype="pdf")
-        page_count = len(doc)
-        doc.close()
-    except Exception as e:
-        logger.error(f"Memory pointer exception parsing structural bounds natively: {e}")
-        raise HTTPException(status_code=415, detail="Invalid physical format corruption detected generically")
-        
     project_dir = os.path.join(settings.UPLOAD_DIR, str(project_id))
     os.makedirs(project_dir, exist_ok=True)
     
@@ -64,8 +49,23 @@ async def upload_pdf(
     storage_filename = f"{pdf_id}.pdf"
     file_path = os.path.join(project_dir, storage_filename)
     
-    with open(file_path, "wb") as f:
-        f.write(file_bytes)
+    import shutil
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+        
+    file_size = os.path.getsize(file_path)
+    if file_size > 50 * 1024 * 1024:
+        os.remove(file_path)
+        raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
+        
+    try:
+        doc = fitz.open(file_path)
+        page_count = len(doc)
+        doc.close()
+    except Exception as e:
+        logger.error(f"Memory pointer exception parsing structural bounds natively: {e}")
+        os.remove(file_path)
+        raise HTTPException(status_code=415, detail="Invalid physical format corruption detected generically")
         
     pdf_record = PDF(
         id=pdf_id,
@@ -84,7 +84,7 @@ async def upload_pdf(
     
     return PDFResponse.model_validate(pdf_record)
 
-@router.get("/", response_model=List[PDFResponse])
+@router.get("", response_model=List[PDFResponse])
 async def list_pdfs(
     project_id: UUID,
     current_user: User = Depends(get_current_user),
