@@ -31,10 +31,11 @@ async def _claim_guest_data(db: AsyncSession, guest_id: str, new_user_id: uuid.U
         g_uuid = uuid.UUID(guest_id)
         # Update Projects and Chats safely via direct SQL binding since foreign keys cascade natively
         await db.execute(text("UPDATE projects SET user_id = :n WHERE user_id = :g").bindparams(n=new_user_id, g=g_uuid))
-        await db.execute(text("UPDATE chat_histories SET user_id = :n WHERE user_id = :g").bindparams(n=new_user_id, g=g_uuid))
+        await db.execute(text("UPDATE chat_sessions SET user_id = :n WHERE user_id = :g").bindparams(n=new_user_id, g=g_uuid))
         await db.execute(text("DELETE FROM users WHERE id = :g AND is_guest = true").bindparams(g=g_uuid))
         await db.commit()
     except Exception:
+        await db.rollback()
         pass # Ignore claiming errors if guest didn't trace appropriately
 
 @router.post("/register", response_model=UserResponse)
