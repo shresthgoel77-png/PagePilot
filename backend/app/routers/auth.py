@@ -65,6 +65,7 @@ async def register(request: Request, user_in: UserCreate, db: AsyncSession = Dep
                     return UserResponse(id=str(shadow_user.id), email=shadow_user.email, created_at=shadow_user.created_at)
                 except IntegrityError:
                     await db.rollback()
+                    raise HTTPException(status_code=400, detail="Database integrity error inherently halting mapping updates.")
         except Exception:
             pass
 

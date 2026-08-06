@@ -11,7 +11,16 @@ export function RouteGuard({ children }: { children: React.ReactNode }) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        // Minimal Fix (Option A): Wait for Zustand's hydration to complete
+        // before evaluating auth routing constraints.
+        const checkHydration = () => {
+            if (useAuthStore.persist.hasHydrated()) {
+                setMounted(true);
+            } else {
+                setTimeout(checkHydration, 50);
+            }
+        };
+        checkHydration();
     }, []);
 
     useEffect(() => {
