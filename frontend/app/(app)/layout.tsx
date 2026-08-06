@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/stores/authStore";
+import { useUser, useAuth } from "@clerk/nextjs";
 import { useHealthStatus } from "@/hooks/useHealthStatus";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import { Home, Folder, LogOut } from "lucide-react";
@@ -17,7 +17,8 @@ import Link from "next/link";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     useKeyboardShortcuts();
 
-    const { user, logout } = useAuthStore();
+    const { user } = useUser();
+    const { signOut } = useAuth();
     const health = useHealthStatus(10000);
     const pathname = usePathname();
 
@@ -81,16 +82,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="ghost" className="relative h-9 rounded-full px-2 gap-2 text-zinc-200 hover:bg-zinc-800 hover:text-white border border-zinc-800">
                                                 <Avatar className="h-6 w-6">
-                                                    <AvatarFallback className="text-xs bg-zinc-800 font-medium text-white">{user?.email?.charAt(0).toUpperCase()}</AvatarFallback>
+                                                    <AvatarFallback className="text-xs bg-zinc-800 font-medium text-white">{user.primaryEmailAddress?.emailAddress?.charAt(0).toUpperCase() || "R"}</AvatarFallback>
                                                 </Avatar>
-                                                <span className="text-sm font-medium mr-1 truncate max-w-[120px]">{user.email}</span>
+                                                <span className="text-sm font-medium mr-1 truncate max-w-[120px]">{user.primaryEmailAddress?.emailAddress}</span>
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end" className="w-56 bg-zinc-950 border-zinc-800 text-zinc-200">
                                             <div className="p-2 border-b border-zinc-800">
-                                                <p className="font-medium text-sm truncate">{user.email}</p>
+                                                <p className="font-medium text-sm truncate">{user.primaryEmailAddress?.emailAddress}</p>
                                             </div>
-                                            <DropdownMenuItem onClick={() => logout()} className="text-red-400 focus:bg-red-500/10 focus:text-red-400 cursor-pointer mt-1">
+                                            <DropdownMenuItem onClick={() => signOut()} className="text-red-400 focus:bg-red-500/10 focus:text-red-400 cursor-pointer mt-1">
                                                 <LogOut className="mr-2 h-4 w-4" />
                                                 <span>Logout</span>
                                             </DropdownMenuItem>

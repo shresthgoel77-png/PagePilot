@@ -2,8 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useAuthStore } from '../stores/authStore';
-
+import { useAuth } from '@clerk/nextjs';
 interface StreamState {
     content: string;
     isStreaming: boolean;
@@ -11,6 +10,7 @@ interface StreamState {
 }
 
 export function useChatStream(projectId: string, sessionId: string) {
+    const { getToken } = useAuth();
     const queryClient = useQueryClient();
     const [state, setState] = useState<StreamState>({ content: '', isStreaming: false, error: null });
     const abortControllerRef = useRef<AbortController | null>(null);
@@ -22,16 +22,12 @@ export function useChatStream(projectId: string, sessionId: string) {
         abortControllerRef.current = new AbortController();
 
         try {
-            // Initiate explicit SSE boundaries natively avoiding fetch latency uniquely 
+            const token = await getToken();
             await fetchEventSource(`http://localhost:8000/chat/stream`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...(useAuthStore.getState().token
-                        ? { 'Authorization': `Bearer ${useAuthStore.getState().token}` }
-                        : localStorage.getItem('guest_session_id')
-                            ? { 'X-Guest-Session-Id': localStorage.getItem('guest_session_id') as string }
-                            : {})
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
                 },
                 body: JSON.stringify({
                     session_id: sessionId,

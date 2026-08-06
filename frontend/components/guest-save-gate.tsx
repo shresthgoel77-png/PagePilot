@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/stores/authStore";
+import { useAuth } from "@clerk/nextjs";
 import { useRouter, usePathname } from "next/navigation";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -8,13 +8,13 @@ import { useState } from "react";
 import { Lock } from "lucide-react";
 
 export function useGuestAction() {
-    const { token } = useAuthStore();
+    const { userId } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
     const [isPromptOpen, setIsPromptOpen] = useState(false);
 
     const executeAction = (callback: () => void) => {
-        if (!token) {
+        if (!userId) {
             setIsPromptOpen(true);
             return;
         }

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { useAuthStore } from "@/stores/authStore";
+import { useUser } from "@clerk/nextjs";
 import { useProjects } from "@/hooks/useProjects";
 import { CreateProjectModal } from "@/components/create-project-modal";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -72,7 +72,7 @@ const itemVariants = {
 };
 
 export default function DashboardPage() {
-    const { user } = useAuthStore();
+    const { user } = useUser();
     const { data: projects, isLoading } = useProjects();
 
     const [greeting, setGreeting] = useState("Good day");
@@ -84,7 +84,7 @@ export default function DashboardPage() {
         else setGreeting("Good evening");
     }, []);
 
-    const displayName = user?.name || user?.email?.split('@')[0] || "Researcher";
+    const displayName = user?.firstName || user?.primaryEmailAddress?.emailAddress?.split('@')[0] || "Researcher";
 
     if (isLoading) {
         return (

@@ -9,7 +9,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useAuthStore } from "@/stores/authStore";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import {
     LayoutDashboard,
@@ -31,7 +31,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
 
     const { data: project, isLoading, isError } = useProject(projectId);
     const { setCurrentProject, currentProject } = useProjectStore();
-    const { user } = useAuthStore();
+    const { user } = useUser();
 
     useEffect(() => {
         if (project) {
@@ -96,8 +96,8 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
                                                 <SidebarMenuButton
                                                     asChild
                                                     className={`w-full py-5 rounded-lg mb-1 transition-all ${isActive
-                                                            ? 'bg-cyan-500/10 text-cyan-500 hover:bg-cyan-500/20 hover:text-cyan-400 font-bold'
-                                                            : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
+                                                        ? 'bg-cyan-500/10 text-cyan-500 hover:bg-cyan-500/20 hover:text-cyan-400 font-bold'
+                                                        : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
                                                         }`}
                                                 >
                                                     <Link href={item.href}>
@@ -164,7 +164,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
 
                             <Avatar className="h-8 w-8 ml-2 border border-zinc-800 cursor-pointer shadow-sm">
                                 <AvatarFallback className="bg-zinc-800 text-zinc-300 text-xs font-bold">
-                                    {user?.email?.charAt(0).toUpperCase()}
+                                    {user?.primaryEmailAddress?.emailAddress?.charAt(0).toUpperCase() || 'R'}
                                 </AvatarFallback>
                             </Avatar>
                         </div>

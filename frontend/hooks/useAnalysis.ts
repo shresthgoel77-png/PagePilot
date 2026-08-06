@@ -3,8 +3,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import api from '../lib/api';
-import { useAuthStore } from '../stores/authStore';
-
+import { useAuth } from '@clerk/nextjs';
 interface ReasoningState {
     content: string;
     isStreaming: boolean;
@@ -12,6 +11,7 @@ interface ReasoningState {
 }
 
 export function useReasoningStream(projectId: string) {
+    const { getToken } = useAuth();
     const [state, setState] = useState<ReasoningState>({ content: '', isStreaming: false, error: null });
     const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -22,15 +22,12 @@ export function useReasoningStream(projectId: string) {
         abortControllerRef.current = new AbortController();
 
         try {
+            const token = await getToken();
             await fetchEventSource(`http://localhost:8000/projects/${projectId}/reason`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...(useAuthStore.getState().token
-                        ? { 'Authorization': `Bearer ${useAuthStore.getState().token}` }
-                        : localStorage.getItem('guest_session_id')
-                            ? { 'X-Guest-Session-Id': localStorage.getItem('guest_session_id') as string }
-                            : {})
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
                 },
                 body: JSON.stringify({
                     query,

@@ -1,21 +1,23 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-export function middleware(request: NextRequest) {
-    const token = request.cookies.get('auth-token')?.value || request.cookies.get('access_token')?.value;
+const isPublicRoute = createRouteMatcher([
+    '/login(.*)',
+    '/signup(.*)',
+    '/api/webhooks(.*)',
+    '/_next(.*)',
+    '/favicon.ico',
+    '/'
+]);
 
-    const protectedPaths = ['/settings'];
-    const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p));
-
-    if (isProtected) {
-        if (!token) {
-            return NextResponse.redirect(new URL('/login', request.url));
-        }
+export default clerkMiddleware(async (auth, req) => {
+    if (!isPublicRoute(req)) {
+        await auth.protect();
     }
-
-    return NextResponse.next();
-}
+});
 
 export const config = {
-    matcher: ['/settings/:path*'],
+    matcher: [
+        '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+        '/(api|trpc)(.*)',
+    ],
 };
