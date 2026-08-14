@@ -21,7 +21,7 @@ export default function DocumentLibraryPage() {
     const params = useParams();
     const projectId = params.id as string;
 
-    const { data: pdfs, isLoading } = usePdfs(projectId);
+    const { data: pdfs, isLoading, isError } = usePdfs(projectId);
     const { mutateAsync: uploadPdf } = useUploadPdf(projectId);
 
     const [isDragging, setIsDragging] = useState(false);
@@ -149,6 +149,11 @@ export default function DocumentLibraryPage() {
                         {[1, 2, 3].map(i => (
                             <div key={i} className="h-48 bg-zinc-900/50 rounded-xl animate-pulse border border-zinc-800"></div>
                         ))}
+                    </div>
+                ) : isError ? (
+                    <div className="flex flex-col items-center justify-center p-16 border border-zinc-900 rounded-xl bg-zinc-950 border-dashed border-red-500/30">
+                        <AlertCircle className="w-16 h-16 text-red-500/50 mb-4" />
+                        <p className="text-zinc-500 font-medium font-mono text-sm text-center">Failed intrinsically securing logical bounds.<br />Unable to map document parameters.</p>
                     </div>
                 ) : pdfs?.length === 0 ? (
                     <div className="flex flex-col items-center justify-center p-16 border border-zinc-900 rounded-xl bg-zinc-950 border-dashed">

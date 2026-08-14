@@ -73,7 +73,7 @@ const itemVariants = {
 
 export default function DashboardPage() {
     const { user } = useUser();
-    const { data: projects, isLoading } = useProjects();
+    const { data: projects, isLoading, isError } = useProjects();
 
     const [greeting, setGreeting] = useState("Good day");
 
@@ -104,6 +104,20 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
                     <Skeleton className="h-64 lg:col-span-2 bg-zinc-800 rounded-xl" />
                     <Skeleton className="h-64 lg:col-span-1 bg-zinc-800 rounded-xl" />
+                </div>
+            </div>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className="flex flex-col space-y-8 pb-8 p-6 w-full h-[80vh] items-center justify-center">
+                <div className="flex flex-col items-center justify-center p-12 bg-zinc-900 border border-red-500/20 rounded-2xl max-w-lg shadow-xl">
+                    <h2 className="text-xl font-bold text-red-500 tracking-tight">Endpoint Connectivity Fault</h2>
+                    <p className="text-zinc-400 mt-2 text-center text-sm">We were unable to securely sync your workspaces natively. Your session may have expired.</p>
+                    <Button variant="outline" className="mt-6 bg-zinc-950 border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800" onClick={() => window.location.reload()}>
+                        Retry Tracking Connections
+                    </Button>
                 </div>
             </div>
         );

@@ -17,7 +17,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { MoreVertical, Edit2, Trash2, ExternalLink } from "lucide-react";
 
 export default function ProjectsPage() {
-    const { data: projects, isLoading } = useProjects();
+    const { data: projects, isLoading, isError } = useProjects();
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -30,6 +30,17 @@ export default function ProjectsPage() {
         return (
             <div className="flex items-center justify-center p-24">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+            </div>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className="flex flex-col h-full space-y-6 pb-8 p-6 w-full items-center justify-center min-h-[60vh]">
+                <div className="flex flex-col items-center justify-center p-12 bg-zinc-900 border border-red-500/20 rounded-2xl max-w-lg shadow-xl">
+                    <h2 className="text-xl font-bold text-red-500 tracking-tight">Access Constraints Activated</h2>
+                    <p className="text-zinc-400 mt-2 text-center text-sm">Failed securely mapping boundaries intrinsically. Validate your environment credentials.</p>
+                </div>
             </div>
         );
     }
