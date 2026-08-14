@@ -5,21 +5,4 @@ const api = axios.create({
     withCredentials: true,
 });
 
-api.interceptors.request.use(async (config) => {
-    // Only attempt to get token in the browser environment
-    if (typeof window !== 'undefined') {
-        try {
-            const token = await (window as any).Clerk?.session?.getToken();
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-        } catch (error) {
-            console.error('Error fetching Clerk token within interceptor:', error);
-        }
-    }
-    return config;
-}, (error) => {
-    return Promise.reject(error);
-});
-
 export default api;

@@ -6,7 +6,7 @@ from app.models.user import User
 from app.schemas.chat import ChatRequest
 from app.services.chat_service import ChatService
 from app.services.chat_engine import ChatEngine
-from app.core.deps import get_current_user
+from app.core.clerk_auth import get_current_user_clerk
 
 router = APIRouter(prefix="/chat", tags=["chat_engine"])
 
@@ -18,7 +18,7 @@ def get_chat_engine(db: AsyncSession = Depends(get_db)) -> ChatEngine:
 async def chat_stream(
     request: Request,
     payload: ChatRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_clerk),
     engine: ChatEngine = Depends(get_chat_engine)
 ):
     async def event_generator():

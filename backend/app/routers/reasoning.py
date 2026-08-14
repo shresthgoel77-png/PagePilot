@@ -7,7 +7,7 @@ import json
 
 from app.db.session import get_db
 from app.models.user import User
-from app.core.deps import get_current_user
+from app.core.clerk_auth import get_current_user_clerk
 from app.services.reasoning_engine import ReasoningEngine
 
 router = APIRouter(prefix="/projects", tags=["reasoning"])
@@ -26,7 +26,7 @@ async def execute_reasoning(
     project_id: str,
     request_data: ReasoningRequest,
     request: Request,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_clerk),
     engine: ReasoningEngine = Depends(get_reasoning_engine)
 ):
     if request_data.mode == "compare" and len(request_data.pdf_ids) < 2:

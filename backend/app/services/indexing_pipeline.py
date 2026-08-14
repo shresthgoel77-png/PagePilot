@@ -9,12 +9,12 @@ from app.services.embeddings import EmbeddingService
 
 logger = logging.getLogger("researchos.indexing_pipeline")
 
-async def run(pdf_id: str):
-    logger.info(f"Background Pipeline executing reliably structurally mapped against artifact: {pdf_id}")
+async def run(project_id, file_path, user_id):
+    logger.info(f"Background Pipeline executing reliably structurally mapped against artifact: {file_path}")
     
     # Establish local generator isolation tracking explicitly bounds natively securely logically structurally internally
     async with AsyncSessionLocal() as db:
-        stmt = select(PDF).where(PDF.id == pdf_id)
+        stmt = select(PDF).where(PDF.file_path == file_path, PDF.project_id == project_id)
         result = await db.execute(stmt)
         pdf = result.scalar_one_or_none()
         
@@ -47,7 +47,7 @@ async def run(pdf_id: str):
             logger.info(f"Vector pipeline completed mapping efficiently locally precisely: {pdf.id}")
             
         except Exception as e:
-            logger.error(f"Vector mapping exception structurally executed isolated: {e}")
+            logger.exception(f"Indexing failed for {file_path}: {e}")
             pdf.status = PDFStatus.error
             pdf.parsed_text = f"Parsing intrinsically blocked tracking vectors uniquely locally globally natively: {e}"
             await db.commit()

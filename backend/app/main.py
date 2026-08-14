@@ -61,8 +61,7 @@ async def health_check():
     return {"status": "ok"}
 
 # Localized routers structurally mounted effectively executing
-from app.routers import auth, projects, pdfs, chat_history, chat, reasoning, gap_finder
-app.include_router(auth.router)
+from app.routers import projects, pdfs, chat_history, chat, reasoning, gap_finder
 app.include_router(projects.router)
 app.include_router(pdfs.router)
 app.include_router(chat_history.router)

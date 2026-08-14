@@ -15,7 +15,7 @@ from app.models.project import Project
 from app.models.pdf import PDF, PDFStatus
 from app.schemas.pdf import PDFResponse
 from app.core.config import settings
-from app.core.deps import get_current_user
+from app.core.clerk_auth import get_current_user_clerk
 
 logger = logging.getLogger("researchos.pdfs")
 
@@ -34,7 +34,7 @@ async def upload_pdf(
     project_id: UUID,
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_clerk),
     db: AsyncSession = Depends(get_db)
 ):
     await verify_project(project_id, current_user.id, db)
@@ -80,14 +80,14 @@ async def upload_pdf(
     await db.commit()
     await db.refresh(pdf_record)
     
-    background_tasks.add_task(indexing_pipeline.run, str(pdf_id))
+    background_tasks.add_task(indexing_pipeline.run, project_id, file_path, current_user.id)
     
     return PDFResponse.model_validate(pdf_record)
 
 @router.get("", response_model=List[PDFResponse])
 async def list_pdfs(
     project_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_clerk),
     db: AsyncSession = Depends(get_db)
 ):
     await verify_project(project_id, current_user.id, db)
@@ -100,7 +100,7 @@ async def list_pdfs(
 async def delete_pdf(
     project_id: UUID,
     pdf_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_clerk),
     db: AsyncSession = Depends(get_db)
 ):
     await verify_project(project_id, current_user.id, db)
@@ -134,7 +134,7 @@ async def delete_pdf(
 async def download_pdf(
     project_id: UUID,
     pdf_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_clerk),
     db: AsyncSession = Depends(get_db)
 ):
     await verify_project(project_id, current_user.id, db)
