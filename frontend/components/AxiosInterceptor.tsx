@@ -18,7 +18,7 @@ export function AxiosInterceptor({ children }: { children: React.ReactNode }) {
             try {
                 const token = await getToken();
                 if (token) {
-                    config.headers.Authorization = `Bearer ${token}`;
+                    config.headers.set('Authorization', `Bearer ${token}`);
                 }
             } catch (error) {
                 console.error('Error fetching Clerk token within interceptor:', error);
