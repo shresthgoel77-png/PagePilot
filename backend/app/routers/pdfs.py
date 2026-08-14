@@ -42,6 +42,9 @@ async def upload_pdf(
     if file.content_type != "application/pdf":
         raise HTTPException(status_code=415, detail="Constraints strictly mandate application/pdf execution formats gracefully.")
         
+    if file.size and file.size > 50 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
+        
     project_dir = os.path.join(settings.UPLOAD_DIR, str(project_id))
     os.makedirs(project_dir, exist_ok=True)
     
@@ -52,11 +55,6 @@ async def upload_pdf(
     import shutil
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-        
-    file_size = os.path.getsize(file_path)
-    if file_size > 50 * 1024 * 1024:
-        os.remove(file_path)
-        raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
         
     try:
         doc = fitz.open(file_path)
