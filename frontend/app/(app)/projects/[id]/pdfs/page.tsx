@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useParams } from "next/navigation";
-import { usePdfs, useUploadPdf, useDeletePdf } from "@/hooks/usePdfs";
+import { usePdfs, useUploadPdf, useDeletePdf, usePdfPreview } from "@/hooks/usePdfs";
 import { format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -175,6 +175,7 @@ export default function DocumentLibraryPage() {
 function PdfCard({ pdf, projectId }: { pdf: any, projectId: string }) {
     const { mutate: deletePdf, isPending: isDeleting } = useDeletePdf(projectId);
     const [viewOpen, setViewOpen] = useState(false);
+    const { data: previewUrl, isLoading: isPreviewLoading } = usePdfPreview(projectId, viewOpen ? pdf.id : null);
 
     // Deriving multi-status implicitly
     let statusClass = "bg-green-500/10 text-green-500 border-green-500/20";
@@ -265,24 +266,28 @@ function PdfCard({ pdf, projectId }: { pdf: any, projectId: string }) {
 
                 {/* View Modal */}
                 <Dialog open={viewOpen} onOpenChange={setViewOpen}>
-                    <DialogContent className="sm:max-w-3xl bg-zinc-950 border-zinc-800">
-                        <DialogHeader>
+                    <DialogContent className="sm:max-w-6xl bg-zinc-950 border-zinc-800 h-[85vh] flex flex-col p-4">
+                        <DialogHeader className="shrink-0 mb-4 flex-row items-center justify-between">
                             <DialogTitle className="text-zinc-100 flex items-center">
                                 <FileText className="w-4 h-4 mr-2 text-cyan-500" />
-                                Text Preview: {pdf.original_name || pdf.filename}
+                                Interactive View Payload: {pdf.original_name || pdf.filename}
                             </DialogTitle>
                         </DialogHeader>
-                        <ScrollArea className="h-[500px] w-full rounded-md border border-zinc-800 bg-zinc-900/50 p-4">
-                            {pdf.content_preview ? (
-                                <p className="text-sm text-zinc-300 whitespace-pre-wrap font-mono leading-relaxed">
-                                    {pdf.content_preview}
-                                </p>
+                        <div className="flex-1 w-full rounded-xl border border-zinc-900 bg-zinc-900/50 overflow-hidden relative shadow-inner">
+                            {isPreviewLoading ? (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 font-medium">
+                                    <Loader2 className="w-10 h-10 animate-spin text-cyan-500 mb-6 drop-shadow-[0_0_15px_rgba(6,182,212,0.6)]" />
+                                    Establishing secure document stream boundaries...
+                                </div>
+                            ) : previewUrl ? (
+                                <iframe src={previewUrl} className="w-full h-full border-none mix-blend-lighten" title={pdf.original_name} />
                             ) : (
-                                <div className="h-full flex items-center justify-center text-zinc-500 font-medium">
-                                    {isScanned ? "No text layers available implicitly bridging native components natively." : "Extraction fault isolating string variables correctly."}
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-500 font-medium bg-zinc-950 border-dashed border-2 border-red-500/20 m-4 rounded-xl">
+                                    <AlertCircle className="w-12 h-12 text-red-500 mb-4 bg-red-500/10 p-2 rounded-full" />
+                                    Extraction fault isolating streaming blob boundaries correctly.
                                 </div>
                             )}
-                        </ScrollArea>
+                        </div>
                     </DialogContent>
                 </Dialog>
             </CardFooter>

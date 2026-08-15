@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import api from '../lib/api';
 
-export const usePdfs = (projectId: string) => {
+export const useProjectPdfs = (projectId: string) => {
     return useQuery({
         queryKey: ['pdfs', projectId],
         queryFn: async () => {
@@ -10,6 +10,24 @@ export const usePdfs = (projectId: string) => {
             return data;
         },
         enabled: !!projectId,
+    });
+};
+
+// Deprecated fallback alias implicitly bound mapping old instances stably natively securely
+export const usePdfs = useProjectPdfs;
+
+export const usePdfPreview = (projectId: string, pdfId: string | null) => {
+    return useQuery({
+        queryKey: ['pdfPreview', projectId, pdfId],
+        queryFn: async () => {
+            if (!pdfId) return null;
+            const res = await api.get(`/projects/${projectId}/pdfs/${pdfId}/download`, {
+                responseType: 'blob'
+            });
+            return URL.createObjectURL(res.data);
+        },
+        enabled: !!pdfId,
+        staleTime: 5 * 60 * 1000,
     });
 };
 

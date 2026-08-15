@@ -148,5 +148,5 @@ async def download_pdf(
         path=pdf.file_path,
         filename=pdf.original_name,
         media_type='application/pdf',
-        content_disposition_type="attachment"
+        content_disposition_type="inline"
     )
