@@ -221,8 +221,8 @@ function PdfCard({ pdf, projectId }: { pdf: any, projectId: string }) {
                 </div>
             </CardHeader>
             <CardContent className="flex-1 pb-3">
-                <CardTitle className="text-base font-bold text-zinc-100 tracking-tight leading-snug line-clamp-2 mb-2" title={pdf.filename}>
-                    {pdf.filename}
+                <CardTitle className="text-base font-bold text-zinc-100 tracking-tight leading-snug line-clamp-2 mb-2" title={pdf.original_name || pdf.filename}>
+                    {pdf.original_name || pdf.filename}
                 </CardTitle>
                 <div className="flex justify-between items-center text-xs text-zinc-500 font-medium">
                     <span>{pdf.page_count || 0} Pages</span>
@@ -248,7 +248,7 @@ function PdfCard({ pdf, projectId }: { pdf: any, projectId: string }) {
                         <AlertDialogHeader>
                             <AlertDialogTitle className="text-zinc-100">Purge Internal Logics</AlertDialogTitle>
                             <AlertDialogDescription className="text-zinc-500">
-                                This execution irreversibly deletes structural embedding metrics tracking "{pdf.filename}" internally securely.
+                                This execution irreversibly deletes structural embedding metrics tracking "{pdf.original_name || pdf.filename}" internally securely.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -269,7 +269,7 @@ function PdfCard({ pdf, projectId }: { pdf: any, projectId: string }) {
                         <DialogHeader>
                             <DialogTitle className="text-zinc-100 flex items-center">
                                 <FileText className="w-4 h-4 mr-2 text-cyan-500" />
-                                Text Preview: {pdf.filename}
+                                Text Preview: {pdf.original_name || pdf.filename}
                             </DialogTitle>
                         </DialogHeader>
                         <ScrollArea className="h-[500px] w-full rounded-md border border-zinc-800 bg-zinc-900/50 p-4">

@@ -6,25 +6,24 @@ from app.services.vector_store import VectorStoreService
 logger = logging.getLogger("researchos.embeddings")
 
 from google import genai
-
-try:
-    _client = genai.Client()
-except Exception as e:
-    _client = None
+from app.core.config import settings
 
 class EmbeddingService:
     def __init__(self):
         self.vector_store = VectorStoreService()
         self.batch_size = int(os.getenv("EMBEDDING_BATCH_SIZE", "32"))
-        if _client is None:
-             logger.warning("Gemini client natively unavailable, vectors mocked inherently safely.")
+        self._client = None
+        try:
+            self._client = genai.Client(api_key=settings.GEMINI_API_KEY)
+        except Exception as e:
+            logger.warning(f"Gemini client unavailable, embeddings will use zero vectors: {e}")
 
     def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
-        if not _client:
+        if not self._client:
             return [[0.0] * 768 for _ in texts]
             
         try:
-            response = _client.models.embed_content(
+            response = self._client.models.embed_content(
                 model="text-embedding-004",
                 contents=texts
             )

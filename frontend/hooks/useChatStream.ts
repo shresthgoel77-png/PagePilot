@@ -27,7 +27,7 @@ export function useChatStream(projectId: string, sessionId: string) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                    ...(process.env.NEXT_PUBLIC_BYPASS_CLERK === 'true' ? { 'Authorization': 'Bearer MOCK_TOKEN' } : (token ? { 'Authorization': `Bearer ${token}` } : {}))
                 },
                 body: JSON.stringify({
                     session_id: sessionId,

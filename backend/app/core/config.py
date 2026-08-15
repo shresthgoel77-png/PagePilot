@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     # Security & Networking
     FRONTEND_URLS: List[str] = ["http://localhost:3000"]
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
+    BYPASS_CLERK: bool = False
 
     # We read from .env if present
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")

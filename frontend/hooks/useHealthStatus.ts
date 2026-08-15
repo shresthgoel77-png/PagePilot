@@ -14,7 +14,7 @@ export function useHealthStatus(intervalMs: number = 10000) {
                 if (res.ok) {
                     const data = await res.json();
                     if (isMounted) {
-                        setStatus(data.status === 'ok' && data.db === 'connected' ? 'green' : 'yellow');
+                        setStatus(data.status === 'ok' ? 'green' : 'yellow');
                     }
                 } else {
                     if (isMounted) setStatus('red');

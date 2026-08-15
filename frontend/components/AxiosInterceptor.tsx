@@ -16,9 +16,13 @@ export function AxiosInterceptor({ children }: { children: React.ReactNode }) {
 
         const id = api.interceptors.request.use(async (config) => {
             try {
-                const token = await getToken();
-                if (token) {
-                    config.headers.set('Authorization', `Bearer ${token}`);
+                if (process.env.NEXT_PUBLIC_BYPASS_CLERK === 'true') {
+                    config.headers.set('Authorization', `Bearer MOCK_TOKEN`);
+                } else {
+                    const token = await getToken();
+                    if (token) {
+                        config.headers.set('Authorization', `Bearer ${token}`);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching Clerk token within interceptor:', error);

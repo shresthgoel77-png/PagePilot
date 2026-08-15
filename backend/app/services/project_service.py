@@ -16,8 +16,13 @@ logger = logging.getLogger("researchos.project_service")
 class ProjectService:
     def __init__(self, db: AsyncSession):
         self.db = db
-        # Instantiating Vector context resolving deletion bounds explicitly downstream dynamically
-        self.vector_store = VectorStoreService()
+        self._vector_store = None
+
+    @property
+    def vector_store(self):
+        if self._vector_store is None:
+            self._vector_store = VectorStoreService()
+        return self._vector_store
 
     async def get_project_or_404(self, project_id: UUID, user_id: UUID) -> Project:
         stmt = select(Project).where(Project.id == project_id, Project.user_id == user_id)
