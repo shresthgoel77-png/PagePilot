@@ -12,6 +12,19 @@ export const useChatSessions = (projectId: string) => {
     });
 };
 
+export const useCreateSession = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async ({ projectId, title }: { projectId: string; title?: string }) => {
+            const { data } = await api.post(`/chat-sessions`, { project_id: projectId, title });
+            return data;
+        },
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ['chat-sessions', data.project_id] });
+        }
+    });
+};
+
 export const useUpdateSessionTitle = () => {
     const queryClient = useQueryClient();
     return useMutation({

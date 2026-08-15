@@ -2,6 +2,7 @@ import json
 import logging
 import asyncio
 from typing import AsyncGenerator, Dict, Any, List
+from uuid import UUID
 
 from google import genai
 from google.genai import types
@@ -28,11 +29,11 @@ class ChatEngine:
             formatted_chunks.append(f"--- Document Chunk {i+1} [Source: {filename}, Page {page}] (PDF_ID: {pdf_id}) ---\n{text}\n")
         return "\n".join(formatted_chunks)
 
-    async def stream_chat(self, user_id: str, session_id: str, project_id: str, message: str, pdf_ids: List[str] = None) -> AsyncGenerator[str, None]:
+    async def stream_chat(self, user_id: UUID, session_id: UUID, project_id: UUID, message: str, pdf_ids: List[UUID] = None) -> AsyncGenerator[str, None]:
         
         # Verify strict local bounds implicitly bypassing isolated configurations cleanly parsing native execution seamlessly 
         session, db_messages = await self.chat_service.get_session_details(session_id, user_id)
-        if str(session.project_id) != project_id:
+        if session.project_id != project_id:
             logger.error("Security Vault Alert: Execution parameters crossing disconnected logical project contexts robustly caught.")
             yield f"data: {json.dumps({'type': 'error', 'content': 'System constraints explicitly failed execution boundaries.'})}\n\n"
             return
@@ -44,11 +45,11 @@ class ChatEngine:
 
         # Invoke CrossEncoder mappings executing strict vector constraints implicitly locating boundaries efficiently 
         retrieved_chunks = self.retrieval_service.retrieve(
-            project_id=project_id, 
+            project_id=str(project_id), 
             query=message, 
             top_k=20, 
             final_k=5, 
-            pdf_ids=pdf_ids
+            pdf_ids=[str(pid) for pid in pdf_ids] if pdf_ids else None
         )
 
         sources_payload = []

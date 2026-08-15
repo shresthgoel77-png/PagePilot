@@ -25,10 +25,10 @@ async def chat_stream(
         # Execute dynamically routed LangChain structures encapsulating native state explicitly bypassing sync logic globally securely inherently locally 
         async for chunk in engine.stream_chat(
             user_id=current_user.id,
-            session_id=str(payload.session_id),
-            project_id=str(payload.project_id),
+            session_id=payload.session_id,
+            project_id=payload.project_id,
             message=payload.message,
-            pdf_ids=[str(i) for i in payload.pdf_ids] if payload.pdf_ids else None
+            pdf_ids=payload.pdf_ids
         ):
             if await request.is_disconnected():
                 break

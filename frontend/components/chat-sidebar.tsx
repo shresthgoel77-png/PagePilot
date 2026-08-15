@@ -6,14 +6,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import { formatDistanceToNow } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { useChatSessions, useUpdateSessionTitle, useDeleteSession } from '@/hooks/useChatSessions';
-import { Edit2, Trash2, Plus, MessageSquare } from 'lucide-react';
+import { useChatSessions, useUpdateSessionTitle, useDeleteSession, useCreateSession } from '@/hooks/useChatSessions';
+import { Edit2, Trash2, Plus, MessageSquare, Loader2 } from 'lucide-react';
 
 
 export function ChatSidebar({ projectId }: { projectId: string }) {
     const { data: sessions, isLoading } = useChatSessions(projectId);
     const { mutate: updateTitle } = useUpdateSessionTitle();
     const { mutate: deleteSession } = useDeleteSession();
+    const { mutate: createSession, isPending: isCreating } = useCreateSession();
     const pathname = usePathname();
     const router = useRouter();
 
@@ -22,6 +23,14 @@ export function ChatSidebar({ projectId }: { projectId: string }) {
 
     const activeSessionId = pathname.split('/').pop();
     const isNewChat = activeSessionId === 'chat';
+
+    const handleCreateSession = () => {
+        createSession({ projectId }, {
+            onSuccess: (newSession) => {
+                router.push(`/projects/${projectId}/chat/${newSession.id}`);
+            }
+        });
+    };
 
     const handleRename = (sessionId: string, newTitle: string) => {
         if (newTitle.trim() && newTitle.length <= 100) {
@@ -45,11 +54,14 @@ export function ChatSidebar({ projectId }: { projectId: string }) {
     return (
         <div className="flex flex-col h-full w-full bg-zinc-950 border-r border-zinc-800 shadow-sm relative z-20">
             <div className="p-4 border-b border-zinc-800 bg-zinc-950">
-                <Link href={`/projects/${projectId}/chat`}>
-                    <Button className={`w-full font-bold shadow-sm transition-all ${isNewChat ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 hover:bg-cyan-500/30' : 'bg-cyan-500 text-zinc-950 hover:bg-cyan-400'}`}>
-                        <Plus className="w-4 h-4 mr-2" /> New Conversation
-                    </Button>
-                </Link>
+                <Button
+                    onClick={handleCreateSession}
+                    disabled={isCreating}
+                    className={`w-full font-bold shadow-sm transition-all ${isNewChat ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/50 hover:bg-cyan-500/30' : 'bg-cyan-500 text-zinc-950 hover:bg-cyan-400'}`}
+                >
+                    {isCreating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Plus className="w-4 h-4 mr-2" />}
+                    New Conversation
+                </Button>
             </div>
 
             <ScrollArea className="flex-1 px-3 py-4">
