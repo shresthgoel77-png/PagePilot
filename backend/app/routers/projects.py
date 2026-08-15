@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
 from app.models.user import User
-from app.schemas.project import ProjectCreate, ProjectUpdate, ProjectResponse
+from app.schemas.project import ProjectCreate, ProjectUpdate, ProjectResponse, ProjectMetricsResponse
 from app.services.project_service import ProjectService
 from app.core.clerk_auth import get_current_user_clerk
 
@@ -35,6 +35,14 @@ async def get_project(
     service: ProjectService = Depends(get_project_service)
 ):
     return await service.get_project_or_404(project_id, current_user.id)
+
+@router.get("/{project_id}/metrics", response_model=ProjectMetricsResponse)
+async def get_project_metrics(
+    project_id: UUID,
+    current_user: User = Depends(get_current_user_clerk),
+    service: ProjectService = Depends(get_project_service)
+):
+    return await service.get_metrics(project_id, current_user.id)
 
 @router.put("/{project_id}", response_model=ProjectResponse)
 async def update_project(

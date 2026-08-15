@@ -1,12 +1,17 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useProjectStore } from "@/stores/projectStore";
+import { useProjectMetrics } from "@/hooks/useProjects";
 import { motion } from "framer-motion";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { LayoutDashboard, Target, Gauge, Network } from "lucide-react";
+import { LayoutDashboard, Target, Gauge, Network, Loader2 } from "lucide-react";
 
 export default function ProjectOverviewPage() {
+    const params = useParams();
+    const projectId = params.id as string;
     const { currentProject } = useProjectStore();
+    const { data: metrics, isLoading: isMetricsLoading } = useProjectMetrics(projectId);
 
     return (
         <motion.div
@@ -27,7 +32,9 @@ export default function ProjectOverviewPage() {
                         <Network className="w-4 h-4 text-cyan-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-white">12,410</div>
+                        <div className="text-3xl font-black text-white">
+                            {isMetricsLoading ? <Loader2 className="w-6 h-6 animate-spin text-cyan-500" /> : (metrics?.vector_count ?? '-')}
+                        </div>
                         <p className="text-xs text-zinc-500 mt-1 font-mono">vector_nodes_indexed</p>
                     </CardContent>
                 </Card>
@@ -38,7 +45,9 @@ export default function ProjectOverviewPage() {
                         <LayoutDashboard className="w-4 h-4 text-blue-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-white">4</div>
+                        <div className="text-3xl font-black text-white">
+                            {isMetricsLoading ? <Loader2 className="w-6 h-6 animate-spin text-blue-500" /> : (metrics?.pdf_count ?? '-')}
+                        </div>
                         <p className="text-xs text-zinc-500 mt-1 font-mono">structural_docs_found</p>
                     </CardContent>
                 </Card>
@@ -49,7 +58,7 @@ export default function ProjectOverviewPage() {
                         <Gauge className="w-4 h-4 text-emerald-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-white">99.8%</div>
+                        <div className="text-3xl font-black text-white">N/A</div>
                         <p className="text-xs text-zinc-500 mt-1 font-mono">retrieval_acc_binding</p>
                     </CardContent>
                 </Card>
@@ -60,7 +69,7 @@ export default function ProjectOverviewPage() {
                         <Target className="w-4 h-4 text-amber-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-white">2</div>
+                        <div className="text-3xl font-black text-white">N/A</div>
                         <p className="text-xs text-zinc-500 mt-1 font-mono">architectural_blindspots</p>
                     </CardContent>
                 </Card>

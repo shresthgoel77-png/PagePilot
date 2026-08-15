@@ -24,6 +24,17 @@ export const useProject = (projectId: string) => {
     });
 };
 
+export const useProjectMetrics = (projectId: string) => {
+    return useQuery({
+        queryKey: ['projects', projectId, 'metrics'],
+        queryFn: async () => {
+            const { data } = await api.get(`/projects/${projectId}/metrics`);
+            return data;
+        },
+        enabled: !!projectId,
+    });
+};
+
 export const useCreateProject = () => {
     const queryClient = useQueryClient();
     return useMutation({

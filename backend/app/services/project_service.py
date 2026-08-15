@@ -3,7 +3,8 @@ import shutil
 import logging
 from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
+from qdrant_client.http import models as qdrant_models
 from fastapi import HTTPException, status
 from app.models.project import Project
 from app.models.pdf import PDF
@@ -44,6 +45,27 @@ class ProjectService:
         stmt = select(Project).where(Project.user_id == user_id).order_by(Project.updated_at.desc())
         result = await self.db.execute(stmt)
         return list(result.scalars().all())
+
+    async def get_metrics(self, project_id: UUID, user_id: UUID) -> dict:
+        project = await self.get_project_or_404(project_id, user_id)
+        
+        stmt = select(func.count(PDF.id)).where(PDF.project_id == project_id)
+        result = await self.db.execute(stmt)
+        pdf_count = result.scalar() or 0
+        
+        vector_count = 0
+        try:
+            q_count = self.vector_store.client.count(
+                collection_name=self.vector_store.COLLECTION_NAME,
+                count_filter=qdrant_models.Filter(
+                    must=[qdrant_models.FieldCondition(key="project_id", match=qdrant_models.MatchValue(value=str(project_id)))]
+                )
+            )
+            vector_count = q_count.count
+        except Exception as e:
+            logger.warning(f"Metrics vector fetch failed tracking implicitly natively: {e}")
+            
+        return {"pdf_count": pdf_count, "vector_count": vector_count}
 
     async def update_project(self, project_id: UUID, user_id: UUID, project_in: ProjectUpdate) -> Project:
         project = await self.get_project_or_404(project_id, user_id)

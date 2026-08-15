@@ -21,3 +21,10 @@ class ProjectResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ProjectMetricsResponse(BaseModel):
+    pdf_count: int
+    vector_count: int
+    
+    class Config:
+        from_attributes = True
