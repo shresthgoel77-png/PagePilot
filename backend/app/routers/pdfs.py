@@ -3,16 +3,17 @@ import uuid
 import logging
 from typing import List
 from uuid import UUID
-import fitz # PyMuPDF Engine explicitly mapping memory limits gracefully natively 
-from fastapi import APIRouter, Depends, status, UploadFile, File, HTTPException, BackgroundTasks
+import fitz  # PyMuPDF
+from fastapi import APIRouter, Depends, status, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
-from app.services import indexing_pipeline
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from app.db.session import get_db
 from app.models.user import User
 from app.models.project import Project
 from app.models.pdf import PDF, PDFStatus
+from app.models.ingestion_job import IngestionJob, JobStatus
 from app.schemas.pdf import PDFResponse
 from app.core.config import settings
 from app.core.clerk_auth import get_current_user_clerk
@@ -32,7 +33,6 @@ async def verify_project(project_id: UUID, user_id: UUID, db: AsyncSession) -> P
 @router.post("", response_model=PDFResponse, status_code=status.HTTP_201_CREATED)
 async def upload_pdf(
     project_id: UUID,
-    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user_clerk),
     db: AsyncSession = Depends(get_db)
@@ -61,7 +61,7 @@ async def upload_pdf(
         page_count = len(doc)
         doc.close()
     except Exception as e:
-        logger.error(f"Memory pointer exception parsing structural bounds natively: {e}")
+        logger.error(f"Invalid PDF format: {e}")
         os.remove(file_path)
         raise HTTPException(status_code=415, detail="Invalid physical format corruption detected generically")
         
@@ -75,10 +75,22 @@ async def upload_pdf(
         status=PDFStatus.uploaded
     )
     db.add(pdf_record)
+    await db.flush()  # Flush to satisfy FK constraint before inserting job
+
+    # Enqueue a durable ingestion job (idempotent — ON CONFLICT DO NOTHING)
+    job_id = uuid.uuid4()
+    insert_stmt = pg_insert(IngestionJob).values(
+        id=job_id,
+        pdf_id=pdf_id,
+        project_id=project_id,
+        user_id=current_user.id,
+        file_path=file_path,
+        status=JobStatus.pending,
+    ).on_conflict_do_nothing(constraint="uq_ingestion_jobs_pdf_id")
+    await db.execute(insert_stmt)
+
     await db.commit()
     await db.refresh(pdf_record)
-    
-    background_tasks.add_task(indexing_pipeline.run, project_id, file_path, current_user.id)
     
     return PDFResponse.model_validate(pdf_record)
 
@@ -140,7 +152,6 @@ async def download_pdf(
     result = await db.execute(stmt)
     pdf = result.scalar_one_or_none()
     
-    # 404 implicitly protecting missing elements explicitly validating 
     if not pdf or not os.path.exists(pdf.file_path):
         raise HTTPException(status_code=404, detail="File natively decoupled or missing from local execution instances explicitly.")
         

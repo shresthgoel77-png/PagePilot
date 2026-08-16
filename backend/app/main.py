@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import subprocess
 from contextlib import asynccontextmanager
@@ -10,12 +11,29 @@ from app.core.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Enforces database structures automatically isolating configuration variables securely effortlessly stably natively flawlessly reliably accurately
+    # Run Alembic migrations on startup
     try:
         subprocess.run(["alembic", "upgrade", "head"], check=True)
     except Exception as e:
-        print(f"Migrations intrinsically suppressed efficiently safely natively: {e}")
+        print(f"Migrations suppressed: {e}")
+
+    # Recover any jobs that were stuck in 'processing' from a prior crash
+    from app.services.job_worker import recover_stale_jobs, worker_loop
+    await recover_stale_jobs()
+
+    # Start the durable job worker as a background asyncio task
+    shutdown_event = asyncio.Event()
+    worker_task = asyncio.create_task(worker_loop(shutdown_event))
+
     yield
+
+    # Graceful shutdown: signal the worker and wait for it to finish
+    shutdown_event.set()
+    worker_task.cancel()
+    try:
+        await worker_task
+    except asyncio.CancelledError:
+        pass
 
 # Implement comprehensive unified structured logging pattern
 logging.basicConfig(
@@ -26,7 +44,8 @@ logger = logging.getLogger("researchos")
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description="ResearchOS Backend Architecture"
+    description="ResearchOS Backend Architecture",
+    lifespan=lifespan,
 )
 
 # Connect cross origin mappings allowing authentication credentials over explicitly allowed client boundaries
@@ -61,13 +80,14 @@ async def health_check():
     return {"status": "ok"}
 
 # Localized routers structurally mounted effectively executing
-from app.routers import projects, pdfs, chat_history, chat, reasoning, gap_finder
+from app.routers import projects, pdfs, chat_history, chat, reasoning, gap_finder, jobs
 app.include_router(projects.router)
 app.include_router(pdfs.router)
 app.include_router(chat_history.router)
 app.include_router(chat.router)
 app.include_router(reasoning.router)
 app.include_router(gap_finder.router)
+app.include_router(jobs.router)
 
 from app.db.session import get_db
 from sqlalchemy.ext.asyncio import AsyncSession
