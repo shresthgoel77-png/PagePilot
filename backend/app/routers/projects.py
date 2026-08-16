@@ -21,7 +21,8 @@ async def create_project(
 ):
     return await service.create_project(current_user.id, project_in)
 
-@router.get("/", response_model=List[ProjectResponse])
+@router.get("", response_model=List[ProjectResponse])
+# Trigger reload
 async def list_projects(
     current_user: User = Depends(get_current_user_clerk),
     service: ProjectService = Depends(get_project_service)

@@ -41,10 +41,14 @@ async def get_current_user_clerk(request: Request, db: AsyncSession = Depends(ge
             logger.info(f"Auth: MOCK_TOKEN verified clerk_id={clerk_id} on {request.method} {request.url.path}")
         else:
             # Use Clerk client to verify the JWT
-            token_payload = clerk_client.authenticate_request(request, AuthenticateRequestOptions())
-            if not token_payload.is_signed_in:
-                logger.warning(f"Auth: Token not signed in on {request.method} {request.url.path}")
-                raise credentials_exception
+            try:
+                token_payload = clerk_client.authenticate_request(request, AuthenticateRequestOptions())
+                if not token_payload.is_signed_in:
+                    logger.warning(f"Auth: Token not signed in on {request.method} {request.url.path}. Reason: {getattr(token_payload, 'reason', 'unknown')} or Payload: {token_payload.__dict__}")
+                    raise credentials_exception
+            except Exception as e:
+                logger.error(f"authenticate_request threw: {e}")
+                raise
                 
             clerk_id = token_payload.payload.get('sub')
             email = token_payload.payload.get('email', f"clerk_{clerk_id}@researchos.user")
