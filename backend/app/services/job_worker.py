@@ -102,6 +102,19 @@ async def _handle_failure(db: AsyncSession, job: IngestionJob, error_msg: str) -
             )
         )
         await db.execute(stmt)
+
+        # Notify UI of transient failure state via the source-of-truth PDF status
+        pdf_retry_stmt = (
+            update(PDF)
+            .where(PDF.id == job.pdf_id)
+            .values(
+                status=PDFStatus.queued,
+                progress=5,
+                error_message=f"Transient failure (retrying at {next_retry.strftime('%H:%M:%S')}): {error_msg}"
+            )
+        )
+        await db.execute(pdf_retry_stmt)
+        
         await db.commit()
         logger.info(f"Job {job.id} scheduled for retry at {next_retry} (attempt {job.attempt_count}/{job.max_attempts})")
     else:
@@ -118,13 +131,13 @@ async def _handle_failure(db: AsyncSession, job: IngestionJob, error_msg: str) -
         )
         await db.execute(stmt)
 
-        # Also mark the PDF as errored
+        # Also mark the PDF as errored and expose the error explicitly to the UI
         pdf_stmt = (
             update(PDF)
             .where(PDF.id == job.pdf_id)
             .values(
                 status=PDFStatus.error,
-                parsed_text=f"Ingestion failed after {job.max_attempts} attempts: {error_msg}",
+                error_message=f"Ingestion failed after {job.max_attempts} attempts: {error_msg}",
             )
         )
         await db.execute(pdf_stmt)

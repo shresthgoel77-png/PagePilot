@@ -10,6 +10,7 @@ export const useProjectPdfs = (projectId: string) => {
             return data;
         },
         enabled: !!projectId,
+        refetchInterval: 3000,
     });
 };
 

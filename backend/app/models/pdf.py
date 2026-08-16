@@ -8,8 +8,12 @@ from app.db.base import Base
 
 class PDFStatus(str, enum.Enum):
     uploaded = "uploaded"
+    queued = "queued"
     parsing = "parsing"
-    parsed = "parsed"
+    ocr = "ocr"
+    embedding = "embedding"
+    indexing = "indexing"
+    ready = "ready"
     error = "error"
 
 class PDF(Base):
@@ -27,6 +31,13 @@ class PDF(Base):
     page_count = Column(Integer, default=0)
     parsed_text = Column(Text, nullable=True)
     status = Column(Enum(PDFStatus), default=PDFStatus.uploaded, nullable=False)
+    
+    # New state tracking columns
+    error_message = Column(Text, nullable=True)
+    progress = Column(Integer, default=0, nullable=False)
+    job_id = Column(UUID(as_uuid=True), ForeignKey('ingestion_jobs.id', ondelete='SET NULL'), nullable=True)
+    indexed_at = Column(DateTime(timezone=True), nullable=True)
+    
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     project = relationship("Project", back_populates="pdfs")

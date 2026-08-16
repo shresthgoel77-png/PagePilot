@@ -10,7 +10,12 @@ class PDFResponse(BaseModel):
     original_name: str
     status: str
     created_at: datetime
-    page_count: Optional[int]
+    page_count: Optional[int] = None
+    
+    error_message: Optional[str] = None
+    progress: Optional[int] = 0
+    job_id: Optional[UUID] = None
+    indexed_at: Optional[datetime] = None
 
     # Enables SQLAlchemy parsing accurately across Pydantic abstractions natively without serialization conflicts 
     class Config:

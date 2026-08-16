@@ -104,6 +104,11 @@ async def upload_pdf(
         status=JobStatus.pending,
     ).on_conflict_do_nothing(constraint="uq_ingestion_jobs_pdf_id")
     await db.execute(insert_stmt)
+    
+    # Implicitly transition to queued after generating Job
+    pdf_record.status = PDFStatus.queued
+    pdf_record.job_id = job_id
+    pdf_record.progress = 5
 
     await db.commit()
     await db.refresh(pdf_record)
@@ -121,6 +126,23 @@ async def list_pdfs(
     result = await db.execute(stmt)
     pdfs = result.scalars().all()
     return [PDFResponse.model_validate(p) for p in pdfs]
+
+@router.get("/{pdf_id}/status", response_model=PDFResponse)
+async def get_pdf_status(
+    project_id: UUID,
+    pdf_id: UUID,
+    current_user: User = Depends(get_current_user_clerk),
+    db: AsyncSession = Depends(get_db)
+):
+    await verify_project(project_id, current_user.id, db)
+    stmt = select(PDF).where(PDF.id == pdf_id, PDF.project_id == project_id)
+    result = await db.execute(stmt)
+    pdf = result.scalar_one_or_none()
+    
+    if not pdf:
+        raise HTTPException(status_code=404, detail="File configurations dynamically unresolved explicitly.")
+        
+    return PDFResponse.model_validate(pdf)
 
 @router.delete("/{pdf_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_pdf(

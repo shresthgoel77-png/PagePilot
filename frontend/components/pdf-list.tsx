@@ -25,12 +25,22 @@ export function PdfList({ projectId }: { projectId: string }) {
         );
     }
 
-    const getStatusBadge = (status: string) => {
+    const getStatusBadge = (pdf: any) => {
+        const { status, progress, error_message } = pdf;
         switch (status) {
-            case 'uploaded': return <Badge variant="secondary" className="bg-slate-200 text-slate-700 font-bold tracking-tight">Staged</Badge>;
-            case 'parsing': return <Badge variant="outline" className="text-yellow-700 border-yellow-700 font-bold bg-yellow-50 animate-pulse tracking-tight">Extracting Text</Badge>;
-            case 'parsed': return <Badge variant="default" className="bg-emerald-600 font-bold tracking-tight">Embedded globally</Badge>;
-            case 'error': return <Badge variant="destructive" className="font-bold tracking-tight">Parsing Fault</Badge>;
+            case 'uploaded': return <Badge variant="secondary" className="bg-slate-200 text-slate-700 font-bold tracking-tight">Staged ({progress || 0}%)</Badge>;
+            case 'queued': return <Badge variant="outline" className="text-blue-700 border-blue-700 font-bold bg-blue-50 animate-pulse tracking-tight">Queued ({progress || 0}%)</Badge>;
+            case 'parsing': return <Badge variant="outline" className="text-yellow-700 border-yellow-700 font-bold bg-yellow-50 animate-pulse tracking-tight">Parsing text ({progress || 0}%)</Badge>;
+            case 'ocr': return <Badge variant="outline" className="text-orange-700 border-orange-700 font-bold bg-orange-50 animate-pulse tracking-tight">Extracting OCR ({progress || 0}%)</Badge>;
+            case 'embedding': return <Badge variant="outline" className="text-indigo-700 border-indigo-700 font-bold bg-indigo-50 animate-pulse tracking-tight">Executing LLM embedding ({progress || 0}%)</Badge>;
+            case 'indexing': return <Badge variant="outline" className="text-purple-700 border-purple-700 font-bold bg-purple-50 animate-pulse tracking-tight">Vector Indexing ({progress || 0}%)</Badge>;
+            case 'ready': return <Badge variant="default" className="bg-emerald-600 font-bold tracking-tight">Ready (100%)</Badge>;
+            case 'error': return (
+                <div className="flex flex-col gap-1 items-start">
+                    <Badge variant="destructive" className="font-bold tracking-tight shadow-sm">Parsing Fault</Badge>
+                    {error_message && <span className="text-xs text-red-600 font-medium max-w-[200px] truncate" title={error_message}>{error_message}</span>}
+                </div>
+            );
             default: return <Badge>{status}</Badge>;
         }
     };
@@ -57,7 +67,7 @@ export function PdfList({ projectId }: { projectId: string }) {
                                 <TableCell className="text-slate-500 text-xs font-semibold uppercase tracking-wider">
                                     {formatDistanceToNow(new Date(pdf.created_at), { addSuffix: true })}
                                 </TableCell>
-                                <TableCell>{getStatusBadge(pdf.status)}</TableCell>
+                                <TableCell>{getStatusBadge(pdf)}</TableCell>
                                 <TableCell className="text-right pr-4">
                                     <AlertDialog>
                                         <AlertDialogTrigger asChild>
