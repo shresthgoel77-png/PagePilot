@@ -4,7 +4,7 @@ from typing import List
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "ResearchOS API"
-    
+
     # Required exact fields that cause fast-fail on missing variable
     DATABASE_URL: str = Field(..., description="Primary PostgreSQL Database URL")
     QDRANT_URL: str = Field(..., description="Vector database Qdrant URL")

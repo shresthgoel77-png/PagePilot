@@ -29,7 +29,10 @@ def upgrade() -> None:
     # 2. Safely recreate ENUM to ensure 100% reversibility mapping
     op.execute("ALTER TYPE pdfstatus RENAME TO pdfstatus_old")
     op.execute("CREATE TYPE pdfstatus AS ENUM('uploaded', 'queued', 'parsing', 'ocr', 'embedding', 'indexing', 'ready', 'error')")
-    op.execute("ALTER TABLE pdfs ALTER COLUMN status TYPE pdfstatus USING status::text::pdfstatus")
+    
+    # Cast using a conditional mapping directly via raw text bypassing old-type restrictions
+    op.execute("ALTER TABLE pdfs ALTER COLUMN status TYPE pdfstatus USING (CASE WHEN status::text = 'parsed' THEN 'ready' ELSE status::text END)::pdfstatus")
+    
     op.execute("DROP TYPE pdfstatus_old")
 
 
