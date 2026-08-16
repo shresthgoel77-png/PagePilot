@@ -27,21 +27,29 @@ async def run(project_id, file_path, user_id):
         pdf.status = PDFStatus.parsing
         await db.commit()
 
-        # Parse and embed — let exceptions propagate for worker retry logic
+        # Parse and embed — run blocking tasks off the main event loop
+        import asyncio
         parser = PDFParserService()
         embeddings = EmbeddingService()
 
-        chunks = parser.parse_pdf(
-            pdf_id=str(pdf.id),
-            project_id=str(pdf.project_id),
-            filename=pdf.filename,
-            file_path=pdf.file_path,
+        # Execute CPU-bound parsing in a separate thread
+        chunks = await asyncio.to_thread(
+            parser.parse_pdf,
+            str(pdf.id),
+            str(pdf.project_id),
+            pdf.filename,
+            pdf.file_path,
         )
 
         full_text = "\n".join([c["text"] for c in chunks])
         pdf.parsed_text = full_text
 
-        embeddings.index_pdf_chunks(str(pdf.id), chunks)
+        # Execute I/O-bound vector indexing in a separate thread
+        await asyncio.to_thread(
+            embeddings.index_pdf_chunks,
+            str(pdf.id),
+            chunks
+        )
 
         pdf.status = PDFStatus.parsed
         await db.commit()

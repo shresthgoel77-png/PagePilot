@@ -21,9 +21,14 @@ async def claim_next_job(db: AsyncSession) -> IngestionJob | None:
     stmt = (
         select(IngestionJob)
         .where(
-            IngestionJob.status.in_([JobStatus.pending, JobStatus.retry]),
-            # Only pick up retry jobs whose backoff period has elapsed
-            (IngestionJob.next_retry_at <= now) | (IngestionJob.next_retry_at.is_(None)),
+            (
+                IngestionJob.status.in_([JobStatus.pending, JobStatus.retry]) &
+                ((IngestionJob.next_retry_at <= now) | (IngestionJob.next_retry_at.is_(None)))
+            ) |
+            (
+                (IngestionJob.status == JobStatus.processing) &
+                (IngestionJob.locked_until < now)
+            )
         )
         .order_by(IngestionJob.created_at.asc())
         .limit(1)
@@ -35,7 +40,8 @@ async def claim_next_job(db: AsyncSession) -> IngestionJob | None:
     if job:
         job.status = JobStatus.processing
         job.attempt_count += 1
-        job.updated_at = datetime.now(timezone.utc)
+        job.locked_until = now + timedelta(minutes=10)
+        job.updated_at = now
         await db.commit()
         await db.refresh(job)
 
@@ -61,6 +67,7 @@ async def process_job(job: IngestionJob) -> None:
                 .values(
                     status=JobStatus.completed,
                     updated_at=datetime.now(timezone.utc),
+                    locked_until=None,
                     error_message=None,
                 )
             )
@@ -89,6 +96,7 @@ async def _handle_failure(db: AsyncSession, job: IngestionJob, error_msg: str) -
             .values(
                 status=JobStatus.retry,
                 next_retry_at=next_retry,
+                locked_until=None,
                 error_message=error_msg,
                 updated_at=now,
             )
@@ -104,6 +112,7 @@ async def _handle_failure(db: AsyncSession, job: IngestionJob, error_msg: str) -
             .values(
                 status=JobStatus.failed,
                 error_message=error_msg,
+                locked_until=None,
                 updated_at=now,
             )
         )
@@ -149,19 +158,4 @@ async def worker_loop(shutdown_event: asyncio.Event) -> None:
     logger.info("Ingestion job worker shutting down")
 
 
-async def recover_stale_jobs() -> None:
-    """On startup, reset any jobs stuck in 'processing' (from a prior crash) back to 'retry'."""
-    async with AsyncSessionLocal() as db:
-        stmt = (
-            update(IngestionJob)
-            .where(IngestionJob.status == JobStatus.processing)
-            .values(
-                status=JobStatus.retry,
-                next_retry_at=datetime.now(timezone.utc),
-                updated_at=datetime.now(timezone.utc),
-            )
-        )
-        result = await db.execute(stmt)
-        await db.commit()
-        if result.rowcount > 0:
-            logger.info(f"Recovered {result.rowcount} stale job(s) from prior crash")
+

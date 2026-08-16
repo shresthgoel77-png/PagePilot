@@ -17,11 +17,8 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print(f"Migrations suppressed: {e}")
 
-    # Recover any jobs that were stuck in 'processing' from a prior crash
-    from app.services.job_worker import recover_stale_jobs, worker_loop
-    await recover_stale_jobs()
-
     # Start the durable job worker as a background asyncio task
+    from app.services.job_worker import worker_loop
     shutdown_event = asyncio.Event()
     worker_task = asyncio.create_task(worker_loop(shutdown_event))
 

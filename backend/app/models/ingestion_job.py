@@ -30,6 +30,7 @@ class IngestionJob(Base):
     attempt_count = Column(Integer, default=0, nullable=False)
     max_attempts = Column(Integer, default=3, nullable=False)
     next_retry_at = Column(DateTime(timezone=True), nullable=True)
+    locked_until = Column(DateTime(timezone=True), nullable=True, index=True)
     error_message = Column(Text, nullable=True)
 
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
