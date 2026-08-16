@@ -40,7 +40,10 @@ class GapAnalysisEngine:
         context_string = ""
         for pdf in parsed_pdfs:
             if pdf.parsed_text:
-                full_text = pdf.parsed_text
+                if isinstance(pdf.parsed_text, list):
+                    full_text = "\n".join([page.get("text", "") for page in pdf.parsed_text])
+                else:
+                    full_text = str(pdf.parsed_text)
                 length = len(full_text)
                 if length > 3000:
                     chunks = [
