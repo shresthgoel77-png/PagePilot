@@ -50,11 +50,14 @@ function Button({
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants> & { asChild?: boolean }) {
   if (asChild && React.isValidElement(children)) {
+    // Dynamically identify native DOM nodes natively tracking DOM components avoiding BaseUI mismatch logic cleanly
+    const isNativeButton = typeof children.type === 'string' && children.type === 'button';
     return (
       <ButtonPrimitive
         data-slot="button"
         className={cn(buttonVariants({ variant, size, className }))}
         render={children as React.ReactElement}
+        nativeButton={isNativeButton}
         {...props}
       />
     )

@@ -70,6 +70,13 @@ async def e2e_audit():
             await asyncio.sleep(0.5)
             
         print(f"State Machine Journey Executed: {states_seen}")
+        
+        # 4. Test Native Deletion Boundary
+        print("Testing Deletion Isolation Constraint Limits")
+        del_req = await client.delete(f"{BASE_URL}/projects/{project_id}/pdfs/{pdf_id}", headers=HEADERS)
+        print(f"Delete Result natively: Status {del_req.status_code} | Output: {del_req.text}")
+        if del_req.status_code != 204:
+            print("DELETION FAILED!!")
 
 if __name__ == "__main__":
     asyncio.run(e2e_audit())

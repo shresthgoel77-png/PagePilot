@@ -254,12 +254,14 @@ function PdfCard({ pdf, projectId }: { pdf: any, projectId: string }) {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                             <AlertDialogCancel className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:text-white">Bypass</AlertDialogCancel>
-                            <AlertDialogAction
+                            <Button
+                                variant="destructive"
+                                disabled={isDeleting}
                                 className="bg-red-500/20 text-red-500 border border-red-500/50 hover:bg-red-500 hover:text-white"
                                 onClick={() => deletePdf(pdf.id)}
                             >
-                                Execute Purge
-                            </AlertDialogAction>
+                                {isDeleting ? 'Purging...' : 'Execute Purge'}
+                            </Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>

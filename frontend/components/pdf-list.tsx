@@ -82,7 +82,14 @@ export function PdfList({ projectId }: { projectId: string }) {
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
                                                 <AlertDialogCancel className="font-bold">Hold Bounds</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => deletePdf(pdf.id)} className="bg-red-600 text-white font-extrabold tracking-tight border-2 border-red-700 shadow-md">Wipe Global Maps</AlertDialogAction>
+                                                <Button
+                                                    variant="destructive"
+                                                    onClick={() => deletePdf(pdf.id)}
+                                                    disabled={isDeleting}
+                                                    className="bg-red-600 font-extrabold tracking-tight border-2 border-red-700 shadow-md"
+                                                >
+                                                    {isDeleting ? 'Purging...' : 'Wipe Global Maps'}
+                                                </Button>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>
