@@ -1,0 +1,114 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.6, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend
+configfile: pyproject.toml
+plugins: anyio-4.14.2, langsmith-0.10.15, asyncio-1.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 3 items
+
+test_mock_durable.py::test_job_worker_duplicate_upload FAILED            [ 33%]
+test_mock_durable.py::test_job_worker_transient_failure_recovery PASSED  [ 66%]
+test_mock_durable.py::test_kill_process_recovery PASSED                  [100%]
+
+================================== FAILURES ===================================
+______________________ test_job_worker_duplicate_upload _______________________
+
+    @pytest.mark.asyncio
+    async def test_job_worker_duplicate_upload():
+        """Verify that if db.execute returns an existing PDF, upload_pdf returns early.
+        (This asserts the logic added to pdfs.py where hashing prevents duplicate processing.)
+        """
+        from app.routers.pdfs import upload_pdf
+        from fastapi import UploadFile
+        from collections import namedtuple
+        from app.schemas.pdf import PDFResponse
+        import io
+    
+        # Mock DB
+        db_mock = AsyncMock(spec=AsyncSession)
+    
+        # Setup mock existing PDF
+        existing_pdf = PDF(id=uuid.uuid4(), file_hash="dummy_hash", project_id=uuid.uuid4(), status=PDFStatus.parsed)
+        result_mock = MagicMock()
+        result_mock.scalar_one_or_none.return_value = existing_pdf
+        db_mock.execute.return_value = result_mock
+    
+        # Mock user and file
+        user_mock = MagicMock(id=uuid.uuid4())
+        file_bytes = b"%PDF-1.4 mock content"
+    
+        file_mock = MagicMock(spec=UploadFile)
+        file_mock.filename = "test.pdf"
+        file_mock.content_type = "application/pdf"
+        file_mock.size = len(file_bytes)
+        file_mock.read = AsyncMock(return_value=file_bytes)
+    
+        # Mock verify_project
+        with patch("app.routers.pdfs.verify_project", new_callable=AsyncMock) as vp_mock:
+>           response = await upload_pdf(project_id=uuid.uuid4(), file=file_mock, current_user=user_mock, db=db_mock)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test_mock_durable.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+project_id = UUID('906989fb-f1d2-4a40-a3eb-fb68007b49ea')
+file = <MagicMock spec='UploadFile' id='2111350200304'>
+current_user = <MagicMock id='2111350199968'>
+db = <AsyncMock spec='AsyncSession' id='2111348767920'>
+
+    @router.post("", response_model=PDFResponse, status_code=status.HTTP_201_CREATED)
+    async def upload_pdf(
+        project_id: UUID,
+        file: UploadFile = File(...),
+        current_user: User = Depends(get_current_user_clerk),
+        db: AsyncSession = Depends(get_db)
+    ):
+        await verify_project(project_id, current_user.id, db)
+    
+        if file.content_type != "application/pdf":
+            raise HTTPException(status_code=415, detail="Constraints strictly mandate application/pdf execution formats gracefully.")
+    
+        if file.size and file.size > 50 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
+    
+        file_content = await file.read()
+        file_hash = hashlib.sha256(file_content).hexdigest()
+    
+        # Deduplication: check if identical content already exists in project
+        existing_stmt = select(PDF).where(
+            PDF.project_id == project_id,
+            PDF.file_hash == file_hash
+        )
+        existing_result = await db.execute(existing_stmt)
+        existing_pdf = existing_result.scalar_one_or_none()
+    
+        if existing_pdf:
+            logger.info(f"Duplicate content detected for project {project_id}, returning existing PDF: {existing_pdf.id}")
+>           return PDFResponse.model_validate(existing_pdf)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 3 validation errors for PDFResponse
+E           filename
+E             Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+E               For further information visit https://errors.pydantic.dev/2.13/v/string_type
+E           original_name
+E             Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]
+E               For further information visit https://errors.pydantic.dev/2.13/v/string_type
+E           created_at
+E             Input should be a valid datetime [type=datetime_type, input_value=None, input_type=NoneType]
+E               For further information visit https://errors.pydantic.dev/2.13/v/datetime_type
+
+app\routers\pdfs.py:62: ValidationError
+============================== warnings summary ===============================
+venv\Lib\site-packages\google\genai\types.py:42
+  C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\google\genai\types.py:42: DeprecationWarning: '_UnionGenericAlias' is deprecated and slated for removal in Python 3.17
+    VersionedUnionType = Union[builtin_types.UnionType, _UnionGenericAlias]
+
+test_mock_durable.py::test_job_worker_duplicate_upload
+  C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\app\schemas\pdf.py:6: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class PDFResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED test_mock_durable.py::test_job_worker_duplicate_upload - pydantic_core...
+=================== 1 failed, 2 passed, 2 warnings in 5.18s ===================

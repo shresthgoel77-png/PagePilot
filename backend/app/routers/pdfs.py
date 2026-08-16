@@ -1,6 +1,7 @@
 import os
 import uuid
 import logging
+import hashlib
 from typing import List
 from uuid import UUID
 import fitz  # PyMuPDF
@@ -45,6 +46,21 @@ async def upload_pdf(
     if file.size and file.size > 50 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
         
+    file_content = await file.read()
+    file_hash = hashlib.sha256(file_content).hexdigest()
+    
+    # Deduplication: check if identical content already exists in project
+    existing_stmt = select(PDF).where(
+        PDF.project_id == project_id,
+        PDF.file_hash == file_hash
+    )
+    existing_result = await db.execute(existing_stmt)
+    existing_pdf = existing_result.scalar_one_or_none()
+    
+    if existing_pdf:
+        logger.info(f"Duplicate content detected for project {project_id}, returning existing PDF: {existing_pdf.id}")
+        return PDFResponse.model_validate(existing_pdf)
+
     project_dir = os.path.join(settings.UPLOAD_DIR, str(project_id))
     os.makedirs(project_dir, exist_ok=True)
     
@@ -52,9 +68,8 @@ async def upload_pdf(
     storage_filename = f"{pdf_id}.pdf"
     file_path = os.path.join(project_dir, storage_filename)
     
-    import shutil
     with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        buffer.write(file_content)
         
     try:
         doc = fitz.open(file_path)
@@ -71,6 +86,7 @@ async def upload_pdf(
         filename=storage_filename,
         original_name=file.filename,
         file_path=file_path,
+        file_hash=file_hash,
         page_count=page_count,
         status=PDFStatus.uploaded
     )
