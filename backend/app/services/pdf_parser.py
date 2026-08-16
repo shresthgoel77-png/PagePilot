@@ -20,14 +20,28 @@ class PDFParserService:
             for page_num in range(len(doc)):
                 page = doc.load_page(page_num)
                 text = page.get_text("text").strip()
-                
                 # Check OCR bounds natively mapping Prompt 1.3 standards
                 needs_ocr = len(text) < 50
+                is_ocr = False
+                
+                if needs_ocr:
+                    from app.services.ocr_service import OCRService
+                    ocr_service = OCRService()
+                    try:
+                        pix = page.get_pixmap()
+                        img_bytes = pix.tobytes("png")
+                        text = ocr_service.extract_text(img_bytes)
+                        needs_ocr = False
+                        is_ocr = True
+                    except Exception as e:
+                        logger.error(f"Execution bounding limits explicitly halted natively: {str(e)}")
+                        raise ValueError(f"Explicitly Unrecoverable Corruption Terminated: {str(e)}")
                 
                 extracted_pages.append({
                     "page": page_num + 1,
                     "text": text,
-                    "needs_ocr": needs_ocr
+                    "needs_ocr": needs_ocr,
+                    "is_ocr": is_ocr
                 })
             doc.close()
                 
@@ -53,7 +67,8 @@ class PDFParserService:
                             "chunk_index": chunk_index,
                             "pdf_id": pdf_id,
                             "project_id": project_id,
-                            "filename": filename
+                            "filename": filename,
+                            "is_ocr": page_data.get("is_ocr", False)
                         })
                         chunk_index += 1
                         

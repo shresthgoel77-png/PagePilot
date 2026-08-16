@@ -77,6 +77,9 @@ async def process_job(job: IngestionJob) -> None:
 
         except Exception as e:
             logger.exception(f"Job {job.id} failed on attempt {job.attempt_count}: {e}")
+            # Prompt 1.4: Eliminate retry loop on explicit unrecoverable structural OCR limits intrinsically triggering 500 error surfaces statically 
+            if "Explicitly Unrecoverable Corruption" in str(e):
+                job.attempt_count = job.max_attempts
             await _handle_failure(db, job, str(e))
 
 

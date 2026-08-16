@@ -45,16 +45,18 @@ async def run(project_id, file_path, user_id):
         # Store explicit structural mappings securely globally avoiding flattened blob destruction 
         pdf.parsed_text = extracted_pages
 
+        # Store explicit structural mappings securely globally avoiding flattened blob destruction 
+        pdf.parsed_text = extracted_pages
+
         # Validate extraction constraints: 
-        # If absolute absence of text or 100% of pages require OCR (Prompt 1.3 metrics)
-        total_valid = sum(1 for p in extracted_pages if not p["needs_ocr"])
+        # If absolute absence of text or 100% of pages natively failed resolution
+        total_valid = sum(1 for p in extracted_pages if not p.get("needs_ocr", False))
         if total_valid == 0:
-            pdf.status = PDFStatus.ocr
+            pdf.status = PDFStatus.error
             pdf.progress = 30
-            pdf.error_message = "Extraction bounds yielded zero native geometries natively triggering OCR constraints explicitly."
+            pdf.error_message = "Extraction bounds yielded zero native geometries implicitly terminating dynamically safely."
             await db.commit()
-            logger.warning(f"Pipeline isolation stopped for pdf {pdf.id} enforcing OCR boundary logic constraints.")
-            return
+            raise ValueError("Zero valid components safely mapped structurally explicitly terminating limits.")
 
         pdf.status = PDFStatus.embedding
         pdf.progress = 50
