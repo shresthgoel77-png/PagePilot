@@ -35,9 +35,6 @@ class EmbeddingService:
     def index_pdf_chunks(self, pdf_id: str, chunks: List[Dict[str, Any]]):
         if not chunks:
             return
-
-        # Idempotency requirement intrinsically tracking vectors implicitly globally flawlessly natively
-        self.vector_store.delete_by_pdf(pdf_id)
         
         for i in range(0, len(chunks), self.batch_size):
             batch = chunks[i:i + self.batch_size]

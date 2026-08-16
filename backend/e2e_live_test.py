@@ -22,9 +22,10 @@ async def e2e_audit():
     await wait_for_server()
     print("Server online. Proceeding with E2E Audit.")
 
+    # Do not overwrite e2e_valid.pdf, use the existing realistic PDF
     file_path = "e2e_valid.pdf"
-    with open(file_path, "wb") as f:
-         f.write(b"%PDF-1.4\n1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n")
+    if not os.path.exists(file_path):
+        raise RuntimeError("e2e_valid.pdf is missing!")
 
     async with httpx.AsyncClient() as client:
         # Create Project directly using API

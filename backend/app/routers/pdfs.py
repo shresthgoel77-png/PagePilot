@@ -46,8 +46,22 @@ async def upload_pdf(
     if file.size and file.size > 50 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
         
-    file_content = await file.read()
-    file_hash = hashlib.sha256(file_content).hexdigest()
+    pdf_id = uuid.uuid4()
+    project_dir = os.path.join(settings.UPLOAD_DIR, str(project_id))
+    os.makedirs(project_dir, exist_ok=True)
+    
+    temp_file_path = os.path.join(project_dir, f"temp_{pdf_id}.pdf")
+    hasher = hashlib.sha256()
+    
+    with open(temp_file_path, 'wb') as temp_file:
+        while True:
+            chunk = await file.read(1024 * 1024)
+            if not chunk:
+                break
+            hasher.update(chunk)
+            temp_file.write(chunk)
+            
+    file_hash = hasher.hexdigest()
     
     # Deduplication: check if identical content already exists in project
     existing_stmt = select(PDF).where(
@@ -59,18 +73,14 @@ async def upload_pdf(
     
     if existing_pdf:
         logger.info(f"Duplicate content detected for project {project_id}, returning existing PDF: {existing_pdf.id}")
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
         return PDFResponse.model_validate(existing_pdf)
 
-    project_dir = os.path.join(settings.UPLOAD_DIR, str(project_id))
-    os.makedirs(project_dir, exist_ok=True)
-    
-    pdf_id = uuid.uuid4()
     storage_filename = f"{pdf_id}.pdf"
     file_path = os.path.join(project_dir, storage_filename)
+    os.rename(temp_file_path, file_path)
     
-    with open(file_path, "wb") as buffer:
-        buffer.write(file_content)
-        
     try:
         doc = fitz.open(file_path)
         page_count = len(doc)
