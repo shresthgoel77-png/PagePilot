@@ -15,20 +15,24 @@ class PDFParserService:
         extracted_pages = []
         
         try:
-            # 1. Primary Layout Extractor (PyMuPDF extracts strings directly avoiding heavy local OCR)
+            # 1. Primary Layout Extractor (PyMuPDF preserves page boundaries naturally)
             doc = fitz.open(file_path)
             for page_num in range(len(doc)):
                 page = doc.load_page(page_num)
                 text = page.get_text("text").strip()
-                if text:
-                    extracted_pages.append({
-                        "page": page_num + 1,
-                        "text": text
-                    })
+                
+                # Check OCR bounds natively mapping Prompt 1.3 standards
+                needs_ocr = len(text) < 50
+                
+                extracted_pages.append({
+                    "page": page_num + 1,
+                    "text": text,
+                    "needs_ocr": needs_ocr
+                })
             doc.close()
                 
             if not extracted_pages:
-                logger.warning(f"Warning: Absolute absence of valid OCR structures found inside PDF target intrinsically isolated bounding variables natively '{file_path}'.")
+                logger.warning(f"Warning: Absolute absence of valid OCR structures found inside PDF target '{file_path}'.")
 
             # 3. Dynamic Chunking execution matching explicitly NLP constraints mapping seamlessly natively globally
             chunks = []
@@ -55,7 +59,7 @@ class PDFParserService:
                         
                     start += (self.chunk_size - self.chunk_overlap)
                     
-            return chunks
+            return extracted_pages, chunks
 
         except Exception as e:
             logger.error(f"Engine catastrophic parsing halt implicitly tracking bounds structurally: {traceback.format_exc()}")

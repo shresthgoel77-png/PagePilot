@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, DateTime, ForeignKey, Integer, Enum, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects import postgresql
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 
@@ -29,7 +30,7 @@ class PDF(Base):
     file_path = Column(String, nullable=False)
     file_hash = Column(String, nullable=False)
     page_count = Column(Integer, default=0)
-    parsed_text = Column(Text, nullable=True)
+    parsed_text = Column(postgresql.JSONB, nullable=True)
     status = Column(Enum(PDFStatus), default=PDFStatus.uploaded, nullable=False)
     
     # New state tracking columns

@@ -34,7 +34,7 @@ async def run(project_id, file_path, user_id):
         embeddings = EmbeddingService()
 
         # Execute CPU-bound parsing in a separate thread
-        chunks = await asyncio.to_thread(
+        extracted_pages, chunks = await asyncio.to_thread(
             parser.parse_pdf,
             str(pdf.id),
             str(pdf.project_id),
@@ -42,20 +42,23 @@ async def run(project_id, file_path, user_id):
             pdf.file_path,
         )
 
-        pdf.status = PDFStatus.ocr
-        pdf.progress = 30
-        await db.commit()
-        
-        # Logical boundary resolving extraction maps mapping OCR completion conceptually 
-        import asyncio
-        await asyncio.sleep(0.5)
+        # Store explicit structural mappings securely globally avoiding flattened blob destruction 
+        pdf.parsed_text = extracted_pages
+
+        # Validate extraction constraints: 
+        # If absolute absence of text or 100% of pages require OCR (Prompt 1.3 metrics)
+        total_valid = sum(1 for p in extracted_pages if not p["needs_ocr"])
+        if total_valid == 0:
+            pdf.status = PDFStatus.ocr
+            pdf.progress = 30
+            pdf.error_message = "Extraction bounds yielded zero native geometries natively triggering OCR constraints explicitly."
+            await db.commit()
+            logger.warning(f"Pipeline isolation stopped for pdf {pdf.id} enforcing OCR boundary logic constraints.")
+            return
 
         pdf.status = PDFStatus.embedding
         pdf.progress = 50
         await db.commit()
-
-        full_text = "\n".join([c["text"] for c in chunks])
-        pdf.parsed_text = full_text
 
         pdf.status = PDFStatus.indexing
         pdf.progress = 75
