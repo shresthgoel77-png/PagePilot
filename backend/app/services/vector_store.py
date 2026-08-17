@@ -54,9 +54,10 @@ class VectorStoreService:
         points = []
         for chunk in chunks:
             payload_validated = ChunkPayload(**chunk["payload"]).model_dump()
+            seed_string = f"{payload_validated['project_id']}_{payload_validated['pdf_id']}_{payload_validated['chunk_index']}"
             points.append(
                 models.PointStruct(
-                    id=str(uuid.uuid4()),
+                    id=str(uuid.uuid5(uuid.NAMESPACE_DNS, seed_string)),
                     vector=chunk["vector"],
                     payload=payload_validated
                 )

@@ -1,0 +1,7 @@
+﻿--- 1. First Pass Indexing ---
+Total points after Phase 1: 3
+Generated Keys Phase 1: ['592bc136-2b03-5574-8fb6-85053d81d2ac', '6f31efd0-e869-56a7-82c9-e6541cddfafe', 'a6a83399-eece-5d50-9a6c-2525f4014fbe']
+
+--- 2. Second Pass Indexing (Re-indexing exact struct) ---
+Total points after Phase 2: 3
+VERIFIED PASS: Point count did not change! Reindexing gracefully overwrote duplicate vectors based on deterministic IDs.
