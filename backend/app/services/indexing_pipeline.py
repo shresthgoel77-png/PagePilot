@@ -74,7 +74,6 @@ async def run(project_id, file_path, user_id):
         await db.commit()
         
         def do_embedding():
-            embeddings.vector_store.delete_by_pdf(str(pdf.id))
             if not os.path.exists(temp_chunks_path): return
             
             accum_chunks = []

@@ -95,6 +95,25 @@ class VectorStoreService:
         results = self._retry_operation(_execute)
         return [SearchResult(id=str(r.id), score=r.score, payload=ChunkPayload(**r.payload)) for r in results]
         
+    def get_all_ids_for_pdf(self, pdf_id: str) -> List[str]:
+        def _execute():
+            res = self.client.scroll(
+                collection_name=self.COLLECTION_NAME,
+                scroll_filter=models.Filter(must=[models.FieldCondition(key="pdf_id", match=models.MatchValue(value=pdf_id))]),
+                limit=10000 
+            )
+            return [str(p.id) for p in res[0]]
+        return self._retry_operation(_execute)
+
+    def delete_points(self, point_ids: List[str]):
+        if not point_ids: return
+        def _execute():
+            self.client.delete(
+                collection_name=self.COLLECTION_NAME,
+                points_selector=models.PointIdsList(points=point_ids)
+            )
+        self._retry_operation(_execute)
+
     def delete_by_pdf(self, pdf_id: str):
         def _execute():
             self.client.delete(
