@@ -1,15 +1,17 @@
 import logging
 import fitz
 import traceback
+import re
 from typing import List, Dict, Any
+from app.core.config import settings
 # Heavy local OCR (docling) dependencies removed
 
 logger = logging.getLogger("researchos.pdf_parser")
 
 class PDFParserService:
     def __init__(self):
-        self.chunk_size = 1000
-        self.chunk_overlap = 200
+        self.chunk_size = settings.CHUNK_SIZE
+        self.chunk_overlap = settings.CHUNK_OVERLAP
 
     def parse_pdf_generator(self, pdf_id: str, project_id: str, filename: str, file_path: str):
         try:
@@ -48,26 +50,60 @@ class PDFParserService:
                     "is_ocr": is_ocr
                 }
                 
-                # Dynamic Chunking execution matching explicitly NLP constraints mapping seamlessly natively globally
+                # Semantic Chunking execution matching explicitly NLP constraints mapping seamlessly natively globally
                 page_chunks = []
-                start = 0
-                while start < len(text):
-                    end = start + self.chunk_size
-                    segment = text[start:end]
-                    
-                    if segment.strip():
+                # Split by sentence boundaries (.!?) or paragraph breaks (\n\n)
+                sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+|\n\n+', text) if s.strip()]
+                if not sentences:
+                    sentences = [text.strip()] if text.strip() else []
+
+                current_chunk = []
+                current_length = 0
+
+                for sentence in sentences:
+                    sentence_len = len(sentence)
+                    if current_length + sentence_len > self.chunk_size and current_chunk:
+                        # Yield the current chunk
                         page_chunks.append({
-                            "text": segment,
+                            "text": " ".join(current_chunk),
                             "page_number": page_num + 1,
                             "chunk_index": chunk_index,
                             "pdf_id": pdf_id,
                             "project_id": project_id,
                             "filename": filename,
-                            "is_ocr": is_ocr
+                            "is_ocr": is_ocr,
+                            "section": page_data.get("section", "")
                         })
                         chunk_index += 1
+
+                        # Keep last few sentences for overlap
+                        overlap_chunk = []
+                        overlap_len = 0
+                        for s in reversed(current_chunk):
+                            if overlap_len + len(s) <= self.chunk_overlap:
+                                overlap_chunk.insert(0, s)
+                                overlap_len += len(s) + 1
+                            else:
+                                break
                         
-                    start += (self.chunk_size - self.chunk_overlap)
+                        current_chunk = overlap_chunk
+                        current_length = sum(len(s) for s in current_chunk) + max(0, len(current_chunk) - 1)
+
+                    current_chunk.append(sentence)
+                    current_length += sentence_len + (1 if len(current_chunk) > 1 else 0)
+
+                if current_chunk:
+                    page_chunks.append({
+                        "text": " ".join(current_chunk),
+                        "page_number": page_num + 1,
+                        "chunk_index": chunk_index,
+                        "pdf_id": pdf_id,
+                        "project_id": project_id,
+                        "filename": filename,
+                        "is_ocr": is_ocr,
+                        "section": page_data.get("section", "")
+                    })
+                    chunk_index += 1
                     
                 yield page_data, page_chunks
                 

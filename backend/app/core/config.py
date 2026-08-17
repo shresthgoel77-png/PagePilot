@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = Field(..., description="Local PDF Upload Directory")
     GEMINI_API_KEY: str = Field(..., description="Gemini LLM Key")
 
+    # Chunking Configuration
+    CHUNK_SIZE: int = 1000
+    CHUNK_OVERLAP: int = 200
+
     # Security & Networking
     FRONTEND_URLS: List[str] = ["http://localhost:3000"]
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8

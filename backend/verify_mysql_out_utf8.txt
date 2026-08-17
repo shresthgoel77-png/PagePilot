@@ -1,0 +1,27 @@
+﻿File exists: True
+Configured Chunk Size: 1000
+Configured Overlap: 200
+
+--- Consecutive Chunks for Overlap check ---
+Chunk 0 [page=1, doc_id=pdf_mysql] (len=921):
+START: 'SQL\n1. What is a database? There are many definitions for a database. We will use a simple definitio'
+END:   'tabase \nby its design controls and limits the data duplication to only where and what is \nnecessary.'
+--------------------------------------------------
+Chunk 1 [page=1, doc_id=pdf_mysql] (len=921):
+START: 'Also it may result in data inconsistency. A database \nby its design controls and limits the data dup'
+END:   ' must follow a certain standard \nstructure. This makes the data more understandable and portable. 3.'
+--------------------------------------------------
+Chunk 2 [page=1, doc_id=pdf_mysql] (len=454):
+START: 'Only \nauthorised users can access the database. (e)\nStandard structure : Data stored in database mus'
+END:   'relational model as introduced by E. F. Codd. A \nrelational database has following major components:'
+--------------------------------------------------
+Chunk 3 [page=2, doc_id=pdf_mysql] (len=990):
+START: '3.1\nTable\nA relational model has a table as a basic structure to store data. A table is \narrangement'
+END:   ' in table. For example, a \ndomain of month-of-year can accept January, February,àDecember as values.'
+--------------------------------------------------
+
+--- Long Sentence Test ---
+Total test chunks: 3
+Test Chunk 0 length: 11
+Test Chunk 1 length: 1202
+Test Chunk 2 length: 23
