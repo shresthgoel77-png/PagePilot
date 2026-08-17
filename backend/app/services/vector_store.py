@@ -15,6 +15,8 @@ class ChunkPayload(BaseModel):
     chunk_index: int
     text: str
     filename: str
+    type: str = "chunk"
+    is_ocr: bool = False
     section: Optional[str] = None
 
 class SearchResult(BaseModel):

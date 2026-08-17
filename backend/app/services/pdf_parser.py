@@ -105,6 +105,7 @@ class PDFParserService:
                             "pdf_id": pdf_id,
                             "project_id": project_id,
                             "filename": filename,
+                            "type": "chunk",
                             "is_ocr": is_ocr,
                             "section": page_data.get("section", "")
                         })
@@ -134,6 +135,7 @@ class PDFParserService:
                         "pdf_id": pdf_id,
                         "project_id": project_id,
                         "filename": filename,
+                        "type": "chunk",
                         "is_ocr": is_ocr,
                         "section": page_data.get("section", "")
                     })

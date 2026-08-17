@@ -1,0 +1,27 @@
+﻿--- Legacy Payload Passed to Pydantic (Retrieval Mock) ---
+{
+  "project_id": "proj_xyz",
+  "pdf_id": "pdf_123",
+  "page_number": 1,
+  "chunk_index": 0,
+  "text": "This is legacy content extracted previously.",
+  "filename": "old_doc.pdf",
+  "type": "chunk",
+  "is_ocr": false,
+  "section": null
+}
+PASS: Legacy payloads are parsed gracefully without runtime errors.
+
+--- New Payload Generation from Pipeline (Write Mock) ---
+{
+  "text": "SQL\n1. What is a database? There are many definitions for a database. We will use a simple definitions\n\u201cA database is an organized collection of data, generally stored and accessed \nelectronically from a computer system.\u201d\nThere are many examples of a database around us, admission application\u2019s database, \nfee collection database and so on. But why do we need the database? 2. Need for database\nA database is typically used to make the storage and the access of information quicker \nand efficient. Over and above this there are many advantages of having computerised \ndata. Some of them are\n(a)\nControlled redundancy : Data redundancy is defined as duplication of data. Some data keeps getting repeated in many places. This results in increase in \nstorage space requirement. Also it may result in data inconsistency. A database \nby its design controls and limits the data duplication to only where and what is \nnecessary.",
+  "page_number": 1,
+  "chunk_index": 0,
+  "pdf_id": "new_pdf_456",
+  "project_id": "proj_xyz",
+  "filename": "new_doc.pdf",
+  "type": "chunk",
+  "is_ocr": false,
+  "section": null
+}
+PASS: New generated chunk matches the exact strictly typed schema requirements.

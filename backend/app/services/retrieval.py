@@ -33,12 +33,16 @@ class RetrievalService:
         final_results = qdrant_results
         return [
             {
-                "text": r.payload.text,
-                "page_number": r.payload.page_number,
+                "project_id": r.payload.project_id,
                 "pdf_id": r.payload.pdf_id,
+                "page_number": r.payload.page_number,
+                "chunk_index": r.payload.chunk_index,
+                "text": r.payload.text,
                 "filename": r.payload.filename,
-                "score": r.score,
-                "chunk_index": r.payload.chunk_index
+                "type": r.payload.type,
+                "is_ocr": r.payload.is_ocr,
+                "section": r.payload.section,
+                "score": r.score
             }
             for r in final_results
         ]
