@@ -1,0 +1,28 @@
+﻿--- 1. Initial Indexing Sequence (Creating 5 Chunks) ---
+Initial point count: 5
+--- 2. DRY RUN Reindexing ---
+Dry Run Result: {'adds': 0, 'updates': 3, 'removes': 2, 'dry_run': True}
+Count post-dry-run natively: 5
+--- 3. LIVE EXECUTING Reindexing ---
+Live Result: {'adds': 0, 'updates': 3, 'removes': 2, 'dry_run': False}
+Final Count natively (should be 3): 3
+--- 4. RETRIEVAL SEQUENCE ---
+Retrieval returned: 2 documents.
+--- 5. NORMAL UPLOAD BEHAVIOR ---
+Count after isolated generic file upsert: 3
+
+Final Expected output formatting:
+
+Initial point count: 5
+New chunk count: 3
+Dry-run result: {'adds': 0, 'updates': 3, 'removes': 2, 'dry_run': True}
+Dry-run deletions actually performed: NO
+Confirmation mechanism used: 'dry_run=False' flag evaluated natively inside explicit reindex_pdf
+Actual adds: 0
+Actual updates: 3
+Actual removals: 2
+Final point count: 3
+Retrieval after reindex: PASS
+Normal upload triggers reindex: NO
+Collection destroyed/recreated: NO (Explicit ID sweeping target resolved seamlessly)
+PASS
