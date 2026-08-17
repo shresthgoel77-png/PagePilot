@@ -1,0 +1,19 @@
+﻿--- 1. Inserted Legacy Point (No reindexing required) ---
+
+--- 2. New Document Indexed using Native Write Path ---
+
+--- 3. RAW Payload from Qdrant (New Document) ---
+{
+  "project_id": "proj_xyz",
+  "pdf_id": "new_pdf_456",
+  "page_number": 1,
+  "chunk_index": 1,
+  "text": "Also it may result in data inconsistency. A database \nby its design controls and limits the data duplication to only where and what is \nnecessary. (b)\nData consistency : Data consistency can be defined as , \u2018Same data drawn from\nseparate places must not conflict with each other.\u2019 This does not relate to \ncorrectness of data but the same data being available at all access points and \nall times. (c)\nData integrity : Data integrity refers to data being accurate and consistent in the \ndatabase. It is very important that the data integrity is maintained through \nvarious rules. (d)\nData Security : There are many ways that data stored in database can be \nsecured. There can be multiple users with different kinds of access. Only \nauthorised users can access the database. (e)\nStandard structure : Data stored in database must follow a certain standard \nstructure. This makes the data more understandable and portable. 3.",
+  "filename": "MYsql notes T.pdf",
+  "type": "chunk",
+  "is_ocr": false,
+  "section": null
+}
+VERIFIED: All exact required fields are present in the RAW dictionary! type=chunk
+
+--- 4. Run Retrieval on New Document ---

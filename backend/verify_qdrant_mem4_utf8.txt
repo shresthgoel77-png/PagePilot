@@ -1,0 +1,19 @@
+﻿--- 1. Inserted Legacy Point (No reindexing required) ---
+
+--- 2. New Document Indexed using Native Write Path ---
+
+--- 3. RAW Payload from Qdrant (New Document) ---
+{
+  "project_id": "proj_xyz",
+  "pdf_id": "new_pdf_456",
+  "page_number": 1,
+  "chunk_index": 2,
+  "text": "Only \nauthorised users can access the database. (e)\nStandard structure : Data stored in database must follow a certain standard \nstructure. This makes the data more understandable and portable. 3. RDBMS (Relational Database Management Software)\nA Relational database management system (RDBMS) is a database management \nsystem (DBMS) that is based on the relational model as introduced by E. F. Codd. A \nrelational database has following major components:",
+  "filename": "MYsql notes T.pdf",
+  "type": "chunk",
+  "is_ocr": false,
+  "section": null
+}
+VERIFIED: All exact required fields are present in the RAW dictionary! type=chunk
+
+--- 4. Run Retrieval on New Document ---

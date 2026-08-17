@@ -83,12 +83,13 @@ class VectorStoreService:
         query_filter = models.Filter(must=must_filters)
         
         def _execute():
-            return self.client.search(
+            res = self.client.query_points(
                 collection_name=self.COLLECTION_NAME,
-                query_vector=query_vector,
+                query=query_vector,
                 query_filter=query_filter,
                 limit=limit
             )
+            return res.points
             
         results = self._retry_operation(_execute)
         return [SearchResult(id=str(r.id), score=r.score, payload=ChunkPayload(**r.payload)) for r in results]
