@@ -15,6 +15,7 @@ class ChunkPayload(BaseModel):
     chunk_index: int
     text: str
     filename: str
+    section: Optional[str] = None
 
 class SearchResult(BaseModel):
     id: str

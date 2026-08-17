@@ -1,0 +1,8 @@
+﻿--- Structured Doc: ../MYsql notes T.pdf ---
+Chunk 0 [page 1]: SECTION='None'
+Chunk 1 [page 1]: SECTION='None'
+Chunk 2 [page 1]: SECTION='None'
+
+--- Flat Doc: audit_normal.pdf ---
+Chunk 0 [page 1]: SECTION=None
+Chunk 1 [page 2]: SECTION=None

@@ -14,12 +14,45 @@ class PDFParserService:
         self.chunk_overlap = settings.CHUNK_OVERLAP
 
     def parse_pdf_generator(self, pdf_id: str, project_id: str, filename: str, file_path: str):
+        self.current_section = None
         try:
             doc = fitz.open(file_path)
             chunk_index = 0
             for page_num in range(len(doc)):
                 page = doc.load_page(page_num)
                 text = page.get_text("text").strip()
+                
+                # Heuristic: Extract page dictionary to determine font sizes safely
+                p_dict = page.get_text("dict")
+                blocks = [b for b in p_dict.get("blocks", []) if "lines" in b and "image" not in b]
+                
+                sizes = []
+                for b in blocks:
+                    for l in b.get("lines", []):
+                        for s in l.get("spans", []):
+                            if s.get("text", "").strip():
+                                sizes.append(s.get("size", 12.0))
+                
+                median_size = sorted(sizes)[len(sizes)//2] if sizes else 12.0
+                
+                # Hunt for the first distinct heading on this page
+                current_section = getattr(self, "current_section", None)
+                for b in blocks:
+                    found_heading = False
+                    for l in b.get("lines", []):
+                        for s in l.get("spans", []):
+                            t = s.get("text", "").strip()
+                            # Check size or bold font descriptor
+                            is_bold = "bold" in s.get("font", "").lower()
+                            if t and len(t) < 100 and (s.get("size", 12.0) > median_size + 1.5 or is_bold):
+                                current_section = t
+                                found_heading = True
+                                break
+                        if found_heading: break
+                    if found_heading: break
+                
+                self.current_section = current_section
+                
                 # Check OCR bounds natively mapping Prompt 1.3 standards
                 needs_ocr = len(text) < 50
                 is_ocr = False
@@ -47,7 +80,8 @@ class PDFParserService:
                     "page": page_num + 1,
                     "text": text,
                     "needs_ocr": needs_ocr,
-                    "is_ocr": is_ocr
+                    "is_ocr": is_ocr,
+                    "section": getattr(self, "current_section", None)
                 }
                 
                 # Semantic Chunking execution matching explicitly NLP constraints mapping seamlessly natively globally
