@@ -23,11 +23,14 @@ class EmbeddingService:
             return [[0.0] * 768 for _ in texts]
             
         try:
-            response = self._client.models.embed_content(
-                model="text-embedding-004",
-                contents=texts
-            )
-            return [emb.values for emb in response.embeddings]
+            vecs = []
+            for t in texts:
+                response = self._client.models.embed_content(
+                    model="gemini-embedding-2",
+                    contents=t
+                )
+                vecs.append(response.embeddings[0].values)
+            return vecs
         except Exception as e:
             logger.error(f"Gemini embedding generation failed: {e}")
             raise

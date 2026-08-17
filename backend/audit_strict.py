@@ -35,6 +35,9 @@ async def main():
         
         states = []
         last_state = None
+        state_start_time = time.time()
+        phase_durations = {}
+
         while True:
             cur_ram = process.memory_info().rss
             if cur_ram > peak_ram:
@@ -45,11 +48,16 @@ async def main():
             status = data["status"]
             
             if status != last_state:
+                if last_state is not None:
+                    duration = time.time() - state_start_time
+                    phase_durations[last_state] = duration
                 states.append(status)
                 last_state = status
+                state_start_time = time.time()
                 print(f"New state sequence transition: {status} | Progress: {data['progress']}")
             
             if status == "ready" or status == "error":
+                phase_durations[status] = time.time() - state_start_time
                 if status == "error":
                     print(f"ERROR: {data['error_message']}")
                 break
@@ -58,6 +66,7 @@ async def main():
         duration = time.time() - start_time
         print(f"\nCompleted in {duration:.2f} seconds.")
         print(f"Verified Extracted State sequence: {states}")
+        print(f"Phase Durations: {phase_durations}")
         print(f"Memory Diagnostics: Base RAM: {base_ram / 1024 / 1024:.2f}MB, Peak RAM: {peak_ram / 1024 / 1024:.2f}MB")
         
     async with AsyncSessionLocal() as db:
