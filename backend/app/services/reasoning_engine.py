@@ -29,7 +29,7 @@ class ReasoningEngine:
             chunks = self.retrieval_service.retrieve(
                 project_id=project_id,
                 query=query,
-                top_k=5, 
+                top_k=50, 
                 final_k=5, 
                 pdf_ids=[pdf_id]
             )

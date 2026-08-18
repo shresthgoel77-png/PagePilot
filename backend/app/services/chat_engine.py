@@ -47,8 +47,8 @@ class ChatEngine:
         retrieved_chunks = self.retrieval_service.retrieve(
             project_id=str(project_id), 
             query=message, 
-            top_k=20, 
-            final_k=5, 
+            top_k=50, 
+            final_k=10, 
             pdf_ids=[str(pid) for pid in pdf_ids] if pdf_ids else None
         )
 

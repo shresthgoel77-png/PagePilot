@@ -13,24 +13,27 @@ class RetrievalService:
         self.embedding_service = EmbeddingService()
         self.vector_store = VectorStoreService()
 
-    def retrieve(self, project_id: str, query: str, top_k: int = 20, final_k: int = 5, pdf_ids: Optional[List[str]] = None) -> List[Dict[str, Any]]:
+    def retrieve(self, project_id: str, query: str, top_k: int = 50, final_k: int = 10, pdf_ids: Optional[List[str]] = None) -> List[Dict[str, Any]]:
         # Enforce local explicit parameters tracking nested embeddings locally generating unique targets natively
         query_vectors = self.embedding_service.generate_embeddings([query])
         query_vector = query_vectors[0]
         
         # Enforce search limits capturing wide-net architecture bounding states natively uniquely locally 
-        # We use final_k directly for semantic retrieval search limits, discarding local reranker pipeline constraints
+        # We use top_k for fetching from VectorStore, leaving room for future rerankers
+        logger.info(f"Retrieving top_k={top_k} from Qdrant for query: '{query}'")
         qdrant_results = self.vector_store.search(
             project_id=project_id,
             query_vector=query_vector,
-            limit=final_k,
+            limit=top_k,
             pdf_ids=pdf_ids
         )
+        logger.info(f"Fetched {len(qdrant_results)} candidates from Qdrant")
         
         if not qdrant_results:
             return []
             
-        final_results = qdrant_results
+        final_results = qdrant_results[:final_k]
+        logger.info(f"Reduced to final_k={final_k} candidates (actual: {len(final_results)}) for LLM context")
         return [
             {
                 "project_id": r.payload.project_id,
