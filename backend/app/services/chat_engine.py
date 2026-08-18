@@ -10,6 +10,7 @@ from google.genai import types
 from app.core.config import settings
 from app.services.retrieval import RetrievalService
 from app.services.chat_service import ChatService
+from app.services.context_assembler import ContextAssembler
 
 logger = logging.getLogger("researchos.chat_engine")
 
@@ -19,15 +20,7 @@ class ChatEngine:
         self.retrieval_service = RetrievalService()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
-    def _format_context(self, chunks: List[Dict[str, Any]]) -> str:
-        formatted_chunks = []
-        for i, chunk in enumerate(chunks):
-            pdf_id = chunk["pdf_id"]
-            page = chunk["page_number"]
-            filename = chunk["filename"]
-            text = chunk["text"]
-            formatted_chunks.append(f"--- Document Chunk {i+1} [Source: {filename}, Page {page}] (PDF_ID: {pdf_id}) ---\n{text}\n")
-        return "\n".join(formatted_chunks)
+
 
     async def stream_chat(self, user_id: UUID, session_id: UUID, project_id: UUID, message: str, pdf_ids: List[UUID] = None) -> AsyncGenerator[str, None]:
         
@@ -57,7 +50,7 @@ class ChatEngine:
             system_instruction = "I couldn't find relevant information in your uploaded documents."
             context_string = ""
         else:
-            context_string = self._format_context(retrieved_chunks)
+            context_string = ContextAssembler.assemble_context(retrieved_chunks)
             system_instruction = (
                 "You are a research assistant. Answer based only on the provided documents. "
                 "Cite sources with [Source: filename, Page X].\n\nContext Context Boundaries:\n"

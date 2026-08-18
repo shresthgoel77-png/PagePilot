@@ -10,6 +10,7 @@ from google.genai import types
 from app.core.config import settings
 from app.services.retrieval import RetrievalService
 from app.services.chat_service import ChatService
+from app.services.context_assembler import ContextAssembler
 
 logger = logging.getLogger("researchos.reasoning_engine")
 
@@ -23,32 +24,21 @@ class ReasoningEngine:
         # Validate Project Ownership 
         await self.chat_service.verify_project_ownership(UUID(project_id), user_id)
         
-        all_chunks = []
-        # Multi-PDF manual context isolation cleanly limits Qdrant fetches safely uniquely globally safely 
-        for pdf_id in pdf_ids:
-            chunks = self.retrieval_service.retrieve(
-                project_id=project_id,
-                query=query,
-                top_k=50, 
-                final_k=5, 
-                pdf_ids=[pdf_id]
-            )
-            # Annotate manually ensuring bounds explicitly logically 
-            for chunk in chunks:
-                all_chunks.append(chunk)
+        # Unified global query executing directly over bounds
+        all_chunks = self.retrieval_service.retrieve(
+            project_id=project_id,
+            query=query,
+            top_k=50, 
+            final_k=15, 
+            pdf_ids=pdf_ids
+        )
 
         if not all_chunks:
             yield f"data: {json.dumps({'type': 'token', 'content': 'Insufficient bound artifacts implicitly extracted locally mapping bounds optimally.'})}\n\n"
             yield f"data: {json.dumps({'type': 'done'})}\n\n"
             return
             
-        context_string = ""
-        for i, c in enumerate(all_chunks):
-            pdf_str = c['pdf_id']
-            fn = c['filename']
-            pg = c['page_number']
-            txt = c['text']
-            context_string += f"--- Document: {fn} (PDF_ID: {pdf_str}) | Page {pg} ---\n{txt}\n\n"
+        context_string = ContextAssembler.assemble_context(all_chunks, max_chars=50000)
             
         system_instruction = (
             "You are a rigorous academic synthesis engine. Your goal is to analyze, compare, and synthesize information strictly across the provided documents.\n"

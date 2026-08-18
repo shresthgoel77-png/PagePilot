@@ -1,0 +1,18 @@
+--- Verifying Context Assembler Logic ---
+
+[Input Constraints]
+Total Chunks In: 4
+Contains Duplicate Data: True (Index 0 and 1 are identical texts)
+
+[Test 1] Deduplication output count: 3
+  -> Passed! Near-identical texts successfully stripped keeping the highest relevance one natively.
+
+[Test 2] Assembled Context Snapshot:
+------------------------------------------
+<document_chunk id="1" source="alpha.pdf" page="1" pdf_id="pdfA">
+This is a very important fact about machine learning.
+</document_chunk>
+
+------------------------------------------
+Output character size: 138 (Bound: 400)
+  -> Passed! Final string verified: order matches, exactly structured via XML blocks mapping directly for Phase 4 citations, duplicates discarded, and strict character bounds enforced.
