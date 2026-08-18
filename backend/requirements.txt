@@ -16,3 +16,4 @@ langgraph>=0.0.28
 httpx>=0.25.0
 pymupdf>=1.23.0
 google-genai>=0.5.0
+sentence-transformers>=3.0.0

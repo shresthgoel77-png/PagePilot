@@ -6,7 +6,15 @@ from app.services.vector_store import VectorStoreService
 
 logger = logging.getLogger("researchos.retrieval")
 
-# Reranking is now disabled (local ML dependencies uninstalled)
+# Optional Reranker Dependency
+try:
+    from sentence_transformers import CrossEncoder
+    cross_encoder_model = CrossEncoder('cross-encoder/ms-marco-TinyBERT-L-2-v2', max_length=512)
+    RERANKER_AVAILABLE = True
+except Exception as e:
+    logger.warning(f"Failed to load sentence_transformers CrossEncoder. Reranking disabled. Error: {e}")
+    RERANKER_AVAILABLE = False
+    cross_encoder_model = None
 
 class RetrievalService:
     def __init__(self):
@@ -32,7 +40,32 @@ class RetrievalService:
         if not qdrant_results:
             return []
             
-        final_results = qdrant_results[:final_k]
+        final_results = qdrant_results
+        
+        # --- Phase 3: Reranking ---
+        if RERANKER_AVAILABLE and cross_encoder_model:
+            try:
+                logger.info("Executing CrossEncoder reranking layer...")
+                # Format pairs of (query, document_text)
+                pairs = [(query, r.payload.text) for r in qdrant_results]
+                
+                # Predict scores
+                scores = cross_encoder_model.predict(pairs)
+                
+                # Attach scores and sort
+                for i, r in enumerate(final_results):
+                    # We inject the reranker score into the payload dict structure temporarily so we map it out later
+                    r.score = float(scores[i]) 
+                    
+                # Sort descending by the new reranker score
+                final_results.sort(key=lambda x: x.score, reverse=True)
+                logger.info("Reranking completed successfully.")
+            except Exception as e:
+                logger.error(f"Reranking failed explicitly (fallback activated to dense vector ordering). Error: {e}")
+                # Revert to original dense search behavior automatically
+                final_results = qdrant_results
+                
+        final_results = final_results[:final_k]
         logger.info(f"Reduced to final_k={final_k} candidates (actual: {len(final_results)}) for LLM context")
         return [
             {
