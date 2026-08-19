@@ -53,9 +53,11 @@ class ChatEngine:
         else:
             context_string = ContextAssembler.assemble_context(retrieved_chunks)
             system_instruction = (
-                "You are a research assistant. Answer based only on the provided documents. "
-                "Cite sources with [Source: filename, Page X].\n\nContext Context Boundaries:\n"
-                f"{context_string}"
+                "You are a research assistant. Answer based ONLY on the provided assembled evidence context.\n"
+                "If the evidence is insufficient to answer the question, explicitly state that there is not enough information in the provided context, rather than filling gaps from your own knowledge.\n"
+                "Never invent document names or page numbers.\n"
+                "Preserve the exact identity (filename and page number) of each source referenced in your answer, citing them as [Source: filename, Page X].\n\n"
+                f"Context Boundaries:\n{context_string}"
             )
             for c in retrieved_chunks:
                 sources_payload.append({
@@ -84,7 +86,7 @@ class ChatEngine:
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=contents,
                 config=config
             )

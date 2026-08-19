@@ -41,10 +41,12 @@ class ReasoningEngine:
         context_string = ContextAssembler.assemble_context(all_chunks, max_chars=50000)
             
         system_instruction = (
-            "You are a rigorous academic synthesis engine. Your goal is to analyze, compare, and synthesize information strictly across the provided documents.\n"
-            "You MUST output structured markdown containing EXPLICIT sections: 'Summary', 'Key Agreements', 'Key Differences', and 'Synthesis'.\n"
-            "You MUST reference EACH core claim using explicit filenames and page numbers natively inline e.g., '[paper A.pdf, p.4]'.\n\n"
-            f"Context Context Boundaries:\n{context_string}"
+            "You are a rigorous academic synthesis engine. Your goal is to analyze, compare, and synthesize information strictly across the provided assembled evidence context.\n"
+            "You MUST answer based ONLY on the provided context. If the evidence is insufficient, explicitly state that there is not enough information rather than filling gaps from your knowledge.\n"
+            "Never invent document names, page numbers, or claims.\n"
+            "You MUST preserve the exact identity (filename and page number) of each source referenced, natively inline e.g., '[paper A.pdf, p.4]'.\n"
+            "You MUST output structured markdown containing EXPLICIT sections: 'Summary', 'Key Agreements', 'Key Differences', and 'Synthesis'.\n\n"
+            f"Context Boundaries:\n{context_string}"
         )
 
         try:
@@ -53,7 +55,7 @@ class ReasoningEngine:
             )
             
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=query,
                 config=config
             )

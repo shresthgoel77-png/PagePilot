@@ -77,7 +77,7 @@ async def health_check():
     return {"status": "ok"}
 
 # Localized routers structurally mounted effectively executing
-from app.routers import projects, pdfs, chat_history, chat, reasoning, gap_finder, jobs
+from app.routers import projects, pdfs, chat_history, chat, reasoning, gap_finder, jobs, dev_auth
 app.include_router(projects.router)
 app.include_router(pdfs.router)
 app.include_router(chat_history.router)
@@ -85,6 +85,7 @@ app.include_router(chat.router)
 app.include_router(reasoning.router)
 app.include_router(gap_finder.router)
 app.include_router(jobs.router)
+app.include_router(dev_auth.router)
 
 from app.db.session import get_db
 from sqlalchemy.ext.asyncio import AsyncSession

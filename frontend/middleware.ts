@@ -6,14 +6,17 @@ const isPublicRoute = createRouteMatcher([
     '/api/webhooks(.*)',
     '/_next(.*)',
     '/favicon.ico',
+    '/dev/test-login(.*)',
     '/'
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-    // Disabled for E2E testing
-    // if (!isPublicRoute(req)) {
-    //     await auth.protect();
-    // }
+    if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_BYPASS_CLERK === 'true') {
+        return;
+    }
+    if (!isPublicRoute(req)) {
+        await auth.protect();
+    }
 });
 
 export const config = {
