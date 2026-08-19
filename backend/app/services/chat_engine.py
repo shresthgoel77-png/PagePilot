@@ -37,7 +37,8 @@ class ChatEngine:
             contents.append(types.Content(role=role, parts=[types.Part.from_text(text=m.content)]))
 
         # Invoke CrossEncoder mappings executing strict vector constraints implicitly locating boundaries efficiently 
-        retrieved_chunks = self.retrieval_service.retrieve(
+        retrieved_chunks = await asyncio.to_thread(
+            self.retrieval_service.retrieve,
             project_id=str(project_id), 
             query=message, 
             top_k=50, 
