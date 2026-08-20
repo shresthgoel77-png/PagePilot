@@ -11,6 +11,7 @@ from app.core.config import settings
 from app.services.retrieval import RetrievalService
 from app.services.chat_service import ChatService
 from app.services.context_assembler import ContextAssembler
+from app.services.evidence_verifier import EvidenceVerifier
 
 logger = logging.getLogger("researchos.chat_engine")
 
@@ -18,6 +19,7 @@ class ChatEngine:
     def __init__(self, chat_service: ChatService):
         self.chat_service = chat_service
         self.retrieval_service = RetrievalService()
+        self.evidence_verifier = EvidenceVerifier()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 
@@ -102,6 +104,13 @@ class ChatEngine:
                     
             full_response = "".join(response_contents)
             yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
+            
+            if retrieved_chunks:
+                ver_results = await asyncio.to_thread(
+                    self.evidence_verifier.verify_claims, full_response, retrieved_chunks
+                )
+                yield f"data: {json.dumps({'type': 'verification', 'content': ver_results})}\n\n"
+                sources_payload.append({"type": "verification_results", "data": ver_results})
             
             # Store completed context mapping accurately capturing nested payloads inherently locally securely 
             await self.chat_service.add_message(session_id, "assistant", full_response, sources_payload)

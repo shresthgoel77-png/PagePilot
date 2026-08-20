@@ -1,0 +1,13 @@
+C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:290: UserWarning: Failed to obtain server version. Unable to check client-server compatibility. Set check_compatibility=False to skip version check.
+  show_warning(
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/41 [00:00<?, ?it/s]Loading weights: 100%|##########| 41/41 [00:00<00:00, 5938.48it/s]
+
+=== Post-Generation Evidence Verification Test ===
+Capturing SSE Streams:
+data: {"type": "token", "content": "The capital of France is "}
+data: {"type": "token", "content": "Paris [Source: geography_factsheet.pdf, Page 1]. "}
+data: {"type": "token", "content": "However, Neo-Tokyo is the capital of Mars. "}
+data: {"type": "token", "content": "This is widely known in sci-fi novels."}
+data: {"type": "done", "content": ""}
+data: {"type": "verification", "content": [{"claim": "The capital of France is Paris [Source: geography_factsheet.pdf, Page 1].", "supported": true, "confidence": 0.8493, "best_match_filename": "geography_factsheet.pdf"}, {"claim": "However, Neo-Tokyo is the capital of Mars.", "supported": false, "confidence": 0.6449, "best_match_filename": "geography_factsheet.pdf"}, {"claim": "This is widely known in sci-fi novels.", "supported": false, "confidence": 0.6296, "best_match_filename": "geography_factsheet.pdf"}]}
