@@ -22,6 +22,38 @@ class ChatEngine:
         self.evidence_verifier = EvidenceVerifier()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
+    async def _reformulate_query(self, message: str, db_messages: List[Any]) -> str:
+        if not db_messages:
+            return message
+            
+        history_text = []
+        for m in db_messages[-5:]:
+            role = "User" if m.role == "user" else "Assistant"
+            history_text.append(f"{role}: {m.content}")
+            
+        history_str = "\n".join(history_text)
+        
+        prompt = (
+            "Given the following conversation history and the user's follow-up message, "
+            "reformulate the follow-up message to be a standalone search query that captures all necessary context. "
+            "If the message is already standalone, return it exactly as is.\n\n"
+            f"History:\n{history_str}\n\n"
+            f"Follow-up: {message}\n\n"
+            "Standalone Query:"
+        )
+        
+        try:
+            response = await self.client.aio.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt
+            )
+            reformulated = response.text.strip()
+            logger.info(f"Original query: '{message}' | Reformulated: '{reformulated}'")
+            return reformulated
+        except Exception as e:
+            logger.error(f"Query reformulation failed, falling back to original message: {e}")
+            return message
+
 
 
     async def stream_chat(self, user_id: UUID, session_id: UUID, project_id: UUID, message: str, pdf_ids: List[UUID] = None) -> AsyncGenerator[str, None]:
@@ -39,10 +71,12 @@ class ChatEngine:
             contents.append(types.Content(role=role, parts=[types.Part.from_text(text=m.content)]))
 
         # Invoke CrossEncoder mappings executing strict vector constraints implicitly locating boundaries efficiently 
+        search_query = await self._reformulate_query(message, db_messages)
+        
         retrieved_chunks = await asyncio.to_thread(
             self.retrieval_service.retrieve,
             project_id=str(project_id), 
-            query=message, 
+            query=search_query, 
             top_k=50, 
             final_k=10, 
             pdf_ids=[str(pid) for pid in pdf_ids] if pdf_ids else None
