@@ -1,0 +1,80 @@
+﻿python : Failed to instantiate 
+Qdrant singleton globally: Failed to 
+parse: :memory:
+At line:1 char:1
++ python verify_integrated.py > 
+out_integrated_5.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+NotSpec    ified: (Failed to 
+insta...parse:     :memory::String) 
+[], RemoteExcept    ion
+    + FullyQualifiedErrorId : 
+NativeC    ommandError
+ 
+Warning: You are sending 
+unauthenticated requests to the HF 
+Hub. Please set a HF_TOKEN to enable 
+higher rate limits and faster 
+downloads.
+
+Loading weights:   0%|          | 
+0/41 [00:00<?, ?it/s]
+Loading weights: 100%|##########| 
+41/41 [00:00<00:00, 6832.74it/s]
+Traceback (most recent call last):
+  File "C:\Users\HP\OneDrive\Desktop\
+.vscode\gen 
+ai\backend\verify_integrated.py", 
+line 43, in <module>
+    from app.services.chat_engine 
+import ChatEngine
+  File "C:\Users\HP\OneDrive\Desktop\
+.vscode\gen ai\backend\app\services\c
+hat_engine.py", line 12, in <module>
+    from app.services.chat_service 
+import ChatService
+  File "C:\Users\HP\OneDrive\Desktop\
+.vscode\gen ai\backend\app\services\c
+hat_service.py", line 7, in <module>
+    from app.models.chat import 
+ChatSession, ChatMessage
+  File "C:\Users\HP\OneDrive\Desktop\
+.vscode\gen 
+ai\backend\app\models\__init__.py", 
+line 1, in <module>
+    from .user import User
+  File "C:\Users\HP\OneDrive\Desktop\
+.vscode\gen 
+ai\backend\app\models\user.py", line 
+8, in <module>
+    class User(Base):
+    ...<7 lines>...
+        projects = 
+relationship("Project", 
+back_populates="user", cascade="all, 
+delete-orphan")
+  File "C:\Users\HP\OneDrive\Desktop\
+.vscode\gen 
+ai\backend\app\models\user.py", line 
+11, in User
+    id = Column(UUID(as_uuid=True), 
+primary_key=True, default=uuid.uuid4)
+                ~~~~^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\P
+ython\Python314\site-packages\sqlalch
+emy\sql\type_api.py", line 1710, in 
+__init__
+    self.impl = 
+to_instance(self.__class__.impl, 
+*args, **kwargs)
+                ~~~~~~~~~~~^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\P
+ython\Python314\site-packages\sqlalch
+emy\sql\type_api.py", line 2342, in 
+to_instance
+    return typeobj(*arg, **kw)
+TypeError: String.__init__() got an 
+unexpected keyword argument 'as_uuid'
