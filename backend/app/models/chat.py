@@ -26,4 +26,10 @@ class ChatMessage(Base):
     content = Column(Text, nullable=False)
     # Flexible container bounding citation array e.g [{"pdf_id":"x","page":1,"text":"y"}]
     sources = Column(JSONB, nullable=True) 
+    
+    # Phase 4.3 Additive Structured Claims
+    structured_claims = Column(JSONB, nullable=True)
+    verification_status = Column(String, nullable=True)
+    verification_timestamp = Column(DateTime(timezone=True), nullable=True)
+    
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))

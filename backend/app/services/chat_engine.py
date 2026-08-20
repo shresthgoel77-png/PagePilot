@@ -105,15 +105,17 @@ class ChatEngine:
             full_response = "".join(response_contents)
             yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
             
+            # Store completed context mapping accurately initially before long-running evaluation natively 
+            msg = await self.chat_service.add_message(session_id, "assistant", full_response, sources_payload)
+            
             if retrieved_chunks:
                 ver_results = await asyncio.to_thread(
                     self.evidence_verifier.verify_claims, full_response, retrieved_chunks
                 )
                 yield f"data: {json.dumps({'type': 'verification', 'content': ver_results})}\n\n"
-                sources_payload.append({"type": "verification_results", "data": ver_results})
-            
-            # Store completed context mapping accurately capturing nested payloads inherently locally securely 
-            await self.chat_service.add_message(session_id, "assistant", full_response, sources_payload)
+                
+                # Attach structured data natively 
+                await self.chat_service.update_message_verification(msg.id, "verified", ver_results)
             
         except Exception as e:
             logger.error(f"Gemini orchestration collapsed safely globally intrinsically bounded inherently mapped: {e}")

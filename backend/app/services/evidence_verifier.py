@@ -59,7 +59,10 @@ class EvidenceVerifier:
                 "claim": claim,
                 "supported": supported,
                 "confidence": round(best_sim, 4),
-                "best_match_filename": best_match["filename"] if best_match else None
+                "pdf_id": best_match["pdf_id"] if best_match else None,
+                "filename": best_match["filename"] if best_match else None,
+                "page": best_match["page_number"] if best_match else None,
+                "chunk_text": best_match["text"] if best_match else None
             }
             results.append(res)
             

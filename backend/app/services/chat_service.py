@@ -77,3 +77,16 @@ class ChatService:
         await self.db.commit()
         await self.db.refresh(msg)
         return msg
+
+    async def update_message_verification(self, message_id: UUID, status: str, structured_claims: List[dict]):
+        from datetime import datetime, timezone
+        stmt = select(ChatMessage).where(ChatMessage.id == message_id)
+        result = await self.db.execute(stmt)
+        msg = result.scalar_one_or_none()
+        if msg:
+            msg.verification_status = status
+            msg.structured_claims = structured_claims
+            msg.verification_timestamp = datetime.now(timezone.utc)
+            await self.db.commit()
+            await self.db.refresh(msg)
+        return msg
