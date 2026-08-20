@@ -16,8 +16,11 @@ class EvidenceVerifier:
         return dot_product / (magnitude1 * magnitude2)
 
     def split_into_claims(self, text: str) -> List[str]:
+        # Remove citation brackets like [Source: filename.pdf, Page 1] to prevent artificial skew
+        cleaned_text = re.sub(r'\s*\[Source:.*?\]', '', text)
+        
         # Split into sentences based on punctuation followed by a space and a capital letter, or end of string
-        sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', text.strip())
+        sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', cleaned_text.strip())
         return [s.strip() for s in sentences if len(s.strip()) > 5]
 
     def verify_claims(self, response: str, retrieved_chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
