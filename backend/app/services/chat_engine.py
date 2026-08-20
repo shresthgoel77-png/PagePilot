@@ -48,7 +48,7 @@ class ChatEngine:
 
         sources_payload = []
         if not retrieved_chunks:
-            system_instruction = "I couldn't find relevant information in your uploaded documents."
+            system_instruction = "The assembled evidence context does not contain enough evidence to answer this question."
             context_string = ""
         else:
             context_string = ContextAssembler.assemble_context(retrieved_chunks)
@@ -86,7 +86,7 @@ class ChatEngine:
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-3.6-flash",
+                model="gemini-2.5-flash",
                 contents=contents,
                 config=config
             )

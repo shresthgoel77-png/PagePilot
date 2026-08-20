@@ -34,7 +34,7 @@ class ReasoningEngine:
         )
 
         if not all_chunks:
-            yield f"data: {json.dumps({'type': 'token', 'content': 'Insufficient bound artifacts implicitly extracted locally mapping bounds optimally.'})}\n\n"
+            yield f"data: {json.dumps({'type': 'token', 'content': 'The assembled evidence context does not contain enough evidence.'})}\n\n"
             yield f"data: {json.dumps({'type': 'done'})}\n\n"
             return
             
@@ -55,7 +55,7 @@ class ReasoningEngine:
             )
             
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-3.6-flash",
+                model="gemini-2.5-flash",
                 contents=query,
                 config=config
             )

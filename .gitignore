@@ -37,3 +37,12 @@ MYsql notes T.pdf
 your-100-page-stress-test.pdf
 # Large test PDFs
 backend/realistic_mixed_100_pages.pdf
+
+.env
+.env.*
+!.env.example
+
+# Test outputs
+backend/verify_cases_out.txt
+backend/verify_full*.txt
+backend/verify_output.txt
