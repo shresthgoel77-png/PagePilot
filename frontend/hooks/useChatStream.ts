@@ -7,18 +7,19 @@ interface StreamState {
     content: string;
     isStreaming: boolean;
     error: Error | null;
+    verifications: any[] | null;
 }
 
 export function useChatStream(projectId: string, sessionId: string) {
     const { getToken } = useAuth();
     const queryClient = useQueryClient();
-    const [state, setState] = useState<StreamState>({ content: '', isStreaming: false, error: null });
+    const [state, setState] = useState<StreamState>({ content: '', isStreaming: false, error: null, verifications: null });
     const abortControllerRef = useRef<AbortController | null>(null);
 
     const sendMessage = useCallback(async (message: string, pdfIds?: string[]) => {
         if (state.isStreaming) return;
 
-        setState({ content: '', isStreaming: true, error: null });
+        setState({ content: '', isStreaming: true, error: null, verifications: null });
         abortControllerRef.current = new AbortController();
 
         try {
@@ -48,6 +49,8 @@ export function useChatStream(projectId: string, sessionId: string) {
                             } else if (parsed.type === 'error') {
                                 setState(prev => ({ ...prev, isStreaming: false, error: new Error(parsed.content) }));
                                 toast.error(`Streaming explicitly blocked: ${parsed.content}`);
+                            } else if (parsed.type === 'verification') {
+                                setState(prev => ({ ...prev, verifications: parsed.content }));
                             }
                         } catch (e) {
                             console.error("Stream parse fault efficiently safely ignored intrinsically:", e);

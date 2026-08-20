@@ -25,15 +25,26 @@ interface CitationSource {
     score?: number;
 }
 
+export interface VerificationClaim {
+    claim: string;
+    supported: boolean;
+    confidence: number;
+    pdf_id?: string;
+    filename?: string;
+    page?: number;
+    chunk_text?: string;
+}
+
 interface ChatMessageProps {
     role: string;
     content: string;
     sources?: CitationSource[];
+    verifications?: VerificationClaim[];
     onCitationClick?: (source: CitationSource) => void;
     isStreaming?: boolean;
 }
 
-export function ChatMessage({ role, content, sources, onCitationClick, isStreaming }: ChatMessageProps) {
+export function ChatMessage({ role, content, sources, verifications, onCitationClick, isStreaming }: ChatMessageProps) {
     const isUser = role === 'user';
 
     const preprocessContent = (text: string) => {
@@ -74,8 +85,8 @@ export function ChatMessage({ role, content, sources, onCitationClick, isStreami
 
                 {/* Message Bubble */}
                 <div className={`p-4 shadow-sm relative ${isUser
-                        ? 'bg-zinc-800 text-zinc-100 rounded-2xl rounded-br-sm'
-                        : 'bg-zinc-950 border border-zinc-800 text-zinc-200 rounded-2xl rounded-bl-sm'
+                    ? 'bg-zinc-800 text-zinc-100 rounded-2xl rounded-br-sm'
+                    : 'bg-zinc-950 border border-zinc-800 text-zinc-200 rounded-2xl rounded-bl-sm'
                     }`}>
                     <div className={`prose prose-sm max-w-none break-words prose-invert ${isUser ? 'font-medium' : ''}`}>
                         <ReactMarkdown
@@ -120,6 +131,43 @@ export function ChatMessage({ role, content, sources, onCitationClick, isStreami
                     {isStreaming && (
                         <div className="inline-block mt-1">
                             <div className="w-2.5 h-4 bg-cyan-500 animate-pulse rounded-sm opacity-80" />
+                        </div>
+                    )}
+
+                    {!isStreaming && verifications && verifications.length > 0 && (
+                        <div className="mt-4 pt-4 border-t border-zinc-800/60 flex flex-col gap-2">
+                            <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1">Evidence Markers</div>
+                            {verifications.map((v, idx) => (
+                                <div key={idx} className={`p-2.5 rounded-lg border text-xs flex flex-col gap-1.5 transition-colors ${v.supported
+                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-100 hover:bg-emerald-500/20'
+                                        : 'bg-amber-500/10 border-amber-500/20 text-amber-100 hover:bg-amber-500/20'
+                                    }`}>
+                                    <div className="flex items-start gap-2">
+                                        <div className={`mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full ${v.supported ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'}`} />
+                                        <span className="leading-relaxed opacity-90">{v.claim}</span>
+                                    </div>
+                                    {v.filename && (
+                                        <div
+                                            onClick={() => {
+                                                if (onCitationClick && v.filename && v.page) {
+                                                    onCitationClick({
+                                                        pdf_id: v.pdf_id || '',
+                                                        filename: v.filename,
+                                                        page: v.page,
+                                                        text: v.chunk_text || ''
+                                                    });
+                                                }
+                                            }}
+                                            className={`ml-3.5 inline-flex self-start cursor-pointer px-1.5 py-0.5 rounded text-[10px] font-black tracking-tight hover:underline transition-colors ${v.supported
+                                                    ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/40'
+                                                    : 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/40'
+                                                }`}
+                                        >
+                                            [Source: {v.filename}, p.{v.page}]
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
                         </div>
                     )}
                 </div>

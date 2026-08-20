@@ -32,7 +32,7 @@ export default function ActiveChatSessionPage() {
         enabled: !!sessionId,
     });
 
-    const { content: activeStream, isStreaming, sendMessage } = useChatStream(projectId, sessionId);
+    const { content: activeStream, isStreaming, sendMessage, verifications: activeVerifications } = useChatStream(projectId, sessionId);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -76,6 +76,7 @@ export default function ActiveChatSessionPage() {
                             role={msg.role}
                             content={msg.content}
                             sources={msg.sources}
+                            verifications={msg.structured_claims}
                             onCitationClick={handleCitationClick}
                         />
                     ))}
@@ -87,6 +88,7 @@ export default function ActiveChatSessionPage() {
                             isStreaming={isStreaming}
                             onCitationClick={handleCitationClick}
                             sources={lastMessageSources} // active stream evaluates against previous structural array
+                            verifications={activeVerifications || undefined}
                         />
                     )}
 
