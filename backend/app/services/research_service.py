@@ -42,3 +42,17 @@ class ResearchService:
             if run:
                 await db.refresh(run, ["steps"])
             return run
+
+    async def update_research_step(self, step_id: UUID, status: str, result_data: dict = None) -> ResearchStep:
+        async with async_session() as db:
+            stmt = select(ResearchStep).where(ResearchStep.id == step_id)
+            res = await db.execute(stmt)
+            step = res.scalar_one_or_none()
+            if step:
+                if status:
+                    step.status = status
+                if result_data is not None:
+                    step.result = json.dumps(result_data)
+                await db.commit()
+                await db.refresh(step)
+            return step
