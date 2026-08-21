@@ -1,0 +1,191 @@
+﻿python : Warning: You are sending unauthenticated 
+requests to the HF Hub. Please set a HF_TOKEN to 
+enable higher rate limits and faster downloads.
+At line:1 char:1
++ python scripts/test_agents.py > 
+execution_output8.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warni 
+   ng: You ar...ster downloads.:String) [], Remot  
+  eException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Loading weights:   0%|          | 0/41 [00:00<?, 
+?it/s]
+Loading weights: 100%|##########| 41/41 
+[00:00<00:00, 6129.62it/s]
+INFO:test_agents:Using real session: 
+f2019608-e053-41ef-a6a3-f77e9de1e91e and project: 
+08c0e995-adf3-4254-bb80-aa1185134253
+INFO:test_agents:[1] Created ResearchRun: 
+7a5843df-2e90-4208-a101-1f97f6e395bb
+INFO:test_agents:[2] Executing Retrieval Agent...
+INFO:researchos.execution_agents:RetrievalAgent 
+executing step 
+58dd9805-578c-44f6-9fe9-887cd5f41667 for query: 
+What are the common differences mentioned across 
+the documents regarding implementation or 
+technical approaches?
+INFO:httpx:HTTP Request: POST https://generativelan
+guage.googleapis.com/v1beta/models/embedding-001:ba
+tchEmbedContents "HTTP/1.1 404 Not Found"
+ERROR:researchos.embeddings:Gemini embedding 
+generation failed: 404 NOT_FOUND. {'error': 
+{'code': 404, 'message': 'models/embedding-001 is 
+not found for API version v1beta, or is not 
+supported for embedContent. Call 
+ModelService.ListModels to see the list of 
+available models and their supported methods.', 
+'status': 'NOT_FOUND'}}
+ERROR:researchos.execution_agents:RetrievalAgent 
+failed: 404 NOT_FOUND. {'error': {'code': 404, 
+'message': 'models/embedding-001 is not found for 
+API version v1beta, or is not supported for 
+embedContent. Call ModelService.ListModels to see 
+the list of available models and their supported 
+methods.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen 
+ai\backend\scripts\test_agents.py", line 152, in 
+<module>
+    asyncio.run(test_end_to_end())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 
+205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 
+128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\base_events.py", 
+line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen 
+ai\backend\scripts\test_agents.py", line 72, in 
+test_end_to_end
+    retrieval_artifact = await 
+retrieval_agent.execute(
+                         
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen 
+ai\backend\app\services\execution_agents.py", line 
+31, in execute
+    chunks = await asyncio.to_thread(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Python314\Lib\asyncio\threads.py", line 
+26, in to_thread
+    return await loop.run_in_executor(None, 
+func_call)
+           
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File 
+"C:\Python314\Lib\concurrent\futures\thread.py", 
+line 86, in run
+    result = ctx.run(self.task)
+  File 
+"C:\Python314\Lib\concurrent\futures\thread.py", 
+line 73, in run
+    return fn(*args, **kwargs)
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen 
+ai\backend\app\services\retrieval.py", line 26, in 
+retrieve
+    query_vectors = 
+self.embedding_service.generate_embeddings([query])
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen 
+ai\backend\app\services\embeddings.py", line 28, 
+in generate_embeddings
+    response = self._client.models.embed_content(
+        model="embedding-001",
+        contents=t
+    )
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\google\genai\models
+.py", line 6454, in embed_content
+    return self._embed_content(model=model, 
+contents=contents, config=config)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\google\genai\models
+.py", line 5257, in _embed_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\google\genai\_api_c
+lient.py", line 1708, in request
+    response = self._request(http_request, 
+http_options, stream=False)
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\google\genai\_api_c
+lient.py", line 1495, in _request
+    return self._retry(self._request_once, 
+http_request, stream)  # type: 
+ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\tenacity\__init__.p
+y", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\tenacity\__init__.p
+y", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\tenacity\__init__.p
+y", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\tenacity\__init__.p
+y", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File 
+"C:\Python314\Lib\concurrent\futures\_base.py", 
+line 447, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File 
+"C:\Python314\Lib\concurrent\futures\_base.py", 
+line 396, in __get_result
+    raise self._exception
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\tenacity\__init__.p
+y", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\google\genai\_api_c
+lient.py", line 1472, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\google\genai\errors
+.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, 
+response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai
+\backend\venv\Lib\site-packages\google\genai\errors
+.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, 
+response)
+google.genai.errors.ClientError: 404 NOT_FOUND. 
+{'error': {'code': 404, 'message': 
+'models/embedding-001 is not found for API version 
+v1beta, or is not supported for embedContent. Call 
+ModelService.ListModels to see the list of 
+available models and their supported methods.', 
+'status': 'NOT_FOUND'}}

@@ -1,0 +1,129 @@
+﻿python : Warning: You are sending unauthenticated 
+requests to the HF Hub. Please set a HF_TOKEN to 
+enable higher rate limits and faster downloads.
+At line:1 char:1
++ python scripts/test_agents.py > 
+execution_output10.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warni 
+   ng: You ar...ster downloads.:String) [], Remot  
+  eException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+Loading weights:   0%|          | 0/41 [00:00<?, 
+?it/s]
+Loading weights: 100%|##########| 41/41 
+[00:00<00:00, 7318.66it/s]
+INFO:httpx:HTTP Request: POST http://localhost:6333
+/collections/document_chunks/points/scroll 
+"HTTP/1.1 200 OK"
+INFO:test_agents:Using real session: 
+f2019608-e053-41ef-a6a3-f77e9de1e91e and project: 
+57d3677a-5f05-4297-a3a6-08041801cfa6
+INFO:test_agents:[1] Created ResearchRun: 
+aa90d908-5c8d-4ad1-a15f-dc68a2407ac9
+INFO:test_agents:[2] Executing Retrieval Agent...
+INFO:researchos.execution_agents:RetrievalAgent 
+executing step 
+a9be7233-2e85-4b8c-bfde-42b63ffd3028 for query: 
+What are the common differences mentioned across 
+the documents regarding implementation or 
+technical approaches?
+INFO:httpx:HTTP Request: POST https://generativelan
+guage.googleapis.com/v1beta/models/gemini-embedding
+-2:batchEmbedContents "HTTP/1.1 200 OK"
+INFO:researchos.retrieval:Retrieving top_k=50 from 
+Qdrant for query: 'What are the common differences 
+mentioned across the documents regarding 
+implementation or technical approaches?'
+INFO:httpx:HTTP Request: POST http://localhost:6333
+/collections/document_chunks/points/query 
+"HTTP/1.1 200 OK"
+INFO:researchos.retrieval:Fetched 50 candidates 
+from Qdrant
+INFO:researchos.retrieval:Executing CrossEncoder 
+reranking layer...
+
+Batches:   0%|          | 0/2 [00:00<?, ?it/s]
+Batches:  50%|#####     | 1/2 [00:00<00:00,  
+5.10it/s]
+Batches: 100%|##########| 2/2 [00:00<00:00,  
+9.45it/s]
+INFO:researchos.retrieval:Reranking completed 
+successfully.
+INFO:researchos.retrieval:Reduced to final_k=15 
+candidates (actual: 15) for LLM context
+WARNING:test_agents:Only retrieved evidence for 1 
+document(s): 
+['565164c6-c87c-40e6-8561-f87f0f7bfa41']. The 
+Comparison agent might fail or complain, but we 
+will proceed with what we have.
+INFO:test_agents:[3] Persisted RetrievalAgent 
+artifact: {"agent": "RetrievalAgent", "query": 
+"What are the common differences mentioned across 
+the documents regarding implementation or 
+technical approaches?...
+INFO:test_agents:[4] Executing Analysis Agent for 
+Document A 
+(565164c6-c87c-40e6-8561-f87f0f7bfa41)...
+INFO:researchos.execution_agents:AnalysisAgent 
+executing step 
+fe9341f6-b271-49b3-986b-f8483fddf72e for doc 
+565164c6-c87c-40e6-8561-f87f0f7bfa41
+INFO:google_genai.models:AFC is enabled with max 
+remote calls: 10.
+INFO:httpx:HTTP Request: POST https://generativelan
+guage.googleapis.com/v1beta/models/gemini-2.5-flash
+:generateContent "HTTP/1.1 200 OK"
+INFO:test_agents:[5] Persisted AnalysisAgent 
+artifact for Doc A: {"agent": "AnalysisAgent", 
+"query": "What are the common differences 
+mentioned across the documents regarding 
+implementation or technical approaches?"...
+INFO:test_agents:[4] Executing Analysis Agent for 
+Document B 
+(565164c6-c87c-40e6-8561-f87f0f7bfa41)...
+INFO:researchos.execution_agents:AnalysisAgent 
+executing step 
+fd03e008-557c-434f-bed8-d7249c8c96ab for doc 
+565164c6-c87c-40e6-8561-f87f0f7bfa41
+INFO:test_agents:[5] Persisted AnalysisAgent 
+artifact for Doc B: {"document_id": 
+"565164c6-c87c-40e6-8561-f87f0f7bfa41", 
+"findings": "No evidence retrieved for this 
+document.", "success": false}...
+INFO:test_agents:[6] Executing Comparison Agent on 
+both Analysis artifacts...
+INFO:researchos.execution_agents:ComparisonAgent 
+executing step 1903388c-9120-4556-8dee-1bf0ca09a59d
+INFO:google_genai.models:AFC is enabled with max 
+remote calls: 10.
+INFO:httpx:HTTP Request: POST https://generativelan
+guage.googleapis.com/v1beta/models/gemini-2.5-flash
+:generateContent "HTTP/1.1 200 OK"
+INFO:test_agents:[7] Persisted ComparisonAgent 
+artifact: {"agent": "ComparisonAgent", "query": 
+"What are the common differences mentioned across 
+the documents regarding implementation or 
+technical approaches...
+INFO:test_agents:[8] Confirming artifacts are 
+linked to run_id 
+aa90d908-5c8d-4ad1-a15f-dc68a2407ac9...
+
+--- FINAL STORED ARTIFACT CHAIN ---
+ -> RETRIEVAL (completed): keys=['agent', 'query', 'pdf_ids', 'retrieved_count', 'chunks']
+    Retrieval => 15 chunks found
+ -> ANALYSIS (completed): keys=['document_id', 'findings', 'success']
+    Analysis => findings keys: []
+ -> ANALYSIS (completed): keys=['agent', 'query', 'document_id', 'analysis', 'success']
+    Analysis => findings keys: ['document_id', 'key_findings', 'summary']
+ -> COMPARISON (completed): keys=['agent', 'query', 'comparison', 'success']
+    Comparison => agreements & contradictions: ['agreements', 'contradictions', 'synthesis_summary']
+
+[9] Confirmed ComparisonAgent consumed AnalysisAgent outputs.
+[10] Confirmed every artifact is structured JSON/data.
+[11] Confirmed RetrievalAgent reused the existing Phase 3 retrieval pipeline (cross-encoder usage).
+
+Done.
