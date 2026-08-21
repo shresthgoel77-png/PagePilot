@@ -12,12 +12,14 @@ from app.services.retrieval import RetrievalService
 from app.services.chat_service import ChatService
 from app.services.context_assembler import ContextAssembler
 from app.services.evidence_verifier import EvidenceVerifier
+from app.services.research_service import ResearchService
 
 logger = logging.getLogger("researchos.chat_engine")
 
 class ChatEngine:
     def __init__(self, chat_service: ChatService):
         self.chat_service = chat_service
+        self.research_service = ResearchService()
         self.retrieval_service = RetrievalService()
         self.evidence_verifier = EvidenceVerifier()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
@@ -77,15 +79,51 @@ class ChatEngine:
             logger.error(f"Classification failed, defaulting to SIMPLE: {e}")
             return "SIMPLE"
 
+    async def _decompose_query(self, message: str) -> list[dict]:
+        prompt = (
+            "You are an expert research supervisor. The user has submitted a complex query that requires multi-step research.\n"
+            "Your task is to decompose this query into a concrete list of sub-tasks.\n"
+            "Produce exactly a JSON array of objects. Each object must have:\n"
+            ' - "type": exactly one of ["retrieval", "analysis", "comparison", "verification", "synthesis"]\n'
+            ' - "description": a clear, executable instruction for what this step must accomplish (e.g., "retrieve evidence for claim X in doc A")\n\n'
+            "Return ONLY the JSON array, no markdown formatting.\n"
+            f"Query: {message}"
+        )
+        try:
+            response = await self.client.aio.models.generate_content(
+                model="gemini-3.6-flash",
+                contents=prompt,
+                config=types.GenerateContentConfig(response_mime_type="application/json")
+            )
+            data = json.loads(response.text.strip())
+            return data
+        except Exception as e:
+            logger.error(f"Decomposition failed: {e}")
+            return [{"type": "synthesis", "description": "Synthesize the provided documents based on the complex query."}]
+
     async def _agent_workflow_placeholder(self, user_id: UUID, session_id: UUID, project_id: UUID, message: str, pdf_ids: List[UUID] = None) -> AsyncGenerator[str, None]:
         logger.info("Routing query to agent workflow placeholder.")
-        yield f"data: {json.dumps({'type': 'status', 'content': 'Routing to agent workflow...'})}\n\n"
+        yield f"data: {json.dumps({'type': 'status', 'content': 'Decomposing complex query into sub-tasks...'})}\n\n"
+        
+        # Phase 6.2: Decompose and persist
+        run = await self.research_service.create_research_run(session_id, message)
+        steps_data = await self._decompose_query(message)
+        steps = await self.research_service.add_research_steps(run.id, steps_data)
+        
+        plan_text = "Here is the structured decomposition plan for your research:\n"
+        for idx, step in enumerate(steps_data):
+            plan_text += f"{idx + 1}. **[{step.get('type', 'task').upper()}]** {step.get('description', '')}\n"
+        
+        yield f"data: {json.dumps({'type': 'token', 'content': plan_text})}\n\n"
+        
         await asyncio.sleep(0.5)
-        text = "This is a complex multi-step research task. Routing to the agent workflow (to be built in Phases 6.2-6.5)..."
+        text = "\n\n*(Routing to the agent workflow to execute this plan will be built in Phases 6.2-6.5...)*"
         yield f"data: {json.dumps({'type': 'token', 'content': text})}\n\n"
         yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
+        
+        full_text = plan_text + text
         await self.chat_service.add_message(session_id, "user", message)
-        await self.chat_service.add_message(session_id, "assistant", text, [])
+        await self.chat_service.add_message(session_id, "assistant", full_text, [])
 
     async def stream_chat(self, user_id: UUID, session_id: UUID, project_id: UUID, message: str, pdf_ids: List[UUID] = None) -> AsyncGenerator[str, None]:
 

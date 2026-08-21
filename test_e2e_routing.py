@@ -8,8 +8,30 @@ sys.path.append("c:/Users/HP/OneDrive/Desktop/.vscode/gen ai/backend")
 
 from app.services.chat_engine import ChatEngine
 from app.services.chat_service import ChatService
+from app.db.session import AsyncSessionLocal as async_session
+from app.models.user import User
+from app.models.project import Project
+from app.models.chat import ChatSession
 
 async def main():
+    async with async_session() as db:
+        user = User(email=f"test_{uuid4()}@test.com", clerk_id=f"id_{uuid4()}")
+        db.add(user)
+        await db.commit()
+        await db.refresh(user)
+
+        new_proj = Project(name="Test Decomposition Project", description="", user_id=user.id)
+        db.add(new_proj)
+        await db.commit()
+        await db.refresh(new_proj)
+        
+        new_sess = ChatSession(project_id=new_proj.id, user_id=user.id, title="Task")
+        db.add(new_sess)
+        await db.commit()
+        await db.refresh(new_sess)
+        
+        valid_session_id = new_sess.id
+
     chat_service_mock = MagicMock(spec=ChatService)
     # Mock get_session_details to return valid matching project
     mock_session = MagicMock()
@@ -20,6 +42,16 @@ async def main():
     engine = ChatEngine(chat_service_mock)
     
     # Mock _classify_query dynamically
+    async def mock_decompose(message):
+        return [
+            {"type": "retrieval", "description": "Extract architecture claims specifically about the microservices boundary from document A."},
+            {"type": "retrieval", "description": "Fetch corresponding latency performance benchmarks mapped organically from document B."},
+            {"type": "comparison", "description": "Compare and strictly contrast the latency tradeoffs of the boundary maps against raw metrics."},
+            {"type": "synthesis", "description": "Assemble a final technical summary synthesizing both findings."}
+        ]
+        
+    engine._decompose_query = mock_decompose
+
     async def mock_classify(message):
         if "Synthesize" in message:
             return "COMPLEX"
@@ -56,7 +88,7 @@ async def main():
             print("STREAM:", chunk.strip())
             
     print("\n--- TEST 2: COMPLEX QUESTION ---")
-    gen2 = engine.stream_chat(uuid4(), uuid4(), "test-project-id", "Synthesize the main differences in architecture proposed in these three documents and explain the trade-offs in depth.", [])
+    gen2 = engine.stream_chat(uuid4(), valid_session_id, "test-project-id", "Synthesize the main differences in architecture proposed in these three documents and explain the trade-offs in depth.", [])
     async for chunk in gen2:
         if "token" in chunk or "status" in chunk:
             print("STREAM:", chunk.strip())

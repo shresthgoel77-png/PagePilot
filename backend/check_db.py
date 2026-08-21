@@ -1,13 +1,13 @@
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+import asyncio, json
+from app.db.session import AsyncSessionLocal as async_session
+from app.models.research import ResearchStep
+from sqlalchemy.future import select
 
-client = QdrantClient(url='http://localhost:6333')
-points, _ = client.scroll(
-    collection_name='document_chunks',
-    limit=100
-)
+async def fetch_steps():
+    async with async_session() as db:
+        res = await db.execute(select(ResearchStep))
+        steps = res.scalars().all()
+        print(json.dumps([{'order': s.step_order, 'type': s.step_type, 'desc': s.description} for s in steps], indent=2))
 
-with open('debug_qdrant.txt', 'w') as f:
-    for p in points:
-        f.write(f"{p.payload.get('pdf_id')} | idx: {p.payload.get('chunk_index')} | len: {len(p.payload.get('text', ''))}\n")
-print('Done!')
+if __name__ == "__main__":
+    asyncio.run(fetch_steps())
