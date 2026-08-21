@@ -54,15 +54,53 @@ class ChatEngine:
             logger.error(f"Query reformulation failed, falling back to original message: {e}")
             return message
 
+    async def _classify_query(self, message: str) -> str:
+        prompt = (
+            "Classify the following user query into one of two categories:\n"
+            "1. 'SIMPLE': A single-pass factual question or single-document query that can be answered immediately using existing context.\n"
+            "2. 'COMPLEX': A multi-step research task requiring decomposition, synthesizing multiple sub-topics, or pulling information from various distinct documents systematically.\n"
+            "Return exactly one word: SIMPLE or COMPLEX.\n\n"
+            f"Query: {message}\n"
+        )
+        try:
+            response = await self.client.aio.models.generate_content(
+                model="gemini-3.6-flash",
+                contents=prompt
+            )
+            classification = response.text.strip().upper()
+            if "COMPLEX" in classification:
+                logger.info(f"Supervisor classified query '{message}' as COMPLEX.")
+                return "COMPLEX"
+            logger.info(f"Supervisor classified query '{message}' as SIMPLE.")
+            return "SIMPLE"
+        except Exception as e:
+            logger.error(f"Classification failed, defaulting to SIMPLE: {e}")
+            return "SIMPLE"
 
+    async def _agent_workflow_placeholder(self, user_id: UUID, session_id: UUID, project_id: UUID, message: str, pdf_ids: List[UUID] = None) -> AsyncGenerator[str, None]:
+        logger.info("Routing query to agent workflow placeholder.")
+        yield f"data: {json.dumps({'type': 'status', 'content': 'Routing to agent workflow...'})}\n\n"
+        await asyncio.sleep(0.5)
+        text = "This is a complex multi-step research task. Routing to the agent workflow (to be built in Phases 6.2-6.5)..."
+        yield f"data: {json.dumps({'type': 'token', 'content': text})}\n\n"
+        yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
+        await self.chat_service.add_message(session_id, "user", message)
+        await self.chat_service.add_message(session_id, "assistant", text, [])
 
     async def stream_chat(self, user_id: UUID, session_id: UUID, project_id: UUID, message: str, pdf_ids: List[UUID] = None) -> AsyncGenerator[str, None]:
+
         
         # Verify strict local bounds implicitly bypassing isolated configurations cleanly parsing native execution seamlessly 
         session, db_messages = await self.chat_service.get_session_details(session_id, user_id)
         if session.project_id != project_id:
             logger.error("Security Vault Alert: Execution parameters crossing disconnected logical project contexts robustly caught.")
             yield f"data: {json.dumps({'type': 'error', 'content': 'System constraints explicitly failed execution boundaries (Project ID mismatch).'})}\n\n"
+            return
+
+        classification = await self._classify_query(message)
+        if classification == "COMPLEX":
+            async for chunk in self._agent_workflow_placeholder(user_id, session_id, project_id, message, pdf_ids):
+                yield chunk
             return
 
         contents = []
