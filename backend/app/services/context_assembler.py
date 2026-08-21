@@ -37,10 +37,25 @@ class ContextAssembler:
         """
         clean_chunks = ContextAssembler.deduplicate(chunks)
         
+        from collections import defaultdict
+        grouped = defaultdict(list)
+        for c in clean_chunks:
+            grouped[c.get('pdf_id', 'unknown')].append(c)
+            
+        balanced_chunks = []
+        iterators = [iter(lst) for lst in grouped.values()]
+        
+        while iterators:
+            for it in list(iterators):
+                try:
+                    balanced_chunks.append(next(it))
+                except StopIteration:
+                    iterators.remove(it)
+        
         structured_context_parts = []
         current_chars = 0
         
-        for i, c in enumerate(clean_chunks):
+        for i, c in enumerate(balanced_chunks):
             # Using XML-like tags forces the LLM to structurally isolate the blocks and citation bounds correctly natively
             # instead of collapsing them into a flat blob.
             chunk_str = (

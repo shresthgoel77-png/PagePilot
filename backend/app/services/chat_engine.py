@@ -78,7 +78,7 @@ class ChatEngine:
             project_id=str(project_id), 
             query=search_query, 
             top_k=50, 
-            final_k=10, 
+            final_k=30, 
             pdf_ids=[str(pid) for pid in pdf_ids] if pdf_ids else None
         )
 
