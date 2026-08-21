@@ -44,7 +44,7 @@ class ChatEngine:
         
         try:
             response = await self.client.aio.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt
             )
             reformulated = response.text.strip()
@@ -122,7 +122,7 @@ class ChatEngine:
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=contents,
                 config=config
             )
@@ -153,4 +153,4 @@ class ChatEngine:
             
         except Exception as e:
             logger.error(f"Gemini orchestration collapsed safely globally intrinsically bounded inherently mapped: {e}")
-            yield f"data: {json.dumps({'type': 'error', 'content': 'Context Provider unresolvable intrinsically tracking limits.'})}\n\n"
+            yield f"data: {json.dumps({'type': 'error', 'content': f'Context Provider unresolvable intrinsically tracking limits. Error: {str(e)}'})}\n\n"

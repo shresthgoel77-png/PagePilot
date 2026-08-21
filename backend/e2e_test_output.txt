@@ -1,0 +1,4 @@
+The conclusions regarding the impact of dietary sodium directly contradict each other across the two papers:
+
+* **Study A (2025)** concluded that high dietary sodium is completely unrelated to cardiovascular risk in modern adults and suggested that salt intake can be unmoderated [Source: Study_A_Sodium.pdf, Page 1].
+* **Study B (2026)** contradicted earlier findings, asserting that high dietary sodium is definitively the leading factor accelerating cardiovascular risk in urban adults [Source: Study_B_Sodium.pdf, Page 2].
