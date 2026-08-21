@@ -62,7 +62,7 @@ class ChatEngine:
         session, db_messages = await self.chat_service.get_session_details(session_id, user_id)
         if session.project_id != project_id:
             logger.error("Security Vault Alert: Execution parameters crossing disconnected logical project contexts robustly caught.")
-            yield f"data: {json.dumps({'type': 'error', 'content': 'System constraints explicitly failed execution boundaries.'})}\n\n"
+            yield f"data: {json.dumps({'type': 'error', 'content': 'System constraints explicitly failed execution boundaries (Project ID mismatch).'})}\n\n"
             return
 
         contents = []
@@ -73,48 +73,51 @@ class ChatEngine:
         # Invoke CrossEncoder mappings executing strict vector constraints implicitly locating boundaries efficiently 
         search_query = await self._reformulate_query(message, db_messages)
         
-        retrieved_chunks = await asyncio.to_thread(
-            self.retrieval_service.retrieve,
-            project_id=str(project_id), 
-            query=search_query, 
-            top_k=50, 
-            final_k=30, 
-            pdf_ids=[str(pid) for pid in pdf_ids] if pdf_ids else None
-        )
+        yield f"data: {json.dumps({'type': 'status', 'content': 'retrieving'})}\n\n"
+        
+        try:
+            retrieved_chunks = await asyncio.to_thread(
+                self.retrieval_service.retrieve,
+                project_id=str(project_id), 
+                query=search_query, 
+                top_k=50, 
+                final_k=30, 
+                pdf_ids=[str(pid) for pid in pdf_ids] if pdf_ids else None
+            )
+        except Exception as e:
+            logger.error(f"Retrieval crashed natively bounded globally: {e}")
+            yield f"data: {json.dumps({'type': 'error', 'content': f'Retrieval failed structurally: {str(e)}'})}\n\n"
+            return
 
         sources_payload = []
         if not retrieved_chunks:
-            system_instruction = "The assembled evidence context does not contain enough evidence to answer this question."
-            context_string = ""
-        else:
-            context_string = ContextAssembler.assemble_context(retrieved_chunks)
-            system_instruction = (
-                "You are a research assistant. Answer based ONLY on the provided assembled evidence context.\n"
-                "If the evidence is insufficient to answer the question, explicitly state that there is not enough information in the provided context, rather than filling gaps from your own knowledge.\n"
-                "Never invent document names or page numbers.\n"
-                "Preserve the exact identity (filename and page number) of each source referenced in your answer, citing them as [Source: filename, Page X].\n\n"
-                f"Context Boundaries:\n{context_string}"
-            )
-            for c in retrieved_chunks:
-                sources_payload.append({
-                    "pdf_id": c["pdf_id"],
-                    "filename": c["filename"],
-                    "page": c["page_number"],
-                    "text": c["text"],
-                    "score": c.get("score")
-                })
+            yield f"data: {json.dumps({'type': 'error', 'content': 'No relevant evidence found matching your query bounds in the selected documents.'})}\n\n"
+            return
+            
+        context_string = ContextAssembler.assemble_context(retrieved_chunks)
+        system_instruction = (
+            "You are a research assistant. Answer based ONLY on the provided assembled evidence context.\n"
+            "If the evidence is insufficient to answer the question, explicitly state that there is not enough information in the provided context, rather than filling gaps from your own knowledge.\n"
+            "Never invent document names or page numbers.\n"
+            "Preserve the exact identity (filename and page number) of each source referenced in your answer, citing them as [Source: filename, Page X].\n\n"
+            f"Context Boundaries:\n{context_string}"
+        )
+        for c in retrieved_chunks:
+            sources_payload.append({
+                "pdf_id": c["pdf_id"],
+                "filename": c["filename"],
+                "page": c["page_number"],
+                "text": c["text"],
+                "score": c.get("score")
+            })
                 
         # Register user state persistently tracking database mapping structures gracefully natively properly 
         await self.chat_service.add_message(session_id, "user", message)
         
         contents.append(types.Content(role="user", parts=[types.Part.from_text(text=message)]))
         
-        if not retrieved_chunks:
-            yield f"data: {json.dumps({'type': 'token', 'content': system_instruction})}\n\n"
-            yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
-            await self.chat_service.add_message(session_id, "assistant", system_instruction, [])
-            return
-
+        yield f"data: {json.dumps({'type': 'status', 'content': 'generating'})}\n\n"
+        
         try:
             config = types.GenerateContentConfig(
                 system_instruction=system_instruction,
@@ -153,4 +156,4 @@ class ChatEngine:
             
         except Exception as e:
             logger.error(f"Gemini orchestration collapsed safely globally intrinsically bounded inherently mapped: {e}")
-            yield f"data: {json.dumps({'type': 'error', 'content': f'Context Provider unresolvable intrinsically tracking limits. Error: {str(e)}'})}\n\n"
+            yield f"data: {json.dumps({'type': 'error', 'content': f'Generation failed structurally: {str(e)}'})}\n\n"

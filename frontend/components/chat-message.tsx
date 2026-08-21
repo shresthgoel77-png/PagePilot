@@ -42,9 +42,11 @@ interface ChatMessageProps {
     verifications?: VerificationClaim[];
     onCitationClick?: (source: CitationSource) => void;
     isStreaming?: boolean;
+    currentStatus?: string;
+    error?: Error | null;
 }
 
-export function ChatMessage({ role, content, sources, verifications, onCitationClick, isStreaming }: ChatMessageProps) {
+export function ChatMessage({ role, content, sources, verifications, onCitationClick, isStreaming, currentStatus, error }: ChatMessageProps) {
     const isUser = role === 'user';
 
     const preprocessContent = (text: string) => {
@@ -89,48 +91,59 @@ export function ChatMessage({ role, content, sources, verifications, onCitationC
                     : 'bg-zinc-950 border border-zinc-800 text-zinc-200 rounded-2xl rounded-bl-sm'
                     }`}>
                     <div className={`prose prose-sm max-w-none break-words prose-invert ${isUser ? 'font-medium' : ''}`}>
-                        <ReactMarkdown
-                            remarkPlugins={[remarkGfm]}
-                            components={{
-                                a: processLinks,
-                                p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
-                                code({ node, inline, className, children, ...props }: any) {
-                                    const match = /language-(\w+)/.exec(className || '');
-                                    const isCodeBlock = !inline && match;
+                        {content && (
+                            <ReactMarkdown
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                    a: processLinks,
+                                    p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+                                    code({ node, inline, className, children, ...props }: any) {
+                                        const match = /language-(\w+)/.exec(className || '');
+                                        const isCodeBlock = !inline && match;
 
-                                    if (isCodeBlock) {
-                                        return (
-                                            <div className="relative mt-4 mb-4 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950 shadow-2xl">
-                                                <div className="flex items-center px-4 py-2 bg-zinc-900 border-b border-zinc-800">
-                                                    <div className="text-[10px] font-black tracking-widest uppercase text-zinc-500">{match[1]}</div>
+                                        if (isCodeBlock) {
+                                            return (
+                                                <div className="relative mt-4 mb-4 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950 shadow-2xl">
+                                                    <div className="flex items-center px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+                                                        <div className="text-[10px] font-black tracking-widest uppercase text-zinc-500">{match[1]}</div>
+                                                    </div>
+                                                    <SyntaxHighlighter
+                                                        {...props}
+                                                        style={vscDarkPlus as any}
+                                                        language={match[1]}
+                                                        PreTag="div"
+                                                        customStyle={{ margin: 0, background: 'transparent', padding: '1rem', fontSize: '13px' }}
+                                                    >
+                                                        {String(children).replace(/\n$/, '')}
+                                                    </SyntaxHighlighter>
                                                 </div>
-                                                <SyntaxHighlighter
-                                                    {...props}
-                                                    style={vscDarkPlus as any}
-                                                    language={match[1]}
-                                                    PreTag="div"
-                                                    customStyle={{ margin: 0, background: 'transparent', padding: '1rem', fontSize: '13px' }}
-                                                >
-                                                    {String(children).replace(/\n$/, '')}
-                                                </SyntaxHighlighter>
-                                            </div>
+                                            );
+                                        }
+                                        return (
+                                            <code {...props} className="bg-zinc-800 text-cyan-200 px-1.5 py-0.5 rounded font-mono text-sm border border-zinc-700/50">
+                                                {children}
+                                            </code>
                                         );
                                     }
-                                    return (
-                                        <code {...props} className="bg-zinc-800 text-cyan-200 px-1.5 py-0.5 rounded font-mono text-sm border border-zinc-700/50">
-                                            {children}
-                                        </code>
-                                    );
-                                }
-                            }}
-                        >
-                            {preprocessContent(content)}
-                        </ReactMarkdown>
+                                }}
+                            >
+                                {preprocessContent(content)}
+                            </ReactMarkdown>
+                        )}
                     </div>
 
-                    {isStreaming && (
-                        <div className="inline-block mt-1">
-                            <div className="w-2.5 h-4 bg-cyan-500 animate-pulse rounded-sm opacity-80" />
+                    {isStreaming && !error && currentStatus && (
+                        <div className="inline-flex mt-3 items-center gap-2">
+                            <div className="w-4 h-4 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin flex-shrink-0" />
+                            <span className="text-xs font-bold text-cyan-500 uppercase tracking-widest">
+                                {currentStatus === 'retrieving' ? 'Searching Vaults...' : currentStatus === 'generating' ? 'Synthesizing Evidence...' : 'Connecting...'}
+                            </span>
+                        </div>
+                    )}
+
+                    {error && (
+                        <div className="mt-3 p-3 bg-red-500/10 border border-red-500/30 rounded-lg flex items-center gap-2">
+                            <span className="text-xs font-bold text-red-400">{error.message}</span>
                         </div>
                     )}
 
@@ -139,8 +152,8 @@ export function ChatMessage({ role, content, sources, verifications, onCitationC
                             <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1">Evidence Markers</div>
                             {verifications.map((v, idx) => (
                                 <div key={idx} className={`p-2.5 rounded-lg border text-xs flex flex-col gap-1.5 transition-colors ${v.supported
-                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-100 hover:bg-emerald-500/20'
-                                        : 'bg-amber-500/10 border-amber-500/20 text-amber-100 hover:bg-amber-500/20'
+                                    ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-100 hover:bg-emerald-500/20'
+                                    : 'bg-amber-500/10 border-amber-500/20 text-amber-100 hover:bg-amber-500/20'
                                     }`}>
                                     <div className="flex items-start gap-2">
                                         <div className={`mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full ${v.supported ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'}`} />
@@ -159,8 +172,8 @@ export function ChatMessage({ role, content, sources, verifications, onCitationC
                                                 }
                                             }}
                                             className={`ml-3.5 inline-flex self-start cursor-pointer px-1.5 py-0.5 rounded text-[10px] font-black tracking-tight hover:underline transition-colors ${v.supported
-                                                    ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/40'
-                                                    : 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/40'
+                                                ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/40'
+                                                : 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/40'
                                                 }`}
                                         >
                                             [Source: {v.filename}, p.{v.page}]

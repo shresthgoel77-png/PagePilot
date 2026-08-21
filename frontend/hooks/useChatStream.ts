@@ -6,6 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 interface StreamState {
     content: string;
     isStreaming: boolean;
+    currentStatus: 'idle' | 'retrieving' | 'generating';
     error: Error | null;
     verifications: any[] | null;
 }
@@ -13,13 +14,13 @@ interface StreamState {
 export function useChatStream(projectId: string, sessionId: string) {
     const { getToken } = useAuth();
     const queryClient = useQueryClient();
-    const [state, setState] = useState<StreamState>({ content: '', isStreaming: false, error: null, verifications: null });
+    const [state, setState] = useState<StreamState>({ content: '', isStreaming: false, currentStatus: 'idle', error: null, verifications: null });
     const abortControllerRef = useRef<AbortController | null>(null);
 
     const sendMessage = useCallback(async (message: string, pdfIds?: string[]) => {
         if (state.isStreaming) return;
 
-        setState({ content: '', isStreaming: true, error: null, verifications: null });
+        setState({ content: '', isStreaming: true, currentStatus: 'idle', error: null, verifications: null });
         abortControllerRef.current = new AbortController();
 
         try {
@@ -41,13 +42,15 @@ export function useChatStream(projectId: string, sessionId: string) {
                     if (event.data) {
                         try {
                             const parsed = JSON.parse(event.data);
-                            if (parsed.type === 'token') {
+                            if (parsed.type === 'status') {
+                                setState(prev => ({ ...prev, currentStatus: parsed.content }));
+                            } else if (parsed.type === 'token') {
                                 setState(prev => ({ ...prev, content: prev.content + parsed.content }));
                             } else if (parsed.type === 'done') {
-                                setState(prev => ({ ...prev, isStreaming: false }));
+                                setState(prev => ({ ...prev, isStreaming: false, currentStatus: 'idle' }));
                                 queryClient.invalidateQueries({ queryKey: ['chat', sessionId] });
                             } else if (parsed.type === 'error') {
-                                setState(prev => ({ ...prev, isStreaming: false, error: new Error(parsed.content) }));
+                                setState(prev => ({ ...prev, isStreaming: false, currentStatus: 'idle', error: new Error(parsed.content) }));
                                 toast.error(`Streaming explicitly blocked: ${parsed.content}`);
                             } else if (parsed.type === 'verification') {
                                 setState(prev => ({ ...prev, verifications: parsed.content }));

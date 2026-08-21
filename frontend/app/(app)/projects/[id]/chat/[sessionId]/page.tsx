@@ -32,13 +32,13 @@ export default function ActiveChatSessionPage() {
         enabled: !!sessionId,
     });
 
-    const { content: activeStream, isStreaming, sendMessage, verifications: activeVerifications } = useChatStream(projectId, sessionId);
+    const { content: activeStream, isStreaming, sendMessage, verifications: activeVerifications, currentStatus, error } = useChatStream(projectId, sessionId);
 
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    }, [messages, activeStream]);
+    }, [messages, activeStream, isStreaming, error]);
 
     const handleSend = (text: string, pdfIds: string[]) => {
         sendMessage(text, pdfIds);
@@ -81,11 +81,13 @@ export default function ActiveChatSessionPage() {
                         />
                     ))}
 
-                    {activeStream && (
+                    {(isStreaming || activeStream || error) && (
                         <ChatMessage
                             role="assistant"
                             content={activeStream}
                             isStreaming={isStreaming}
+                            currentStatus={currentStatus}
+                            error={error}
                             onCitationClick={handleCitationClick}
                             sources={lastMessageSources} // active stream evaluates against previous structural array
                             verifications={activeVerifications || undefined}
