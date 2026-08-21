@@ -23,11 +23,32 @@ class EvidenceVerifier:
         sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', cleaned_text.strip())
         return [s.strip() for s in sentences if len(s.strip()) > 5]
 
-    def verify_claims(self, response: str, retrieved_chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def extract_claims_from_artifact(self, artifact: Dict[str, Any]) -> List[str]:
+        claims = []
+        if "analysis" in artifact:
+            claims.extend(artifact["analysis"].get("key_findings", []))
+            if artifact["analysis"].get("summary"):
+                claims.append(artifact["analysis"]["summary"])
+        elif "comparison" in artifact:
+            claims.extend(artifact["comparison"].get("agreements", []))
+            claims.extend(artifact["comparison"].get("contradictions", []))
+            if artifact["comparison"].get("synthesis_summary"):
+                claims.append(artifact["comparison"]["synthesis_summary"])
+        return claims
+
+    def verify_claims(self, response: Any, retrieved_chunks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         if not retrieved_chunks:
             return []
 
-        claims = self.split_into_claims(response)
+        if isinstance(response, str):
+            claims = self.split_into_claims(response)
+        elif isinstance(response, list) and all(isinstance(x, str) for x in response):
+            claims = response
+        elif isinstance(response, dict):
+            claims = self.extract_claims_from_artifact(response)
+        else:
+            claims = []
+
         if not claims:
             return []
 

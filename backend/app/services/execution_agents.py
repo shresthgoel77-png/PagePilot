@@ -11,6 +11,7 @@ from app.core.config import settings
 from app.services.retrieval import RetrievalService
 from app.services.research_service import ResearchService
 from app.services.context_assembler import ContextAssembler
+from app.services.evidence_verifier import EvidenceVerifier
 
 logger = logging.getLogger("researchos.execution_agents")
 
@@ -122,7 +123,7 @@ class ComparisonAgent:
         self.research_service = ResearchService()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
-    async def execute(self, step_id: UUID, documents_findings: List[Dict[str, Any]], query: str) -> dict:
+    async def execute(self, step_id: UUID, documents_findings: List[Dict[str, Any]], query: str, force_unsupported_claim: bool = False) -> dict:
         """
         Takes findings from >=2 documents and identifies agreements/contradictions.
         """
@@ -153,6 +154,10 @@ class ComparisonAgent:
                 "Respond with ONLY the JSON object."
             )
             
+            if force_unsupported_claim:
+                system_instruction += "\nCRITICAL INSTRUCTION: You MUST deliberately include one completely unsupported fake contradiction claim about 'Neo-Tokyo is the capital of Mars' in your contradictions list."
+
+            
             config = types.GenerateContentConfig(
                 system_instruction=system_instruction,
                 response_mime_type="application/json"
@@ -181,6 +186,83 @@ class ComparisonAgent:
             return artifact
             
         except Exception as e:
-            logger.error(f"ComparisonAgent failed: {e}")
+            raise
+
+class VerificationAgent:
+    def __init__(self):
+        self.evidence_verifier = EvidenceVerifier()
+        self.research_service = ResearchService()
+
+    async def execute(self, step_id: UUID, artifact_to_verify: dict, retrieved_chunks: List[Dict[str, Any]]) -> dict:
+        logger.info(f"VerificationAgent executing step {step_id}")
+        await self.research_service.update_research_step(step_id, status="in_progress")
+        
+        try:
+            results = await asyncio.to_thread(self.evidence_verifier.verify_claims, artifact_to_verify, retrieved_chunks)
+            
+            supported_claims = [r for r in results if r["supported"]]
+            unsupported_claims = [r for r in results if not r["supported"]]
+            
+            artifact = {
+                "agent": "VerificationAgent",
+                "verified_claims": results,
+                "supported_count": len(supported_claims),
+                "unsupported_count": len(unsupported_claims),
+                "success": True
+            }
+            
+            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
+            return artifact
+            
+        except Exception as e:
+            logger.error(f"VerificationAgent failed: {e}")
+            await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
+            raise
+
+class SynthesisAgent:
+    def __init__(self):
+        self.research_service = ResearchService()
+        self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
+
+    async def execute(self, step_id: UUID, verified_artifact: dict, query: str) -> dict:
+        logger.info(f"SynthesisAgent executing step {step_id}")
+        await self.research_service.update_research_step(step_id, status="in_progress")
+        
+        try:
+            supported_claims = [r for r in verified_artifact.get("verified_claims", []) if r.get("supported")]
+            
+            claims_text = "\n".join([f"- {c.get('claim')} [Source: {c.get('filename')}, Page: {c.get('page')}]" for c in supported_claims])
+            
+            system_instruction = (
+                "You are a Synthesis Agent. You are given a list of VERIFIED claims from previous research steps.\n"
+                "Write a final cohesive narrative responding to the user query using only these verified claims.\n"
+                "Include markdown citations natively inline (e.g., '[Source.pdf, p.4]')."
+            )
+            
+            config = types.GenerateContentConfig(
+                system_instruction=system_instruction
+            )
+            
+            prompt = f"Query: {query}\n\nVerified Claims:\n{claims_text}"
+            
+            response = await asyncio.to_thread(
+                self.client.models.generate_content,
+                model="gemini-2.5-flash",
+                contents=prompt,
+                config=config
+            )
+            
+            artifact = {
+                "agent": "SynthesisAgent",
+                "query": query,
+                "synthesis": response.text,
+                "success": True
+            }
+            
+            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
+            return artifact
+            
+        except Exception as e:
+            logger.error(f"SynthesisAgent failed: {e}")
             await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
             raise
