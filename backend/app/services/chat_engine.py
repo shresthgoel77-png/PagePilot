@@ -45,8 +45,9 @@ class ChatEngine:
         )
         
         try:
-            response = await self.client.aio.models.generate_content(
-                model="gemini-3.6-flash",
+            response = await asyncio.to_thread(
+                self.client.models.generate_content,
+                model="gemini-2.5-flash",
                 contents=prompt
             )
             reformulated = response.text.strip()
@@ -65,8 +66,9 @@ class ChatEngine:
             f"Query: {message}\n"
         )
         try:
-            response = await self.client.aio.models.generate_content(
-                model="gemini-3.6-flash",
+            response = await asyncio.to_thread(
+                self.client.models.generate_content,
+                model="gemini-2.5-flash",
                 contents=prompt
             )
             classification = response.text.strip().upper()
@@ -90,14 +92,16 @@ class ChatEngine:
             f"Query: {message}"
         )
         try:
-            response = await self.client.aio.models.generate_content(
-                model="gemini-3.6-flash",
+            response = await asyncio.to_thread(
+                self.client.models.generate_content,
+                model="gemini-2.5-flash",
                 contents=prompt,
                 config=types.GenerateContentConfig(response_mime_type="application/json")
             )
             data = json.loads(response.text.strip())
             return data
         except Exception as e:
+            print(f"DEBUG EXCEPTION in _decompose_query: {repr(e)}")
             logger.error(f"Decomposition failed: {e}")
             return [{"type": "synthesis", "description": "Synthesize the provided documents based on the complex query."}]
 
@@ -201,7 +205,7 @@ class ChatEngine:
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-3.6-flash",
+                model="gemini-2.5-flash",
                 contents=contents,
                 config=config
             )
