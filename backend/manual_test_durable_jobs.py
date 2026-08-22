@@ -48,6 +48,9 @@ async def upload_pdf(client: httpx.AsyncClient, project_id: str, filename: str =
     return resp
 
 
+import pytest
+
+@pytest.mark.asyncio
 async def test_duplicate_upload():
     """Upload the same PDF twice rapidly and verify no duplicate ingestion jobs."""
     print("\n=== TEST 1: Duplicate Upload Prevention ===")
@@ -83,6 +86,7 @@ async def test_duplicate_upload():
         print("  PASS: Both uploads created distinct PDFs with individual jobs")
 
 
+@pytest.mark.asyncio
 async def test_job_status_endpoint():
     """Upload a PDF and verify the job status endpoint works."""
     print("\n=== TEST 2: Job Status Polling ===")
@@ -112,6 +116,7 @@ async def test_job_status_endpoint():
         print("  PASS: Job status polling works")
 
 
+@pytest.mark.asyncio
 async def test_job_survives_info():
     """Print instructions for manual kill-and-resume test."""
     print("\n=== TEST 3: Kill-and-Resume (Manual) ===")

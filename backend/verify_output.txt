@@ -1,19 +1,0 @@
-C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\qdrant_client\qdrant_remote.py:290: UserWarning: Failed to obtain server version. Unable to check client-server compatibility. Set check_compatibility=False to skip version check.
-  show_warning(
-Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-Loading weights:   0%|          | 0/41 [00:00<?, ?it/s]Loading weights: 100%|##########| 41/41 [00:00<00:00, 4049.70it/s]
-Gemini orchestration collapsed safely globally intrinsically bounded inherently mapped: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.6-flash for the latest features and improvements.', 'status': 'NOT_FOUND'}}
-
-
-=== Test 1: Out of Corpus Question ===
-data: {"type": "token", "content": "I couldn't find relevant information in your uploaded documents."}
-
-data: {"type": "done", "content": ""}
-
-
-
-
-=== Test 2: In Corpus Question ===
-data: {"type": "error", "content": "Context Provider unresolvable intrinsically tracking limits."}
-
-

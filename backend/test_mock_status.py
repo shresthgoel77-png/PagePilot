@@ -47,10 +47,12 @@ async def test_pipeline_status_transitions():
     with patch("app.services.indexing_pipeline.AsyncSessionLocal") as session_factory:
         session_factory.return_value.__aenter__.return_value = db_mock
         
-        with patch("app.services.pdf_parser.PDFParserService.parse_pdf") as parse_mock:
-            parse_mock.return_value = [{"text": "mock"}]
+        with patch("app.services.pdf_parser.PDFParserService.parse_pdf_generator") as parse_mock:
+            parse_mock.return_value = [({"page": 1}, [{"text": "mock"}])]
             
-            with patch("app.services.embeddings.EmbeddingService.index_pdf_chunks") as embed_mock:
+            with patch("app.services.embeddings.EmbeddingService.generate_embeddings") as gen_embed_mock, \
+                 patch("app.services.embeddings.EmbeddingService.index_pdf_chunks") as embed_mock:
+                gen_embed_mock.return_value = [[0.0]*768]
                 embed_mock.return_value = None
                 
                 await run_pipeline(project_id, file_path, user_id)

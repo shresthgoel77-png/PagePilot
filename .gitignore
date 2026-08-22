@@ -46,3 +46,14 @@ backend/realistic_mixed_100_pages.pdf
 backend/verify_cases_out.txt
 backend/verify_full*.txt
 backend/verify_output.txt
+
+# Generated Text Outputs
+backend/*.txt
+backend/test_out*.txt
+backend/test_failures.txt
+backend/pytest_test_output.txt
+
+# Generated PDFs and Uploads
+backend/*.pdf
+backend/uploads/
+backend/downloads/

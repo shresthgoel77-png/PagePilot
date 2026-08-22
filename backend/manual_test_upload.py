@@ -1,6 +1,8 @@
 import httpx
 import asyncio
+import pytest
 
+@pytest.mark.asyncio
 async def test_upload():
     # First get or create a project
     async with httpx.AsyncClient() as client:

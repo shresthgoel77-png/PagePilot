@@ -15,11 +15,13 @@ if "GEMINI_API_KEY" in env_dict:
     os.environ["GEMINI_API_KEY"] = env_dict["GEMINI_API_KEY"].strip()
 
 import unittest.mock as mock
+import pytest
 from app.services.chat_engine import ChatEngine
 
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("test_streaming")
 
+@pytest.mark.asyncio
 async def test_stream():
     class MockSession:
         project_id = UUID(int=0)

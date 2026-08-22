@@ -34,11 +34,11 @@ async def test_job_worker_duplicate_upload():
     
     # Setup mock existing PDF
     existing_pdf = PDF(
-        id=uuid.uuid4(),
-        file_hash="dummy_hash",
-        project_id=uuid.uuid4(),
-        status=PDFStatus.parsed,
-        filename="existing.pdf",
+            id=uuid.uuid4(),
+            file_hash="dummy_hash",
+            project_id=uuid.uuid4(),
+            status=PDFStatus.ready,
+            filename="existing.pdf",
         original_name="test.pdf",
         created_at=datetime.now(timezone.utc)
     )
@@ -54,7 +54,7 @@ async def test_job_worker_duplicate_upload():
     file_mock.filename = "test.pdf"
     file_mock.content_type = "application/pdf"
     file_mock.size = len(file_bytes)
-    file_mock.read = AsyncMock(return_value=file_bytes)
+    file_mock.read = AsyncMock(side_effect=[file_bytes, b""])
     
     # Mock verify_project
     with patch("app.routers.pdfs.verify_project", new_callable=AsyncMock) as vp_mock:
@@ -95,11 +95,10 @@ async def test_job_worker_transient_failure_recovery():
             # Ensure commit was called
             db_mock.commit.assert_called_once()
             
-
-@pytest.mark.asyncio
-async def test_kill_process_recovery():
-    """Verify that recover_stale_jobs sets 'processing' -> 'retry'."""
-    from app.services.job_worker import recover_stale_jobs
+    @pytest.mark.asyncio
+    async def test_kill_process_recovery():
+        """Verify that claim_next_job recovers jobs."""
+        from app.services.job_worker import claim_next_job
 
     with patch("app.services.job_worker.AsyncSessionLocal") as session_factory_mock:
         db_mock = AsyncMock(spec=AsyncSession)
@@ -110,7 +109,7 @@ async def test_kill_process_recovery():
         result_mock.rowcount = 1
         db_mock.execute.return_value = result_mock
         
-        await recover_stale_jobs()
+        await claim_next_job(db=db_mock)
         
         db_mock.execute.assert_called_once()
         db_mock.commit.assert_called_once()

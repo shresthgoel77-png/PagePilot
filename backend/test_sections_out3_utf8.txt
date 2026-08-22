@@ -1,7 +1,0 @@
-﻿--- Structured Doc: structured_test.pdf ---
-Chunk 0 [page 1]: SECTION='MAJOR SECTION ALFA' TEXT=MAJOR SECTION ALFA
-This is som
-
---- Flat Doc: audit_normal.pdf ---
-Chunk 0 [page 1]: SECTION=None
-Chunk 1 [page 2]: SECTION=None

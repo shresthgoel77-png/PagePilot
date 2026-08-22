@@ -201,8 +201,8 @@ async def test_embedding_failure_zero_vectors(dummy_pdfs):
     with mock.patch("app.services.job_worker.AsyncSessionLocal") as sf_mock, mock.patch("app.services.indexing_pipeline.AsyncSessionLocal", create=True) as sf_mock2:
         sf_mock.return_value.__aenter__.return_value = mock_db
         sf_mock2.return_value.__aenter__.return_value = mock_db
-        with mock.patch("app.services.embeddings.genai.Client") as mock_genai:
-            mock_genai.return_value.models.embed_content.side_effect = Exception("Simulated Embedding Dropout - Zero Vectors Permitted: FALSE")
+        with mock.patch("app.services.embeddings.EmbeddingService.generate_embeddings") as mock_embed:
+            mock_embed.side_effect = Exception("Simulated Embedding Dropout - Zero Vectors Permitted: FALSE")
             mock_db.execute.return_value.scalar_one_or_none.return_value.file_path = job.file_path
             await worker.process_job(job)
             
