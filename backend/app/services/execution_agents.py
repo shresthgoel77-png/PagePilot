@@ -256,6 +256,7 @@ class SynthesisAgent:
                 "agent": "SynthesisAgent",
                 "query": query,
                 "synthesis": response.text,
+                "input_claims_used": [c.get('claim') for c in supported_claims],
                 "success": True
             }
             

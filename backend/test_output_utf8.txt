@@ -1,0 +1,231 @@
+﻿python : C:\Users\HP\AppData\Roaming\Python\Python3
+14\site-packages\qdrant_client\qdrant_remote.py:290
+: UserWarning: Failed to obtain server version. 
+Unable to check client-server compatibility. Set 
+check_compatibility=False to skip version check.
+At line:1 char:1
++ python scripts\test_agents.py > test_output.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
+    + CategoryInfo          : NotSpecified: (C:\Us 
+   ers\HP\App... version check.:String) [], Remot  
+  eException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  show_warning(
+Warning: You are sending unauthenticated requests 
+to the HF Hub. Please set a HF_TOKEN to enable 
+higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/41 [00:00<?, 
+?it/s]
+Loading weights: 100%|##########| 41/41 
+[00:00<00:00, 1306.74it/s]
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_transports\default.py", 
+line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_transports\default.py", 
+line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpcore\_sync\connection_pool.py",
+ line 256, in handle_request
+    raise exc from None
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpcore\_sync\connection_pool.py",
+ line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpcore\_sync\connection.py", 
+line 101, in handle_request
+    raise exc
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpcore\_sync\connection.py", 
+line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpcore\_sync\connection.py", 
+line 124, in _connect
+    stream = 
+self._network_backend.connect_tcp(**kwargs)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpcore\_backends\sync.py", line 
+207, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 162, 
+in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpcore\_exceptions.py", line 14, 
+in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [WinError 10061] No 
+connection could be made because the target 
+machine actively refused it
+
+The above exception was the direct cause of the 
+following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api_client.py", 
+line 134, in send_inner
+    response = self._client.send(request)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_client.py", line 914, in 
+send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_client.py", line 942, in 
+_send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_client.py", line 979, in 
+_send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_client.py", line 1014, in 
+_send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_transports\default.py", 
+line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\contextlib.py", line 162, 
+in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\httpx\_transports\default.py", 
+line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [WinError 10061] No connection 
+could be made because the target machine actively 
+refused it
+
+During handling of the above exception, another 
+exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen 
+ai\backend\scripts\test_agents.py", line 230, in 
+<module>
+    asyncio.run(test_end_to_end())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 
+205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\runners.py", line 
+128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\asyncio\base_events.py", 
+line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen 
+ai\backend\scripts\test_agents.py", line 34, in 
+test_end_to_end
+    res = vector_store.client.scroll(collection_nam
+e='document_chunks', limit=10)[0]
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\qdrant_client.py", 
+line 761, in scroll
+    return self._client.scroll(
+           ~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\qdrant_remote.py", 
+line 958, in scroll
+    self.openapi_client.points_api.scroll_points(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<10 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    ).result
+    ^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api\points_api.p
+y", line 1000, in scroll_points
+    return self._build_for_scroll_points(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        scroll_request=scroll_request,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api\points_api.p
+y", line 431, in _build_for_scroll_points
+    return self.api_client.request(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        type_=m.InlineResponse20018,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        content=body,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api_client.py", 
+line 95, in request
+    return self.send(request, type_)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api_client.py", 
+line 112, in send
+    response = self.middleware(request, 
+self.send_inner)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api_client.py", 
+line 149, in new_middleware
+    return middleware(request, inner_send)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\context_headers.py", 
+line 39, in rest_headers_middleware
+    return call_next(request)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api_client.py", 
+line 147, in inner_send
+    return current_middleware(request, call_next)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api_client.py", 
+line 250, in __call__
+    return call_next(request)
+  File "C:\Users\HP\AppData\Roaming\Python\Python31
+4\site-packages\qdrant_client\http\api_client.py", 
+line 136, in send_inner
+    raise ResponseHandlingException(e)
+qdrant_client.http.exceptions.ResponseHandlingExcep
+tion: [WinError 10061] No connection could be made 
+because the target machine actively refused it
