@@ -46,8 +46,8 @@ async def test_stream():
             return DummyRun()
         async def add_research_steps(self, run_id, steps_data):
             return [{"id": str(UUID(int=i+1234)), "type": s.get("type", "analysis"), "status": "queued"} for i, s in enumerate(steps_data)]
-        async def update_research_step(self, run_id, step_id, status, result_data=None):
-            return {"id": step_id, "status": status}
+        async def update_research_step(self, *args, **kwargs):
+            return {"id": args[1] if len(args) > 1 else "mock", "status": args[2] if len(args) > 2 else "mock", "type": "mock"}
 
     class MockRetrievalService:
         def __init__(self): pass
@@ -125,8 +125,9 @@ async def test_stream():
     
     print("\n--- INITIATING NO-DB AGENT SSE STREAM ---")
     
-    allowed_types = {"status", "artifact", "token", "done"}
+    allowed_types = {"status", "step_status", "artifact", "token", "done"}
     observed_artifacts = set()
+    observed_step_statuses = set()
     synthesized_tokens = []
     
     async for raw_chunk in engine.stream_chat(
@@ -148,6 +149,13 @@ async def test_stream():
         # 1. Assert intermediate output contains only allowed structured artifacts and tokens
         assert chunk_type in allowed_types, f"Raw/unexpected payload type emitted: {chunk_type}"
         
+        if chunk_type == "step_status":
+            step_obj = payload.get("step")
+            assert step_obj is not None, "step_status payload missing step body!"
+            assert "id" in step_obj, "Step object missing ID map!"
+            assert "status" in step_obj, "Step object missing status natively!"
+            observed_step_statuses.add(step_obj["status"])
+        
         if chunk_type == "artifact":
             step = payload.get("step")
             assert step in ["retrieval", "analysis", "comparison", "verification"], f"Unknown artifact step tracked: {step}"
@@ -163,6 +171,9 @@ async def test_stream():
     expected_artifacts = {"retrieval", "analysis", "comparison", "verification"}
     missing_artifacts = expected_artifacts - observed_artifacts
     assert not missing_artifacts, f"Agents failed to emit expected structured artifacts: {missing_artifacts}"
+    
+    assert "running" in observed_step_statuses, "No step entered 'running' status dynamically over SSE!"
+    assert "complete" in observed_step_statuses, "No step hit 'complete' dynamically over SSE!"
     
     final_text = "".join(synthesized_tokens)
     print(f"\nFinal Assembled Text ({len(final_text)} chars):")

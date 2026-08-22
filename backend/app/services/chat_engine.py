@@ -142,12 +142,16 @@ class ChatEngine:
         
         retrieval_artifact = {"chunks": []}
         if retrieval_step:
-            await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "running")
-            yield f"data: {json.dumps({'type': 'status', 'content': 'Retrieving global evidence context across vectors...'})}\n\n"
+            updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "running")
+            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            
             retrieval_artifact = await retrieval_agent.execute(
                 step_id=retrieval_step.get("id"), project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
             )
-            await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "complete", retrieval_artifact)
+            
+            updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "complete", retrieval_artifact)
+            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            
             # Send structured finding bounds dynamically masking raw processes elegantly natively successfully 
             yield f"data: {json.dumps({'type': 'artifact', 'step': 'retrieval', 'content': {'retrieved_count': retrieval_artifact.get('retrieved_count', 0)}})}\n\n"
 
@@ -161,41 +165,55 @@ class ChatEngine:
             if not analysis_steps:
                break
             a_step = analysis_steps.pop(0)
-            await self.research_service.update_research_step(run.id, a_step.get("id"), "running")
-            yield f"data: {json.dumps({'type': 'status', 'content': f'Analyzing localized metrics for isolated Document {doc_id}...'})}\n\n"
+            
+            updated_step = await self.research_service.update_research_step(run.id, a_step.get("id"), "running")
+            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            
             a_artifact = await analysis_agent.execute(a_step.get("id"), str(doc_id), doc_chunks, message)
-            await self.research_service.update_research_step(run.id, a_step.get("id"), "complete", a_artifact)
+            
+            updated_step = await self.research_service.update_research_step(run.id, a_step.get("id"), "complete", a_artifact)
+            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            
             analysis_artifacts.append(a_artifact)
             # Mask content structurally exposing key bounds strictly isolating internals transparently inherently safely 
             yield f"data: {json.dumps({'type': 'artifact', 'step': 'analysis', 'document_id': str(doc_id), 'content': a_artifact.get('analysis', {})})}\n\n"
 
         comparison_artifact = None
         if comparison_step and len(analysis_artifacts) >= 2:
-            await self.research_service.update_research_step(run.id, comparison_step.get("id"), "running")
-            yield f"data: {json.dumps({'type': 'status', 'content': 'Comparing findings logically mapping contradictions safely natively...'})}\n\n"
+            updated_step = await self.research_service.update_research_step(run.id, comparison_step.get("id"), "running")
+            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            
             try:
                 comparison_artifact = await comparison_agent.execute(comparison_step.get("id"), analysis_artifacts, message)
-                await self.research_service.update_research_step(run.id, comparison_step.get("id"), "complete", comparison_artifact)
+                updated_step = await self.research_service.update_research_step(run.id, comparison_step.get("id"), "complete", comparison_artifact)
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                
                 yield f"data: {json.dumps({'type': 'artifact', 'step': 'comparison', 'content': comparison_artifact.get('comparison', {})})}\n\n"
             except Exception as e:
-                await self.research_service.update_research_step(run.id, comparison_step.get("id"), "error", {"error": str(e)})
+                updated_step = await self.research_service.update_research_step(run.id, comparison_step.get("id"), "error", {"error": str(e)})
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
                 logger.error(f"Comparison internally lapsed natively handled carefully globally securely mapped inherently: {e}")
                 
         verification_artifact = None
         if comparison_artifact:
             v_step_id = verification_step.get("id") if verification_step else comparison_step.get("id")
             if verification_step:
-                await self.research_service.update_research_step(run.id, v_step_id, "running")
-            yield f"data: {json.dumps({'type': 'status', 'content': 'Verifying internal logic assertions evaluating independently bounded metrics...'})}\n\n"
+                updated_step = await self.research_service.update_research_step(run.id, v_step_id, "running")
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            
             verification_artifact = await verification_agent.execute(v_step_id, comparison_artifact, chunks)
+            
             if verification_step:
-                await self.research_service.update_research_step(run.id, v_step_id, "complete", verification_artifact)
+                updated_step = await self.research_service.update_research_step(run.id, v_step_id, "complete", verification_artifact)
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                
             yield f"data: {json.dumps({'type': 'artifact', 'step': 'verification', 'content': {'supported_count': verification_artifact.get('supported_count', 0), 'unsupported_count': verification_artifact.get('unsupported_count', 0)}})}\n\n"
 
         full_synthesis = ""
         if synthesis_step:
-            await self.research_service.update_research_step(run.id, synthesis_step.get("id"), "running")
-            yield f"data: {json.dumps({'type': 'status', 'content': 'Synthesizing valid claims comprehensively locally...'})}\n\n"
+            updated_step = await self.research_service.update_research_step(run.id, synthesis_step.get("id"), "running")
+            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            
             yield f"data: {json.dumps({'type': 'token', 'content': '\n\n**Final Verified Synthesis:**\n\n'})}\n\n"
 
             v_artifact = verification_artifact or {"verified_claims": []}
@@ -205,7 +223,8 @@ class ChatEngine:
                 yield f"data: {json.dumps({'type': 'token', 'content': chunk})}\n\n"
                 await asyncio.sleep(0.01)
                 
-            await self.research_service.update_research_step(run.id, synthesis_step.get("id"), "complete")
+            updated_step = await self.research_service.update_research_step(run.id, synthesis_step.get("id"), "complete")
+            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
 
         yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
         
