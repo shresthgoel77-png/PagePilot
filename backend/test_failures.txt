@@ -1,47 +1,19 @@
-============================= test session starts =============================
-platform win32 -- Python 3.14.6, pytest-9.1.1, pluggy-1.6.0 -- C:\Python314\python.exe
-cachedir: .pytest_cache
+﻿============================= test session starts =============================
+platform win32 -- Python 3.14.6, pytest-9.1.1, pluggy-1.6.0
 rootdir: C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend
 configfile: pyproject.toml
 plugins: anyio-4.14.1, langsmith-0.9.2, asyncio-1.4.0
 asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collecting ... collected 10 items
+collected 10 items
 
-scripts/test_auth_ingestion.py::test_auth_missing_token PASSED           [ 10%]
-scripts/test_auth_ingestion.py::test_auth_invalid_token PASSED           [ 20%]
-scripts/test_auth_ingestion.py::test_auth_valid_token PASSED             [ 30%]
-scripts/test_auth_ingestion.py::test_auth_cross_user_isolation PASSED    [ 40%]
-scripts/test_auth_ingestion.py::test_normal_ingestion PASSED             [ 50%]
-scripts/test_auth_ingestion.py::test_large_pdf_ingestion PASSED          [ 60%]
-scripts/test_auth_ingestion.py::test_corrupt_pdf FAILED                  [ 70%]
-scripts/test_auth_ingestion.py::test_embedding_failure_zero_vectors FAILED [ 80%]
-scripts/test_auth_ingestion.py::test_ocr_and_qdrant_failure FAILED       [ 90%]
-scripts/test_auth_ingestion.py::test_simulated_ocr_failure PASSED        [100%]
+scripts\test_auth_ingestion.py ......FFF.                                [100%]
 
 ================================== FAILURES ===================================
 ______________________________ test_corrupt_pdf _______________________________
-
-dummy_pdfs = {'normal': WindowsPath('C:/Users/HP/AppData/Local/Temp/pytest-of-HP/pytest-35/dummy_pdfs0/normal.pdf'), 'scanned': Win...0/large.pdf'), 'corrupt': WindowsPath('C:/Users/HP/AppData/Local/Temp/pytest-of-HP/pytest-35/dummy_pdfs0/corrupt.pdf')}
-mock_clerk = <MagicMock name='authenticate_request' id='1944104889920'>
-
-    @pytest.mark.asyncio
-    async def test_corrupt_pdf(dummy_pdfs, mock_clerk):
-        job = IngestionJob(id=uuid.uuid4(), pdf_id=uuid.uuid4(), file_path=dummy_pdfs["corrupt"], project_id=uuid.uuid4(), user_id=uuid.uuid4(), attempt_count=0, max_attempts=3, status=JobStatus.processing)
-    
-        with mock.patch("app.services.job_worker.AsyncSessionLocal") as sf_mock, mock.patch("app.services.indexing_pipeline.AsyncSessionLocal", create=True) as sf_mock2:
-            sf_mock.return_value.__aenter__.return_value = mock_db
-            sf_mock2.return_value.__aenter__.return_value = mock_db
-    
-            mock_db.execute.return_value.scalar_one_or_none.return_value.file_path = job.file_path
-            await worker.process_job(job)
-    
-            calls = mock_db.execute.call_args_list
-            params = [c.args[0].compile().params for c in calls if hasattr(c.args[0], "compile")]
->           assert any(p.get("status") == JobStatus.failed for p in params)
-E           assert False
-E            +  where False = any(<generator object test_corrupt_pdf.<locals>.<genexpr> at 0x000001C4A54F10E0>)
-
-scripts\test_auth_ingestion.py:194: AssertionError
+scripts\test_auth_ingestion.py:194: in test_corrupt_pdf
+    assert any(p.get("status") == JobStatus.failed for p in params)
+E   assert False
+E    +  where False = any(<generator object test_corrupt_pdf.<locals>.<genexpr> at 0x0000029114B052A0>)
 ------------------------------ Captured log call ------------------------------
 ERROR    researchos.pdf_parser:pdf_parser.py:149 Engine catastrophic parsing halt implicitly tracking bounds structurally: Traceback (most recent call last):
   File "C:\Users\HP\AppData\Roaming\Python\Python314\site-packages\pymupdf\__init__.py", line 3009, in __init__
@@ -58,9 +30,9 @@ Traceback (most recent call last):
     doc = fitz.open(file_path)
   File "C:\Users\HP\AppData\Roaming\Python\Python314\site-packages\pymupdf\__init__.py", line 3012, in __init__
     raise FileDataError(f'Failed to open file {filename!r}.') from e
-pymupdf.FileDataError: Failed to open file 'C:\\Users\\HP\\AppData\\Local\\Temp\\pytest-of-HP\\pytest-35\\dummy_pdfs0\\corrupt.pdf'.
+pymupdf.FileDataError: Failed to open file 'C:\\Users\\HP\\AppData\\Local\\Temp\\pytest-of-HP\\pytest-36\\dummy_pdfs0\\corrupt.pdf'.
 
-ERROR    researchos.job_worker:job_worker.py:79 Job 0091b5cc-ba8a-4ad6-9a34-756e6d0e5552 failed on attempt 0: Failed to open file 'C:\\Users\\HP\\AppData\\Local\\Temp\\pytest-of-HP\\pytest-35\\dummy_pdfs0\\corrupt.pdf'.
+ERROR    researchos.job_worker:job_worker.py:79 Job d1327fd2-5f1e-432d-bee1-8e12fb18671b failed on attempt 0: Failed to open file 'C:\\Users\\HP\\AppData\\Local\\Temp\\pytest-of-HP\\pytest-36\\dummy_pdfs0\\corrupt.pdf'.
 Traceback (most recent call last):
   File "C:\Users\HP\AppData\Roaming\Python\Python314\site-packages\pymupdf\__init__.py", line 3009, in __init__
     doc = mupdf.fz_open_document(filename)
@@ -95,66 +67,21 @@ Traceback (most recent call last):
     doc = fitz.open(file_path)
   File "C:\Users\HP\AppData\Roaming\Python\Python314\site-packages\pymupdf\__init__.py", line 3012, in __init__
     raise FileDataError(f'Failed to open file {filename!r}.') from e
-pymupdf.FileDataError: Failed to open file 'C:\\Users\\HP\\AppData\\Local\\Temp\\pytest-of-HP\\pytest-35\\dummy_pdfs0\\corrupt.pdf'.
+pymupdf.FileDataError: Failed to open file 'C:\\Users\\HP\\AppData\\Local\\Temp\\pytest-of-HP\\pytest-36\\dummy_pdfs0\\corrupt.pdf'.
 _____________________ test_embedding_failure_zero_vectors _____________________
-
-dummy_pdfs = {'normal': WindowsPath('C:/Users/HP/AppData/Local/Temp/pytest-of-HP/pytest-35/dummy_pdfs0/normal.pdf'), 'scanned': Win...0/large.pdf'), 'corrupt': WindowsPath('C:/Users/HP/AppData/Local/Temp/pytest-of-HP/pytest-35/dummy_pdfs0/corrupt.pdf')}
-
-    @pytest.mark.asyncio
-    async def test_embedding_failure_zero_vectors(dummy_pdfs):
-        job = IngestionJob(id=uuid.uuid4(), pdf_id=uuid.uuid4(), file_path=dummy_pdfs["normal"], project_id=uuid.uuid4(), user_id=uuid.uuid4(), attempt_count=3, max_attempts=3, status=JobStatus.processing)
-    
-        with mock.patch("app.services.job_worker.AsyncSessionLocal") as sf_mock, mock.patch("app.services.indexing_pipeline.AsyncSessionLocal", create=True) as sf_mock2:
-            sf_mock.return_value.__aenter__.return_value = mock_db
-            sf_mock2.return_value.__aenter__.return_value = mock_db
-            with mock.patch("app.services.embeddings.genai.Client") as mock_genai:
-                mock_genai.return_value.models.embed_content.side_effect = Exception("Simulated Embedding Dropout - Zero Vectors Permitted: FALSE")
-                mock_db.execute.return_value.scalar_one_or_none.return_value.file_path = job.file_path
-                await worker.process_job(job)
-    
-            calls = mock_db.execute.call_args_list
-            params = [c.args[0].compile().params for c in calls if hasattr(c.args[0], "compile")]
->           assert any(JobStatus.failed in p.values() for p in params)
-E           assert False
-E            +  where False = any(<generator object test_embedding_failure_zero_vectors.<locals>.<genexpr> at 0x000001C4A54D04A0>)
-
-scripts\test_auth_ingestion.py:210: AssertionError
+scripts\test_auth_ingestion.py:210: in test_embedding_failure_zero_vectors
+    assert any(JobStatus.failed in p.values() for p in params)
+E   assert False
+E    +  where False = any(<generator object test_embedding_failure_zero_vectors.<locals>.<genexpr> at 0x0000029114B052A0>)
 ------------------------------ Captured log call ------------------------------
 WARNING  researchos.ocr_service:ocr_service.py:36 Empty evaluation bound triggered natively resolving constraints globally!
 _________________________ test_ocr_and_qdrant_failure _________________________
-
-dummy_pdfs = {'normal': WindowsPath('C:/Users/HP/AppData/Local/Temp/pytest-of-HP/pytest-35/dummy_pdfs0/normal.pdf'), 'scanned': Win...0/large.pdf'), 'corrupt': WindowsPath('C:/Users/HP/AppData/Local/Temp/pytest-of-HP/pytest-35/dummy_pdfs0/corrupt.pdf')}
-
-    @pytest.mark.asyncio
-    async def test_ocr_and_qdrant_failure(dummy_pdfs):
-        job = IngestionJob(id=uuid.uuid4(), pdf_id=uuid.uuid4(), file_path=dummy_pdfs["scanned"], project_id=uuid.uuid4(), user_id=uuid.uuid4(), attempt_count=0, max_attempts=3, status=JobStatus.processing)
-    
-        with mock.patch("app.services.job_worker.AsyncSessionLocal") as sf_mock, mock.patch("app.services.indexing_pipeline.AsyncSessionLocal", create=True) as sf_mock2:
-            sf_mock.return_value.__aenter__.return_value = mock_db
-            sf_mock2.return_value.__aenter__.return_value = mock_db
-    
-            with mock.patch("app.services.ocr_service.OCRService.extract_text") as mock_ocr:
-                with mock.patch("app.services.embeddings.genai.Client") as mock_genai:
-                    with mock.patch("app.services.vector_store.VectorStoreService.upsert_chunks") as mock_upsert:
-                        mock_ocr.return_value = "Recovered text natively representing OCR."
-                        class Emb: values = [0.1] * 768
-                        class DummyResp: embeddings = [Emb()]
-                        mock_genai.return_value.models.embed_content.return_value = DummyResp()
-    
-                        mock_upsert.side_effect = Exception("Simulated Qdrant Timeout")
-                        mock_db.execute.return_value.scalar_one_or_none.return_value.file_path = job.file_path
-                        await worker.process_job(job)
-    
-            calls = mock_db.execute.call_args_list
-            params = [c.args[0].compile().params for c in calls if hasattr(c.args[0], "compile")]
-            assert any(JobStatus.retry in p.values() for p in params)
->           assert any("Qdrant Timeout" in str(v) for p in params for v in p.values())
-E           assert False
-E            +  where False = any(<generator object test_ocr_and_qdrant_failure.<locals>.<genexpr> at 0x000001C4A5A415D0>)
-
-scripts\test_auth_ingestion.py:236: AssertionError
+scripts\test_auth_ingestion.py:236: in test_ocr_and_qdrant_failure
+    assert any("Qdrant Timeout" in str(v) for p in params for v in p.values())
+E   assert False
+E    +  where False = any(<generator object test_ocr_and_qdrant_failure.<locals>.<genexpr> at 0x000002911506FE20>)
 ------------------------------ Captured log call ------------------------------
-WARNING  researchos.indexing_pipeline:indexing_pipeline.py:64 Warning: Absolute absence of valid OCR structures found inside PDF target 'C:\Users\HP\AppData\Local\Temp\pytest-of-HP\pytest-35\dummy_pdfs0\scanned.pdf'.
+WARNING  researchos.indexing_pipeline:indexing_pipeline.py:64 Warning: Absolute absence of valid OCR structures found inside PDF target 'C:\Users\HP\AppData\Local\Temp\pytest-of-HP\pytest-36\dummy_pdfs0\scanned.pdf'.
 ============================== warnings summary ===============================
 ..\..\..\..\..\AppData\Roaming\Python\Python314\site-packages\fastapi\testclient.py:1
   C:\Users\HP\AppData\Roaming\Python\Python314\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
@@ -197,4 +124,4 @@ app\routers\jobs.py:19
 FAILED scripts/test_auth_ingestion.py::test_corrupt_pdf - assert False
 FAILED scripts/test_auth_ingestion.py::test_embedding_failure_zero_vectors - ...
 FAILED scripts/test_auth_ingestion.py::test_ocr_and_qdrant_failure - assert F...
-================== 3 failed, 7 passed, 9 warnings in 39.10s ===================
+================== 3 failed, 7 passed, 9 warnings in 34.93s ===================
