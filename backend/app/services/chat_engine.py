@@ -111,7 +111,13 @@ class ChatEngine:
         yield f"data: {json.dumps({'type': 'status', 'content': 'Decomposing complex query into sub-tasks...'})}\n\n"
         
         # Phase 6.2: Decomposing explicitly maps sub tasks sequentially safely tracking dynamically 
-        run = await self.research_service.create_research_run(session_id, message)
+        run = await self.research_service.create_research_run(
+            session_id=session_id, 
+            project_id=project_id, 
+            user_id=user_id, 
+            query=message,
+            mode="complex"
+        )
         steps_data = await self._decompose_query(message)
         steps = await self.research_service.add_research_steps(run.id, steps_data)
         
@@ -128,18 +134,20 @@ class ChatEngine:
         verification_agent = VerificationAgent()
         synthesis_agent = SynthesisAgent()
         
-        retrieval_step = next((s for s in steps if s.step_type == "retrieval"), None)
-        analysis_steps = [s for s in steps if s.step_type == "analysis"]
-        comparison_step = next((s for s in steps if s.step_type == "comparison"), None)
-        verification_step = next((s for s in steps if s.step_type == "verification"), None)
-        synthesis_step = next((s for s in steps if s.step_type == "synthesis"), None)
+        retrieval_step = next((s for s in steps if s.get("type") == "retrieval"), None)
+        analysis_steps = [s for s in steps if s.get("type") == "analysis"]
+        comparison_step = next((s for s in steps if s.get("type") == "comparison"), None)
+        verification_step = next((s for s in steps if s.get("type") == "verification"), None)
+        synthesis_step = next((s for s in steps if s.get("type") == "synthesis"), None)
         
         retrieval_artifact = {"chunks": []}
         if retrieval_step:
+            await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "running")
             yield f"data: {json.dumps({'type': 'status', 'content': 'Retrieving global evidence context across vectors...'})}\n\n"
             retrieval_artifact = await retrieval_agent.execute(
-                step_id=retrieval_step.id, project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
+                step_id=retrieval_step.get("id"), project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
             )
+            await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "complete", retrieval_artifact)
             # Send structured finding bounds dynamically masking raw processes elegantly natively successfully 
             yield f"data: {json.dumps({'type': 'artifact', 'step': 'retrieval', 'content': {'retrieved_count': retrieval_artifact.get('retrieved_count', 0)}})}\n\n"
 
@@ -153,39 +161,51 @@ class ChatEngine:
             if not analysis_steps:
                break
             a_step = analysis_steps.pop(0)
+            await self.research_service.update_research_step(run.id, a_step.get("id"), "running")
             yield f"data: {json.dumps({'type': 'status', 'content': f'Analyzing localized metrics for isolated Document {doc_id}...'})}\n\n"
-            a_artifact = await analysis_agent.execute(a_step.id, str(doc_id), doc_chunks, message)
+            a_artifact = await analysis_agent.execute(a_step.get("id"), str(doc_id), doc_chunks, message)
+            await self.research_service.update_research_step(run.id, a_step.get("id"), "complete", a_artifact)
             analysis_artifacts.append(a_artifact)
             # Mask content structurally exposing key bounds strictly isolating internals transparently inherently safely 
             yield f"data: {json.dumps({'type': 'artifact', 'step': 'analysis', 'document_id': str(doc_id), 'content': a_artifact.get('analysis', {})})}\n\n"
 
         comparison_artifact = None
         if comparison_step and len(analysis_artifacts) >= 2:
+            await self.research_service.update_research_step(run.id, comparison_step.get("id"), "running")
             yield f"data: {json.dumps({'type': 'status', 'content': 'Comparing findings logically mapping contradictions safely natively...'})}\n\n"
             try:
-                comparison_artifact = await comparison_agent.execute(comparison_step.id, analysis_artifacts, message)
+                comparison_artifact = await comparison_agent.execute(comparison_step.get("id"), analysis_artifacts, message)
+                await self.research_service.update_research_step(run.id, comparison_step.get("id"), "complete", comparison_artifact)
                 yield f"data: {json.dumps({'type': 'artifact', 'step': 'comparison', 'content': comparison_artifact.get('comparison', {})})}\n\n"
             except Exception as e:
+                await self.research_service.update_research_step(run.id, comparison_step.get("id"), "error", {"error": str(e)})
                 logger.error(f"Comparison internally lapsed natively handled carefully globally securely mapped inherently: {e}")
                 
         verification_artifact = None
         if comparison_artifact:
-            v_step_id = verification_step.id if verification_step else comparison_step.id
+            v_step_id = verification_step.get("id") if verification_step else comparison_step.get("id")
+            if verification_step:
+                await self.research_service.update_research_step(run.id, v_step_id, "running")
             yield f"data: {json.dumps({'type': 'status', 'content': 'Verifying internal logic assertions evaluating independently bounded metrics...'})}\n\n"
             verification_artifact = await verification_agent.execute(v_step_id, comparison_artifact, chunks)
+            if verification_step:
+                await self.research_service.update_research_step(run.id, v_step_id, "complete", verification_artifact)
             yield f"data: {json.dumps({'type': 'artifact', 'step': 'verification', 'content': {'supported_count': verification_artifact.get('supported_count', 0), 'unsupported_count': verification_artifact.get('unsupported_count', 0)}})}\n\n"
 
         full_synthesis = ""
         if synthesis_step:
+            await self.research_service.update_research_step(run.id, synthesis_step.get("id"), "running")
             yield f"data: {json.dumps({'type': 'status', 'content': 'Synthesizing valid claims comprehensively locally...'})}\n\n"
             yield f"data: {json.dumps({'type': 'token', 'content': '\n\n**Final Verified Synthesis:**\n\n'})}\n\n"
 
             v_artifact = verification_artifact or {"verified_claims": []}
             
-            async for chunk in synthesis_agent.execute_stream(synthesis_step.id, v_artifact, message):
+            async for chunk in synthesis_agent.execute_stream(synthesis_step.get("id"), v_artifact, message):
                 full_synthesis += chunk
                 yield f"data: {json.dumps({'type': 'token', 'content': chunk})}\n\n"
                 await asyncio.sleep(0.01)
+                
+            await self.research_service.update_research_step(run.id, synthesis_step.get("id"), "complete")
 
         yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
         
