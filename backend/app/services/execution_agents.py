@@ -225,17 +225,19 @@ class SynthesisAgent:
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
     async def execute(self, step_id: UUID, verified_artifact: dict, query: str) -> dict:
+        """Fallback synchronous method for testing or backwards compatibility."""
         logger.info(f"SynthesisAgent executing step {step_id}")
         await self.research_service.update_research_step(step_id, status="in_progress")
         
         try:
             supported_claims = [r for r in verified_artifact.get("verified_claims", []) if r.get("supported")]
-            
             claims_text = "\n".join([f"- {c.get('claim')} [Source: {c.get('filename')}, Page: {c.get('page')}]" for c in supported_claims])
             
             system_instruction = (
                 "You are a Synthesis Agent. You are given a list of VERIFIED claims from previous research steps.\n"
                 "Write a final cohesive narrative responding to the user query using only these verified claims.\n"
+                "If the evidence is insufficient to answer the question, explicitly state that there is not enough information in the provided context, rather than filling gaps from your own knowledge.\n"
+                "Never invent document names or page numbers.\n"
                 "Include markdown citations natively inline (e.g., '[Source.pdf, p.4]')."
             )
             
@@ -265,5 +267,56 @@ class SynthesisAgent:
             
         except Exception as e:
             logger.error(f"SynthesisAgent failed: {e}")
+            await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
+            raise
+
+    async def execute_stream(self, step_id: UUID, verified_artifact: dict, query: str):
+        """Asynchronous generator yielding syntax tokens directly for SSE broadcasting."""
+        logger.info(f"SynthesisAgent executing sequence stream {step_id}")
+        await self.research_service.update_research_step(step_id, status="in_progress")
+        
+        try:
+            supported_claims = [r for r in verified_artifact.get("verified_claims", []) if r.get("supported")]
+            claims_text = "\n".join([f"- {c.get('claim')} [Source: {c.get('filename')}, Page: {c.get('page')}]" for c in supported_claims])
+            
+            system_instruction = (
+                "You are a front-facing Synthesis Agent. You are given a list of strictly VERIFIED claims from deep-dive research.\n"
+                "Write a final cohesive, natural-language narrative responding to the user query using only these verified claims.\n"
+                "If the valid claims are insufficient to answer the overarching question fully, explicitly admit what remains unproven or unsupported.\n"
+                "Never invent document names or assume extra technical facts outside this curated list.\n"
+                "Include markdown citations natively inline, perfectly matching the provided Source names (e.g., '[Source.pdf, p.4]')."
+            )
+            
+            config = types.GenerateContentConfig(
+                system_instruction=system_instruction
+            )
+            prompt = f"Query: {query}\n\nVerified Claims:\n{claims_text}"
+            
+            response_stream = await self.client.aio.models.generate_content_stream(
+                model="gemini-2.5-flash",
+                contents=prompt,
+                config=config
+            )
+            
+            full_text = []
+            async for chunk in response_stream:
+                if chunk.text:
+                    full_text.append(chunk.text)
+                    yield chunk.text
+                    
+            final_synthesis = "".join(full_text)
+            
+            artifact = {
+                "agent": "SynthesisAgent",
+                "query": query,
+                "synthesis": final_synthesis,
+                "input_claims_used": [c.get('claim') for c in supported_claims],
+                "success": True
+            }
+            
+            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
+            
+        except Exception as e:
+            logger.error(f"SynthesisAgent stream failed globally logically tracked: {e}")
             await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
             raise
