@@ -26,7 +26,6 @@ class RetrievalAgent:
         Saves a structured artifact with the retrieved data.
         """
         logger.info(f"RetrievalAgent executing step {step_id} for query: {query}")
-        await self.research_service.update_research_step(step_id, status="in_progress")
         
         try:
             chunks = await asyncio.to_thread(
@@ -45,18 +44,14 @@ class RetrievalAgent:
                 "retrieved_count": len(chunks),
                 "chunks": chunks
             }
-            
-            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
             return artifact
             
         except Exception as e:
             logger.error(f"RetrievalAgent failed: {e}")
-            await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
             raise
-
+            
 class AnalysisAgent:
     def __init__(self):
-        self.research_service = ResearchService()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
     async def execute(self, step_id: UUID, document_id: str, retrieved_chunks: List[Dict[str, Any]], query: str) -> dict:
@@ -64,7 +59,6 @@ class AnalysisAgent:
         Synthesizes findings from a single document's retrieved evidence.
         """
         logger.info(f"AnalysisAgent executing step {step_id} for doc {document_id}")
-        await self.research_service.update_research_step(step_id, status="in_progress")
         
         try:
             if not retrieved_chunks:
@@ -109,18 +103,14 @@ class AnalysisAgent:
                     "analysis": parsed_findings,
                     "success": True
                 }
-            
-            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
             return artifact
             
         except Exception as e:
             logger.error(f"AnalysisAgent failed: {e}")
-            await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
             raise
 
 class ComparisonAgent:
     def __init__(self):
-        self.research_service = ResearchService()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
     async def execute(self, step_id: UUID, documents_findings: List[Dict[str, Any]], query: str, force_unsupported_claim: bool = False) -> dict:
@@ -128,7 +118,6 @@ class ComparisonAgent:
         Takes findings from >=2 documents and identifies agreements/contradictions.
         """
         logger.info(f"ComparisonAgent executing step {step_id}")
-        await self.research_service.update_research_step(step_id, status="in_progress")
         
         try:
             if len(documents_findings) < 2:
@@ -181,8 +170,6 @@ class ComparisonAgent:
                 "comparison": parsed_comparison,
                 "success": True
             }
-            
-            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
             return artifact
             
         except Exception as e:
@@ -191,11 +178,9 @@ class ComparisonAgent:
 class VerificationAgent:
     def __init__(self):
         self.evidence_verifier = EvidenceVerifier()
-        self.research_service = ResearchService()
 
     async def execute(self, step_id: UUID, artifact_to_verify: dict, retrieved_chunks: List[Dict[str, Any]]) -> dict:
         logger.info(f"VerificationAgent executing step {step_id}")
-        await self.research_service.update_research_step(step_id, status="in_progress")
         
         try:
             results = await asyncio.to_thread(self.evidence_verifier.verify_claims, artifact_to_verify, retrieved_chunks)
@@ -210,24 +195,19 @@ class VerificationAgent:
                 "unsupported_count": len(unsupported_claims),
                 "success": True
             }
-            
-            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
             return artifact
             
         except Exception as e:
             logger.error(f"VerificationAgent failed: {e}")
-            await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
             raise
 
 class SynthesisAgent:
     def __init__(self):
-        self.research_service = ResearchService()
         self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
     async def execute(self, step_id: UUID, verified_artifact: dict, query: str) -> dict:
         """Fallback synchronous method for testing or backwards compatibility."""
         logger.info(f"SynthesisAgent executing step {step_id}")
-        await self.research_service.update_research_step(step_id, status="in_progress")
         
         try:
             supported_claims = [r for r in verified_artifact.get("verified_claims", []) if r.get("supported")]
@@ -262,18 +242,15 @@ class SynthesisAgent:
                 "success": True
             }
             
-            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
             return artifact
             
         except Exception as e:
             logger.error(f"SynthesisAgent failed: {e}")
-            await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
             raise
 
     async def execute_stream(self, step_id: UUID, verified_artifact: dict, query: str):
         """Asynchronous generator yielding syntax tokens directly for SSE broadcasting."""
         logger.info(f"SynthesisAgent executing sequence stream {step_id}")
-        await self.research_service.update_research_step(step_id, status="in_progress")
         
         try:
             supported_claims = [r for r in verified_artifact.get("verified_claims", []) if r.get("supported")]
@@ -314,9 +291,6 @@ class SynthesisAgent:
                 "success": True
             }
             
-            await self.research_service.update_research_step(step_id, status="completed", result_data=artifact)
-            
         except Exception as e:
             logger.error(f"SynthesisAgent stream failed globally logically tracked: {e}")
-            await self.research_service.update_research_step(step_id, status="failed", result_data={"error": str(e)})
             raise

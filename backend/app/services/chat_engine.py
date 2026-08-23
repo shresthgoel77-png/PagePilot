@@ -140,15 +140,38 @@ class ChatEngine:
         verification_step = next((s for s in steps if s.get("type") == "verification"), None)
         synthesis_step = next((s for s in steps if s.get("type") == "synthesis"), None)
         
+        async def run_with_retry(agent_exec_coro, step_id, max_retries=3):
+            for attempt in range(max_retries):
+                try:
+                    res = await agent_exec_coro()
+                    yield res
+                    return
+                except Exception as e:
+                    if attempt == max_retries - 1:
+                        raise e
+                    logger.warning(f"Agent transient failure on step {step_id}: {e}. Retrying ({attempt + 1}/{max_retries})...")
+                    # Broadcast transient retry status
+                    error_msg = f"Transient failure internally handled gracefully globally securely mapped inherently: {e}. Retrying step ({attempt + 1}/{max_retries})..."
+                    yield f"data: {json.dumps({'type': 'step_status', 'step': {'id': str(step_id), 'status': 'retrying', 'error': error_msg}})}\n\n"
+                    await asyncio.sleep(1 * (attempt + 1))
+        
         retrieval_artifact = {"chunks": []}
         if retrieval_step:
             updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "running")
             if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
             try:
-                retrieval_artifact = await retrieval_agent.execute(
-                    step_id=retrieval_step.get("id"), project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
-                )
+                # Wrap inside transient retry loop
+                async def execute_retrieval():
+                    return await retrieval_agent.execute(
+                        step_id=retrieval_step.get("id"), project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
+                    )
+                retrieval_artifact = None
+                async for res in run_with_retry(execute_retrieval, retrieval_step.get("id")):
+                    if isinstance(res, dict) and "chunks" in res:
+                        retrieval_artifact = res
+                    else:
+                        yield res
                 
                 updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "complete", retrieval_artifact)
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
@@ -176,7 +199,15 @@ class ChatEngine:
             if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
             try:
-                a_artifact = await analysis_agent.execute(a_step.get("id"), str(doc_id), doc_chunks, message)
+                # Wrap inside transient retry loop
+                async def execute_analysis():
+                    return await analysis_agent.execute(a_step.get("id"), str(doc_id), doc_chunks, message)
+                a_artifact = None
+                async for res in run_with_retry(execute_analysis, a_step.get("id")):
+                    if isinstance(res, dict):
+                        a_artifact = res
+                    else:
+                        yield res
                 
                 updated_step = await self.research_service.update_research_step(run.id, a_step.get("id"), "complete", a_artifact)
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
@@ -196,7 +227,15 @@ class ChatEngine:
             if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
             try:
-                comparison_artifact = await comparison_agent.execute(comparison_step.get("id"), analysis_artifacts, message)
+                async def execute_comparison():
+                    return await comparison_agent.execute(comparison_step.get("id"), analysis_artifacts, message)
+                comparison_artifact = None
+                async for res in run_with_retry(execute_comparison, comparison_step.get("id")):
+                    if isinstance(res, dict):
+                        comparison_artifact = res
+                    else:
+                        yield res
+                
                 updated_step = await self.research_service.update_research_step(run.id, comparison_step.get("id"), "complete", comparison_artifact)
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
                 
@@ -216,7 +255,14 @@ class ChatEngine:
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
             try:
-                verification_artifact = await verification_agent.execute(v_step_id, comparison_artifact, chunks)
+                async def execute_verification():
+                    return await verification_agent.execute(v_step_id, comparison_artifact, chunks)
+                verification_artifact = None
+                async for res in run_with_retry(execute_verification, v_step_id):
+                    if isinstance(res, dict):
+                        verification_artifact = res
+                    else:
+                        yield res
                 
                 if verification_step:
                     updated_step = await self.research_service.update_research_step(run.id, v_step_id, "complete", verification_artifact)
