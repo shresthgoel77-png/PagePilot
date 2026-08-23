@@ -1,0 +1,5 @@
+﻿* d532501 Reverting Regression & Final Full Suite Passing
+* 343693d verified regression catching
+* 955f8ce  Auth & Ingestion Test Suite
+* e9c7474 feat: persist research runs and show progress
+* fb3d4f7 Fixed model compilation
