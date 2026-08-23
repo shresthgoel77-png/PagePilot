@@ -20,7 +20,7 @@ class EmbeddingService:
 
     def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
         if not self._client:
-            return [[0.0] * 768 for _ in texts]
+            raise RuntimeError("Simulated Embedding Dropout - Zero Vectors Permitted: FALSE")
             
         try:
             vecs = []

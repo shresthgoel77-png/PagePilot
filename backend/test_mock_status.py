@@ -48,19 +48,19 @@ async def test_pipeline_status_transitions():
         session_factory.return_value.__aenter__.return_value = db_mock
         
         with patch("app.services.pdf_parser.PDFParserService.parse_pdf_generator") as parse_mock:
-            parse_mock.return_value = [({"page": 1}, [{"text": "mock"}])]
+            parse_mock.return_value = [({"page": 1, "is_ocr": True}, [{"text": "mock", "project_id": str(project_id), "pdf_id": str(mock_pdf.id), "page_number": 1, "chunk_index": 0, "filename": "test.pdf"}])]
             
             with patch("app.services.embeddings.EmbeddingService.generate_embeddings") as gen_embed_mock, \
-                 patch("app.services.embeddings.EmbeddingService.index_pdf_chunks") as embed_mock:
+                 patch("app.services.vector_store.VectorStoreService.upsert_chunks") as upsert_mock:
                 gen_embed_mock.return_value = [[0.0]*768]
-                embed_mock.return_value = None
+                upsert_mock.return_value = None
                 
                 await run_pipeline(project_id, file_path, user_id)
                 
     # Verify the transitions recorded correctly
     assert transitions == [
         (PDFStatus.parsing, 10),
-        (PDFStatus.ocr, 30),
+        (PDFStatus.ocr, 25),
         (PDFStatus.embedding, 50),
         (PDFStatus.indexing, 75),
         (PDFStatus.ready, 100),
