@@ -145,15 +145,21 @@ class ChatEngine:
             updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "running")
             if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
-            retrieval_artifact = await retrieval_agent.execute(
-                step_id=retrieval_step.get("id"), project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
-            )
-            
-            updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "complete", retrieval_artifact)
-            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
-            
-            # Send structured finding bounds dynamically masking raw processes elegantly natively successfully 
-            yield f"data: {json.dumps({'type': 'artifact', 'step': 'retrieval', 'content': {'retrieved_count': retrieval_artifact.get('retrieved_count', 0)}})}\n\n"
+            try:
+                retrieval_artifact = await retrieval_agent.execute(
+                    step_id=retrieval_step.get("id"), project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
+                )
+                
+                updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "complete", retrieval_artifact)
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                
+                # Send structured finding bounds dynamically masking raw processes elegantly natively successfully 
+                yield f"data: {json.dumps({'type': 'artifact', 'step': 'retrieval', 'content': {'retrieved_count': retrieval_artifact.get('retrieved_count', 0)}})}\n\n"
+            except Exception as e:
+                updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "error", {"error": str(e)})
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                yield f"data: {json.dumps({'type': 'error', 'content': f'Agent pipeline failed gracefully. Retrieval step encountered an error: {str(e)}'})}\n\n"
+                return
 
         chunks = retrieval_artifact.get("chunks", [])
         doc_map = {}
@@ -169,14 +175,20 @@ class ChatEngine:
             updated_step = await self.research_service.update_research_step(run.id, a_step.get("id"), "running")
             if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
-            a_artifact = await analysis_agent.execute(a_step.get("id"), str(doc_id), doc_chunks, message)
-            
-            updated_step = await self.research_service.update_research_step(run.id, a_step.get("id"), "complete", a_artifact)
-            if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
-            
-            analysis_artifacts.append(a_artifact)
-            # Mask content structurally exposing key bounds strictly isolating internals transparently inherently safely 
-            yield f"data: {json.dumps({'type': 'artifact', 'step': 'analysis', 'document_id': str(doc_id), 'content': a_artifact.get('analysis', {})})}\n\n"
+            try:
+                a_artifact = await analysis_agent.execute(a_step.get("id"), str(doc_id), doc_chunks, message)
+                
+                updated_step = await self.research_service.update_research_step(run.id, a_step.get("id"), "complete", a_artifact)
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                
+                analysis_artifacts.append(a_artifact)
+                # Mask content structurally exposing key bounds strictly isolating internals transparently inherently safely 
+                yield f"data: {json.dumps({'type': 'artifact', 'step': 'analysis', 'document_id': str(doc_id), 'content': a_artifact.get('analysis', {})})}\n\n"
+            except Exception as e:
+                updated_step = await self.research_service.update_research_step(run.id, a_step.get("id"), "error", {"error": str(e)})
+                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                yield f"data: {json.dumps({'type': 'error', 'content': f'Agent pipeline failed gracefully. Analysis step encountered an error: {str(e)}'})}\n\n"
+                return
 
         comparison_artifact = None
         if comparison_step and len(analysis_artifacts) >= 2:
@@ -193,6 +205,8 @@ class ChatEngine:
                 updated_step = await self.research_service.update_research_step(run.id, comparison_step.get("id"), "error", {"error": str(e)})
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
                 logger.error(f"Comparison internally lapsed natively handled carefully globally securely mapped inherently: {e}")
+                yield f"data: {json.dumps({'type': 'error', 'content': f'Agent pipeline failed gracefully. Comparison step encountered an error: {str(e)}'})}\n\n"
+                return
                 
         verification_artifact = None
         if comparison_artifact:
@@ -201,13 +215,20 @@ class ChatEngine:
                 updated_step = await self.research_service.update_research_step(run.id, v_step_id, "running")
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
-            verification_artifact = await verification_agent.execute(v_step_id, comparison_artifact, chunks)
-            
-            if verification_step:
-                updated_step = await self.research_service.update_research_step(run.id, v_step_id, "complete", verification_artifact)
-                if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+            try:
+                verification_artifact = await verification_agent.execute(v_step_id, comparison_artifact, chunks)
                 
-            yield f"data: {json.dumps({'type': 'artifact', 'step': 'verification', 'content': {'supported_count': verification_artifact.get('supported_count', 0), 'unsupported_count': verification_artifact.get('unsupported_count', 0)}})}\n\n"
+                if verification_step:
+                    updated_step = await self.research_service.update_research_step(run.id, v_step_id, "complete", verification_artifact)
+                    if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                    
+                yield f"data: {json.dumps({'type': 'artifact', 'step': 'verification', 'content': {'supported_count': verification_artifact.get('supported_count', 0), 'unsupported_count': verification_artifact.get('unsupported_count', 0)}})}\n\n"
+            except Exception as e:
+                if verification_step:
+                    updated_step = await self.research_service.update_research_step(run.id, v_step_id, "error", {"error": str(e)})
+                    if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
+                yield f"data: {json.dumps({'type': 'error', 'content': f'Agent pipeline failed gracefully. Verification step encountered an error: {str(e)}'})}\n\n"
+                return
 
         full_synthesis = ""
         if synthesis_step:
