@@ -1,0 +1,26 @@
+[
+    {
+        "id": "q1",
+        "query": "What are the primary energy requirements for a Mars colony?",
+        "gt_source_doc": "Mars_Colonization.pdf",
+        "gt_source_page": 1,
+        "gt_keywords": [
+            "solar",
+            "nuclear",
+            "sustain"
+        ],
+        "expected_unsupported_rate": 0.0
+    },
+    {
+        "id": "q2",
+        "query": "Explain the gradient descent decay factor.",
+        "gt_source_doc": "Deep_Learning_Fundamentals.pdf",
+        "gt_source_page": 1,
+        "gt_keywords": [
+            "gradient",
+            "decay",
+            "momentum"
+        ],
+        "expected_unsupported_rate": 0.5
+    }
+]
