@@ -1,49 +1,92 @@
 {
-  "summary": {
+  "summary_run1": {
     "ingestion_success_rate": 1.0,
-    "average_latency_s": 18.131246400000236,
-    "average_recall": 0.0,
-    "average_groundedness": 0.0,
-    "average_unsupported_rate": 1.0
+    "average_latency_s": 7.165610675000607,
+    "average_recall": 0.8333333333333334,
+    "average_groundedness": 0.875,
+    "average_unsupported_rate": 0.125,
+    "average_citation_correctness": 0.75
   },
-  "query_results": [
+  "summary_run2": {
+    "ingestion_success_rate": 1.0,
+    "average_latency_s": 7.845304625000608,
+    "average_recall": 0.8333333333333334,
+    "average_groundedness": 0.75,
+    "average_unsupported_rate": 0.25,
+    "average_citation_correctness": 0.75
+  },
+  "query_results_run1": [
     {
-      "query": "What are the primary energy requirements for a Mars colony?",
-      "latency_s": 25.054638999999952,
-      "recall_score": 0.0,
+      "query": "What are the specific light reactions in photosynthesis?",
+      "latency_s": 7.522344299999531,
+      "recall_score": 1.0,
+      "grounded_fraction": 1.0,
+      "unsupported_fraction": 0.0,
+      "citation_correct": true
+    },
+    {
+      "query": "When did D-Day occur and what was its significance in World War II?",
+      "latency_s": 7.224602700000105,
+      "recall_score": 1.0,
+      "grounded_fraction": 1.0,
+      "unsupported_fraction": 0.0,
+      "citation_correct": true
+    },
+    {
+      "query": "What is the Global Interpreter Lock (GIL) in Python?",
+      "latency_s": 6.827467900002375,
+      "recall_score": 1.0,
+      "grounded_fraction": 1.0,
+      "unsupported_fraction": 0.0,
+      "citation_correct": true
+    },
+    {
+      "query": "What is the current gross domestic product (GDP) of Martian agricultural outposts?",
+      "latency_s": 7.088027800000418,
+      "recall_score": 0.3333333333333333,
+      "grounded_fraction": 0.5,
+      "unsupported_fraction": 0.5,
+      "citation_correct": false
+    }
+  ],
+  "query_results_run2": [
+    {
+      "query": "What are the specific light reactions in photosynthesis?",
+      "latency_s": 9.460351500001707,
+      "recall_score": 1.0,
+      "grounded_fraction": 1.0,
+      "unsupported_fraction": 0.0,
+      "citation_correct": true
+    },
+    {
+      "query": "When did D-Day occur and what was its significance in World War II?",
+      "latency_s": 7.851600900001358,
+      "recall_score": 1.0,
+      "grounded_fraction": 1.0,
+      "unsupported_fraction": 0.0,
+      "citation_correct": true
+    },
+    {
+      "query": "What is the Global Interpreter Lock (GIL) in Python?",
+      "latency_s": 7.341651399998227,
+      "recall_score": 1.0,
+      "grounded_fraction": 1.0,
+      "unsupported_fraction": 0.0,
+      "citation_correct": true
+    },
+    {
+      "query": "What is the current gross domestic product (GDP) of Martian agricultural outposts?",
+      "latency_s": 6.727614700001141,
+      "recall_score": 0.3333333333333333,
       "grounded_fraction": 0.0,
       "unsupported_fraction": 1.0,
       "citation_correct": false
-    },
-    {
-      "query": "Explain the gradient descent decay factor.",
-      "latency_s": 11.207853800000521,
-      "recall_score": 0.0,
-      "grounded_fraction": 0.0,
-      "unsupported_fraction": 1.0,
-      "citation_correct": true
     }
   ],
-  "ingestion_traces": [
-    {
-      "doc": "Mars_Colonization.pdf",
-      "trace": [
-        "queued",
-        "PDFStatus.parsing",
-        "PDFStatus.embedding",
-        "PDFStatus.indexing",
-        "PDFStatus.ready"
-      ]
-    },
-    {
-      "doc": "Deep_Learning_Fundamentals.pdf",
-      "trace": [
-        "queued",
-        "PDFStatus.parsing",
-        "PDFStatus.embedding",
-        "PDFStatus.indexing",
-        "PDFStatus.ready"
-      ]
-    }
-  ]
+  "reproducibility": {
+    "ingestion_match": true,
+    "recall_match": true,
+    "groundedness_match": false,
+    "citation_formats_match": true
+  }
 }

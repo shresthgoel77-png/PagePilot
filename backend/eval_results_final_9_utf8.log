@@ -1,0 +1,647 @@
+﻿python : C:\Users\HP\Ap
+pData\Roaming\Python\Py
+thon314\site-packages\q
+drant_client\qdrant_rem
+ote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set chec
+k_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python 
+eval_harness.py > eval_
+results_final_9.log 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (C:\Users\HP\A   
+ pp... version chec    
+k.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  show_warning(
+Warning: You are 
+sending 
+unauthenticated 
+requests to the HF 
+Hub. Please set a 
+HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%| 
+         | 0/41 
+[00:00<?, ?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 
+7811.33it/s]
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+53.343377942s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'53s'}]}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 429 Too Many 
+Requests. {'message': 
+'{\n  "error": {\n    
+"code": 429,\n    
+"message": "You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \\n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\\nPlease 
+retry in 
+52.372111144s.",\n    
+"status": "RESOURCE_EXH
+AUSTED",\n    
+"details": [\n      
+{\n        "@type": "ty
+pe.googleapis.com/googl
+e.rpc.Help",\n        
+"links": [\n          
+{\n            
+"description": "Learn 
+more about Gemini API 
+quotas",\n            
+"url": "https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits"\n         
+ }\n        ]\n      
+},\n      {\n        
+"@type": "type.googleap
+is.com/google.rpc.Quota
+Failure",\n        
+"violations": [\n      
+    {\n            
+"quotaMetric": "generat
+ivelanguage.googleapis.
+com/generate_content_fr
+ee_tier_requests",\n   
+         "quotaId": "Ge
+nerateRequestsPerDayPer
+ProjectPerModel-FreeTie
+r",\n            
+"quotaDimensions": {\n 
+             
+"location": 
+"global",\n            
+  "model": 
+"gemini-3.6-flash"\n   
+         },\n          
+  "quotaValue": "20"\n 
+         }\n        
+]\n      },\n      {\n 
+       "@type": "type.g
+oogleapis.com/google.rp
+c.RetryInfo",\n        
+"retryDelay": "52s"\n  
+    }\n    ]\n  
+}\n}\n', 'status': 
+'Too Many Requests'}
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+50.148331891s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'50s'}]}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 429 Too Many 
+Requests. {'message': 
+'{\n  "error": {\n    
+"code": 429,\n    
+"message": "You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \\n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\\nPlease 
+retry in 
+49.395479167s.",\n    
+"status": "RESOURCE_EXH
+AUSTED",\n    
+"details": [\n      
+{\n        "@type": "ty
+pe.googleapis.com/googl
+e.rpc.Help",\n        
+"links": [\n          
+{\n            
+"description": "Learn 
+more about Gemini API 
+quotas",\n            
+"url": "https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits"\n         
+ }\n        ]\n      
+},\n      {\n        
+"@type": "type.googleap
+is.com/google.rpc.Quota
+Failure",\n        
+"violations": [\n      
+    {\n            
+"quotaMetric": "generat
+ivelanguage.googleapis.
+com/generate_content_fr
+ee_tier_requests",\n   
+         "quotaId": "Ge
+nerateRequestsPerDayPer
+ProjectPerModel-FreeTie
+r",\n            
+"quotaDimensions": {\n 
+             
+"location": 
+"global",\n            
+  "model": 
+"gemini-3.6-flash"\n   
+         },\n          
+  "quotaValue": "20"\n 
+         }\n        
+]\n      },\n      {\n 
+       "@type": "type.g
+oogleapis.com/google.rp
+c.RetryInfo",\n        
+"retryDelay": "49s"\n  
+    }\n    ]\n  
+}\n}\n', 'status': 
+'Too Many Requests'}
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+44.206201825s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'model': 
+'gemini-3.6-flash', 
+'location': 'global'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'44s'}]}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 429 Too Many 
+Requests. {'message': 
+'{\n  "error": {\n    
+"code": 429,\n    
+"message": "You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \\n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\\nPlease 
+retry in 
+42.921629119s.",\n    
+"status": "RESOURCE_EXH
+AUSTED",\n    
+"details": [\n      
+{\n        "@type": "ty
+pe.googleapis.com/googl
+e.rpc.Help",\n        
+"links": [\n          
+{\n            
+"description": "Learn 
+more about Gemini API 
+quotas",\n            
+"url": "https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits"\n         
+ }\n        ]\n      
+},\n      {\n        
+"@type": "type.googleap
+is.com/google.rpc.Quota
+Failure",\n        
+"violations": [\n      
+    {\n            
+"quotaMetric": "generat
+ivelanguage.googleapis.
+com/generate_content_fr
+ee_tier_requests",\n   
+         "quotaId": "Ge
+nerateRequestsPerDayPer
+ProjectPerModel-FreeTie
+r",\n            
+"quotaDimensions": {\n 
+             
+"location": 
+"global",\n            
+  "model": 
+"gemini-3.6-flash"\n   
+         },\n          
+  "quotaValue": "20"\n 
+         }\n        
+]\n      },\n      {\n 
+       "@type": "type.g
+oogleapis.com/google.rp
+c.RetryInfo",\n        
+"retryDelay": "42s"\n  
+    }\n    ]\n  
+}\n}\n', 'status': 
+'Too Many Requests'}
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+40.723934411s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'model': 
+'gemini-3.6-flash', 
+'location': 'global'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'40s'}]}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 429 Too Many 
+Requests. {'message': 
+'{\n  "error": {\n    
+"code": 429,\n    
+"message": "You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \\n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\\nPlease 
+retry in 
+39.777112512s.",\n    
+"status": "RESOURCE_EXH
+AUSTED",\n    
+"details": [\n      
+{\n        "@type": "ty
+pe.googleapis.com/googl
+e.rpc.Help",\n        
+"links": [\n          
+{\n            
+"description": "Learn 
+more about Gemini API 
+quotas",\n            
+"url": "https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits"\n         
+ }\n        ]\n      
+},\n      {\n        
+"@type": "type.googleap
+is.com/google.rpc.Quota
+Failure",\n        
+"violations": [\n      
+    {\n            
+"quotaMetric": "generat
+ivelanguage.googleapis.
+com/generate_content_fr
+ee_tier_requests",\n   
+         "quotaId": "Ge
+nerateRequestsPerDayPer
+ProjectPerModel-FreeTie
+r",\n            
+"quotaDimensions": {\n 
+             
+"location": 
+"global",\n            
+  "model": 
+"gemini-3.6-flash"\n   
+         },\n          
+  "quotaValue": "20"\n 
+         }\n        
+]\n      },\n      {\n 
+       "@type": "type.g
+oogleapis.com/google.rp
+c.RetryInfo",\n        
+"retryDelay": "39s"\n  
+    }\n    ]\n  
+}\n}\n', 'status': 
+'Too Many Requests'}
+
+==================================================
+STARTING RUN 1
+==================================================
+
+--- Evaluating Real Ingestion Pipeline ---
+Ingestion Success Rate: 100.0%
+  Mars_Colonization.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Deep_Learning_Fundamentals.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+
+--- Evaluating Real Chat Agent Pipeline ---
+Running Eval Query: What are the primary energy requirements for a Mars colony?
+  [Rate Limit Sandbox] Waiting 2 seconds safely natively...
+  Latency: 1.78s
+  Groundedness: 0.00% | Unsupported: 100.00%
+  [GENERATED SYNTHESIS DUMP]: 
+  Citation Syntactically Present: False
+Running Eval Query: Explain the gradient descent decay factor.
+  [Rate Limit Sandbox] Waiting 2 seconds safely natively...
+  Latency: 1.02s
+  Groundedness: 0.00% | Unsupported: 100.00%
+  [GENERATED SYNTHESIS DUMP]: 
+  Citation Syntactically Present: False
+
+==================================================
+STARTING RUN 2
+==================================================
+
+--- Evaluating Real Ingestion Pipeline ---
+Ingestion Success Rate: 100.0%
+  Mars_Colonization.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Deep_Learning_Fundamentals.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+
+--- Evaluating Real Chat Agent Pipeline ---
+Running Eval Query: What are the primary energy requirements for a Mars colony?
+  [Rate Limit Sandbox] Waiting 2 seconds safely natively...
+  Latency: 1.89s
+  Groundedness: 0.00% | Unsupported: 100.00%
+  [GENERATED SYNTHESIS DUMP]: 
+  Citation Syntactically Present: False
+Running Eval Query: Explain the gradient descent decay factor.
+  [Rate Limit Sandbox] Waiting 2 seconds safely natively...
+  Latency: 1.21s
+  Groundedness: 0.00% | Unsupported: 100.00%
+  [GENERATED SYNTHESIS DUMP]: 
+  Citation Syntactically Present: False
+
+================ EVALUATION SUMMARY ================
+{
+  "ingestion_success_rate": 1.0,
+  "average_latency_s": 1.4002892000007705,
+  "average_recall": 0.0,
+  "average_groundedness": 0.0,
+  "average_unsupported_rate": 1.0,
+  "average_citation_correctness": 0.0
+}
+
+--- REPRODUCIBILITY COMPARISON ---
+{
+  "ingestion_match": true,
+  "recall_match": true,
+  "groundedness_match": true,
+  "citation_formats_match": true
+}
+Note: Ingestion, Recall, Groundedness generally expected to be deterministic in identical mock setups. Latencies and Gen Synthesis varies.
+====================================================
+Results logged to eval_results.json natively.
+

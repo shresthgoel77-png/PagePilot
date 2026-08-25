@@ -1,0 +1,307 @@
+﻿Qdrant Collections natively present:
+python : C:\Users\HP\AppDat
+a\Roaming\Python\Python314\
+site-packages\qdrant_client
+\qdrant_remote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set 
+check_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python check_http.py > 
+check_http.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecifi    ed: 
+(C:\Users\HP\A    pp... 
+version chec    k.:String) 
+[], Rem    oteException
+    + FullyQualifiedEr    
+rorId : NativeComm    
+andError
+ 
+  show_warning(
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_transpo
+rts\default.py", line 101, 
+in map_httpcore_exceptions
+    yield
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_transpo
+rts\default.py", line 250, 
+in handle_request
+    resp = self._pool.handl
+e_request(req)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpcore\_sync
+\connection_pool.py", line 
+256, in handle_request
+    raise exc from None
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpcore\_sync
+\connection_pool.py", line 
+236, in handle_request
+    response = 
+connection.handle_request(
+        
+pool_request.request
+    )
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpcore\_sync
+\connection.py", line 101, 
+in handle_request
+    raise exc
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpcore\_sync
+\connection.py", line 78, 
+in handle_request
+    stream = 
+self._connect(request)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpcore\_sync
+\connection.py", line 124, 
+in _connect
+    stream = self._network_
+backend.connect_tcp(**kwarg
+s)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpcore\_back
+ends\sync.py", line 207, 
+in connect_tcp
+    with 
+map_exceptions(exc_map):
+         
+~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Python314\Lib\co
+ntextlib.py", line 162, in 
+__exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpcore\_exce
+ptions.py", line 14, in 
+map_exceptions
+    raise to_exc(exc) from 
+exc
+httpcore.ConnectError: 
+[WinError 10061] No 
+connection could be made 
+because the target machine 
+actively refused it
+
+The above exception was 
+the direct cause of the 
+following exception:
+
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api_client.py", line 
+134, in send_inner
+    response = 
+self._client.send(request)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_client.
+py", line 914, in send
+    response = 
+self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_client.
+py", line 942, in 
+_send_handling_auth
+    response = self._send_h
+andling_redirects(
+        request,
+        follow_redirects=fo
+llow_redirects,
+        history=history,
+    )
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_client.
+py", line 979, in 
+_send_handling_redirects
+    response = self._send_s
+ingle_request(request)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_client.
+py", line 1014, in 
+_send_single_request
+    response = transport.ha
+ndle_request(request)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_transpo
+rts\default.py", line 249, 
+in handle_request
+    with 
+map_httpcore_exceptions():
+         
+~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\co
+ntextlib.py", line 162, in 
+__exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\httpx\_transpo
+rts\default.py", line 118, 
+in map_httpcore_exceptions
+    raise 
+mapped_exc(message) from 
+exc
+httpx.ConnectError: 
+[WinError 10061] No 
+connection could be made 
+because the target machine 
+actively refused it
+
+During handling of the 
+above exception, another 
+exception occurred:
+
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen 
+ai\backend\check_http.py", 
+line 3, in <module>
+    for c in qdrant_client.
+get_collections().collectio
+ns:
+             ~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~^^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+qdrant_client.py", line 
+1577, in get_collections
+    return self._client.get
+_collections(**kwargs)
+           ~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+qdrant_remote.py", line 
+1871, in get_collections
+    self.http.collections_a
+pi.get_collections().result
+    ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api\collections_api.py
+", line 527, in 
+get_collections
+    return self._build_for_
+get_collections()
+           ~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~^^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api\collections_api.py
+", line 232, in 
+_build_for_get_collections
+    return 
+self.api_client.request(
+           
+~~~~~~~~~~~~~~~~~~~~~~~^
+        
+type_=m.InlineResponse2005,
+        
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        headers=headers if 
+headers else None,
+        ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api_client.py", line 
+95, in request
+    return 
+self.send(request, type_)
+           
+~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api_client.py", line 
+112, in send
+    response = 
+self.middleware(request, 
+self.send_inner)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api_client.py", line 
+149, in new_middleware
+    return 
+middleware(request, 
+inner_send)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+context_headers.py", line 
+39, in 
+rest_headers_middleware
+    return 
+call_next(request)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api_client.py", line 
+147, in inner_send
+    return current_middlewa
+re(request, call_next)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api_client.py", line 
+250, in __call__
+    return 
+call_next(request)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+http\api_client.py", line 
+136, in send_inner
+    raise ResponseHandlingE
+xception(e)
+qdrant_client.http.exceptio
+ns.ResponseHandlingExceptio
+n: [WinError 10061] No 
+connection could be made 
+because the target machine 
+actively refused it

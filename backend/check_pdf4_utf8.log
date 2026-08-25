@@ -1,0 +1,58 @@
+﻿python : C:\Users\HP\AppDat
+a\Roaming\Python\Python314\
+site-packages\qdrant_client
+\qdrant_remote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set 
+check_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python check_pdf2.py > 
+check_pdf4.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: (C:\  
+  Users\HP\App... versio   
+ n check.:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+  show_warning(
+Warning: You are sending 
+unauthenticated requests 
+to the HF Hub. Please set 
+a HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%|     
+     | 0/41 [00:00<?, 
+?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 4437.39it/s]
+Ingesting PDF...
+Qdrant collection 'document_chunks' contains 3 points.
+
+Searching for project 'db94e06d-5378-4191-a0ee-72ff7168a6a7' and pdf '3bc8f74d-842c-48ab-a2dc-a161f73a1ec3'...
+Hits with strict UUID: 3
+
+Retrieving ALL payloads manually from Qdrant:
+ID=3192d98a-9491-53d8-9363-396ac3c70269 Project=db94e06d-5378-4191-a0ee-72ff7168a6a7 PDF=3bc8f74d-842c-48ab-a2dc-a161f73a1ec3 Text='Photosynthesis is a process used by plants, algae and certain bacteria to 
+harness energy from sunlight and turn it into chemical energy. Here, we describe 
+the basic principles of sunlight conversion and cellular respiration. A 
+foundational understanding of these biological systems is critical for studying 
+ecology.'
+ID=3e9d98f4-3522-5e1f-b412-d1d8ac5df08f Project=db94e06d-5378-4191-a0ee-72ff7168a6a7 PDF=3bc8f74d-842c-48ab-a2dc-a161f73a1ec3 Text='Environmental factors such as temperature, light intensity, and CO2 
+concentration significantly affect the rate of photosynthesis. High temperatures 
+can denature the enzymes involved in the Calvin cycle, while low light limits 
+ATP production.'
+ID=4b5c675a-194a-5bb1-acae-c5518a5a541d Project=db94e06d-5378-4191-a0ee-72ff7168a6a7 PDF=3bc8f74d-842c-48ab-a2dc-a161f73a1ec3 Text='The light-dependent reactions of photosynthesis take place in the thylakoid 
+membrane. Chlorophyll captures energy from sunlight, which is then used to 
+generate ATP and NADPH. The Calvin cycle, which occurs in the stroma, then 
+utilizes this ATP and NADPH to convert CO2 into sugar.'

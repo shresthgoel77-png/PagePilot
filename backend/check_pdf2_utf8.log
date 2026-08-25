@@ -1,0 +1,106 @@
+﻿python : C:\Users\HP\Ap
+pData\Roaming\Python\Py
+thon314\site-packages\q
+drant_client\qdrant_rem
+ote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set chec
+k_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python check_pdf2.py 
+> check_pdf2.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : 
+NotSpecified: (C:\    
+Users\HP\App... versio 
+   n check.:String) 
+[], R    emoteException
+    + 
+FullyQualifiedErrorI   
+ d : NativeCommandError
+ 
+  show_warning(
+Warning: You are 
+sending 
+unauthenticated 
+requests to the HF 
+Hub. Please set a 
+HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%| 
+         | 0/41 
+[00:00<?, ?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 
+4174.45it/s]
+Ingesting PDF...
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\check_pdf
+2.py", line 64, in 
+<module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Li
+b\asyncio\runners.py", 
+line 205, in run
+    return 
+runner.run(main)
+           
+~~~~~~~~~~^^^^^^
+  File "C:\Python314\Li
+b\asyncio\runners.py", 
+line 128, in run
+    return self._loop.r
+un_until_complete(task)
+           ~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Li
+b\asyncio\base_events.p
+y", line 719, in 
+run_until_complete
+    return 
+future.result()
+           
+~~~~~~~~~~~~~^^
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\check_pdf
+2.py", line 45, in main
+    await pipeline_run(
+uuid.UUID(project_id), 
+filename, 
+uuid.UUID(pdf_id))
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\app\servi
+ces\indexing_pipeline.p
+y", line 27, in run
+    pdf.status = 
+PDFStatus.parsing
+    ^^^^^^^^^^
+  File "C:\Python314\Li
+b\unittest\mock.py", 
+line 845, in 
+__setattr__
+    return object.__set
+attr__(self, name, 
+value)
+           ~~~~~~~~~~~~
+~~~~~~^^^^^^^^^^^^^^^^^
+^^
+TypeError: main.<locals
+>.set_status() takes 1 
+positional argument 
+but 2 were given

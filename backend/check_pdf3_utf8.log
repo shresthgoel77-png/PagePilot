@@ -1,0 +1,189 @@
+﻿python : C:\Users\HP\AppDat
+a\Roaming\Python\Python314\
+site-packages\qdrant_client
+\qdrant_remote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set 
+check_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python check_pdf2.py > 
+check_pdf3.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: (C:\  
+  Users\HP\App... versio   
+ n check.:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+  show_warning(
+Warning: You are sending 
+unauthenticated requests 
+to the HF Hub. Please set 
+a HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%|     
+     | 0/41 [00:00<?, 
+?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 6220.75it/s]
+Qdrant interaction warning 
+(attempt 1): Collection 
+document_chunks not found. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Collection 
+document_chunks not found. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Collection 
+document_chunks not found
+Ingesting PDF...
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen 
+ai\backend\check_pdf2.py", 
+line 64, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Lib\as
+yncio\runners.py", line 
+205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\as
+yncio\runners.py", line 
+128, in run
+    return self._loop.run_u
+ntil_complete(task)
+           ~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Lib\as
+yncio\base_events.py", 
+line 719, in 
+run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen 
+ai\backend\check_pdf2.py", 
+line 45, in main
+    await pipeline_run(uuid
+.UUID(project_id), 
+filename, 
+uuid.UUID(pdf_id))
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen ai\ba
+ckend\app\services\indexing
+_pipeline.py", line 113, 
+in run
+    await asyncio.to_thread
+(do_indexing)
+  File "C:\Python314\Lib\as
+yncio\threads.py", line 
+26, in to_thread
+    return await 
+loop.run_in_executor(None, 
+func_call)
+           ^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\co
+ncurrent\futures\thread.py"
+, line 86, in run
+    result = 
+ctx.run(self.task)
+  File "C:\Python314\Lib\co
+ncurrent\futures\thread.py"
+, line 73, in run
+    return fn(*args, 
+**kwargs)
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen ai\ba
+ckend\app\services\indexing
+_pipeline.py", line 111, 
+in do_indexing
+    embeddings.vector_store
+.upsert_chunks(batch)
+    ~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen ai\ba
+ckend\app\services\vector_s
+tore.py", line 72, in 
+upsert_chunks
+    self._retry_operation(_
+execute)
+    ~~~~~~~~~~~~~~~~~~~~~^^
+^^^^^^^^
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen ai\ba
+ckend\app\services\vector_s
+tore.py", line 40, in 
+_retry_operation
+    return 
+operation(*args, **kwargs)
+  File "C:\Users\HP\OneDriv
+e\Desktop\.vscode\gen ai\ba
+ckend\app\services\vector_s
+tore.py", line 67, in 
+_execute
+    self.client.upsert(
+    ~~~~~~~~~~~~~~~~~~^
+        collection_name=sel
+f.COLLECTION_NAME,
+        ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
+        points=points
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+qdrant_client.py", line 
+944, in upsert
+    return 
+self._client.upsert(
+           
+~~~~~~~~~~~~~~~~~~~^
+        collection_name=col
+lection_name,
+        ^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+    ...<7 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+local\qdrant_local.py", 
+line 558, in upsert
+    collection = self._get_
+collection(collection_name)
+  File "C:\Users\HP\AppData
+\Roaming\Python\Python314\s
+ite-packages\qdrant_client\
+local\qdrant_local.py", 
+line 183, in 
+_get_collection
+    raise 
+ValueError(f"Collection 
+{collection_name} not 
+found")
+ValueError: Collection 
+document_chunks not found

@@ -1,0 +1,10 @@
+﻿  "reproducibility": {
+    "ingestion_match": true,
+    "recall_match": true,
+    "groundedness_match": false,
+    "citation_formats_match": true
+  }
+}
+====================================================
+Generated eval_results.json successfully.
+

@@ -1,0 +1,218 @@
+﻿python : C:\Users\HP\AppDat
+a\Roaming\Python\Python314\
+site-packages\qdrant_client
+\qdrant_remote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set 
+check_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python eval_harness.py > 
+eval_results_final_8.log 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo         
+     : NotSpecifi    ed: 
+(C:\Users\HP\A    pp... 
+version chec    k.:String) 
+[], Rem    oteException
+    + FullyQualifiedEr    
+rorId : NativeComm    
+andError
+ 
+  show_warning(
+Warning: You are sending 
+unauthenticated requests 
+to the HF Hub. Please set 
+a HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%|     
+     | 0/41 [00:00<?, 
+?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 4175.87it/s]
+Qdrant interaction warning 
+(attempt 1): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Unsupported 
+query type: <class 
+'unittest.mock.MagicMock'>
+RetrievalAgent failed: 
+Unsupported query type: 
+<class 
+'unittest.mock.MagicMock'>
+Agent transient failure on 
+step 0cc1deec-9288-44c2-855
+b-2e249d3a55c9: 
+Unsupported query type: 
+<class 'unittest.mock.Magic
+Mock'>. Retrying (1/3)...
+Qdrant interaction warning 
+(attempt 1): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Unsupported 
+query type: <class 
+'unittest.mock.MagicMock'>
+RetrievalAgent failed: 
+Unsupported query type: 
+<class 
+'unittest.mock.MagicMock'>
+Agent transient failure on 
+step 0cc1deec-9288-44c2-855
+b-2e249d3a55c9: 
+Unsupported query type: 
+<class 'unittest.mock.Magic
+Mock'>. Retrying (2/3)...
+Qdrant interaction warning 
+(attempt 1): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Unsupported 
+query type: <class 
+'unittest.mock.MagicMock'>
+RetrievalAgent failed: 
+Unsupported query type: 
+<class 
+'unittest.mock.MagicMock'>
+Qdrant interaction warning 
+(attempt 1): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Unsupported 
+query type: <class 
+'unittest.mock.MagicMock'>
+RetrievalAgent failed: 
+Unsupported query type: 
+<class 
+'unittest.mock.MagicMock'>
+Agent transient failure on 
+step e0cf9fd3-1e11-46de-9e7
+d-145ea318919a: 
+Unsupported query type: 
+<class 'unittest.mock.Magic
+Mock'>. Retrying (1/3)...
+Qdrant interaction warning 
+(attempt 1): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Unsupported 
+query type: <class 
+'unittest.mock.MagicMock'>
+RetrievalAgent failed: 
+Unsupported query type: 
+<class 
+'unittest.mock.MagicMock'>
+Agent transient failure on 
+step e0cf9fd3-1e11-46de-9e7
+d-145ea318919a: 
+Unsupported query type: 
+<class 'unittest.mock.Magic
+Mock'>. Retrying (2/3)...
+Qdrant interaction warning 
+(attempt 1): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Unsupported 
+query type: <class 
+'unittest.mock.MagicMock'>
+RetrievalAgent failed: 
+Unsupported query type: 
+<class 
+'unittest.mock.MagicMock'>
+Qdrant interaction warning 
+(attempt 1): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+1s...
+Qdrant interaction warning 
+(attempt 2): Unsupported 
+query type: <class 'unittes
+t.mock.MagicMock'>. 
+Expanding polling latency 
+2s...
+Qdrant interaction 
+collapsed critically after 
+3 attempts: Unsupported 
+query type: <class 
+'unittest.mock.MagicMock'>
+RetrievalAgent failed: 
+Unsupported query type: 
+<class 
+'unittest.mock.MagicMock'>
+Agent transient failure on 
+step 00903119-004c-4436-975
+5-6b3b08715f86: 
+Unsupported query type: 
+<class 'unittest.mock.Magic
+Mock'>. Retrying (1/3)...

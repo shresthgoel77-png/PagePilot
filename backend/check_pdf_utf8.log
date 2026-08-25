@@ -1,0 +1,523 @@
+﻿python : C:\Users\HP\Ap
+pData\Roaming\Python\Py
+thon314\site-packages\q
+drant_client\qdrant_rem
+ote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set chec
+k_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python check_pdf.py 
+> check_pdf.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (C:\Users\HP\A   
+ pp... version chec    
+k.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  show_warning(
+Warning: You are 
+sending 
+unauthenticated 
+requests to the HF 
+Hub. Please set a 
+HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%| 
+         | 0/41 
+[00:00<?, ?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 
+4477.83it/s]
+Qdrant interaction 
+warning (attempt 1): 
+[WinError 10061] No 
+connection could be 
+made because the 
+target machine 
+actively refused it. 
+Expanding polling 
+latency 1s...
+Qdrant interaction 
+warning (attempt 2): 
+[WinError 10061] No 
+connection could be 
+made because the 
+target machine 
+actively refused it. 
+Expanding polling 
+latency 2s...
+Qdrant interaction 
+collapsed critically 
+after 3 attempts: 
+[WinError 10061] No 
+connection could be 
+made because the 
+target machine 
+actively refused it
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_transports\default
+.py", line 101, in 
+map_httpcore_exceptions
+    yield
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_transports\default
+.py", line 250, in 
+handle_request
+    resp = self._pool.h
+andle_request(req)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpcore\_sync\connection
+_pool.py", line 256, 
+in handle_request
+    raise exc from None
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpcore\_sync\connection
+_pool.py", line 236, 
+in handle_request
+    response = connecti
+on.handle_request(
+        
+pool_request.request
+    )
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpcore\_sync\connection
+.py", line 101, in 
+handle_request
+    raise exc
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpcore\_sync\connection
+.py", line 78, in 
+handle_request
+    stream = 
+self._connect(request)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpcore\_sync\connection
+.py", line 124, in 
+_connect
+    stream = self._netw
+ork_backend.connect_tcp
+(**kwargs)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpcore\_backends\sync.p
+y", line 207, in 
+connect_tcp
+    with map_exceptions
+(exc_map):
+         
+~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Python314\Li
+b\contextlib.py", line 
+162, in __exit__
+    
+self.gen.throw(value)
+    
+~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpcore\_exceptions.py",
+ line 14, in 
+map_exceptions
+    raise to_exc(exc) 
+from exc
+httpcore.ConnectError: 
+[WinError 10061] No 
+connection could be 
+made because the 
+target machine 
+actively refused it
+
+The above exception 
+was the direct cause 
+of the following 
+exception:
+
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api_cl
+ient.py", line 134, in 
+send_inner
+    response = self._cl
+ient.send(request)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_client.py", line 
+914, in send
+    response = self._se
+nd_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_client.py", line 
+942, in 
+_send_handling_auth
+    response = self._se
+nd_handling_redirects(
+        request,
+        follow_redirect
+s=follow_redirects,
+        
+history=history,
+    )
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_client.py", line 
+979, in _send_handling_
+redirects
+    response = self._se
+nd_single_request(reque
+st)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_client.py", line 
+1014, in 
+_send_single_request
+    response = transpor
+t.handle_request(reques
+t)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_transports\default
+.py", line 249, in 
+handle_request
+    with map_httpcore_e
+xceptions():
+         ~~~~~~~~~~~~~~
+~~~~~~~~~^^
+  File "C:\Python314\Li
+b\contextlib.py", line 
+162, in __exit__
+    
+self.gen.throw(value)
+    
+~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\ht
+tpx\_transports\default
+.py", line 118, in 
+map_httpcore_exceptions
+    raise 
+mapped_exc(message) 
+from exc
+httpx.ConnectError: 
+[WinError 10061] No 
+connection could be 
+made because the 
+target machine 
+actively refused it
+
+During handling of the 
+above exception, 
+another exception 
+occurred:
+
+Traceback (most recent 
+call last):
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\check_pdf
+.py", line 48, in 
+<module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Python314\Li
+b\asyncio\runners.py", 
+line 205, in run
+    return 
+runner.run(main)
+           
+~~~~~~~~~~^^^^^^
+  File "C:\Python314\Li
+b\asyncio\runners.py", 
+line 128, in run
+    return self._loop.r
+un_until_complete(task)
+           ~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python314\Li
+b\asyncio\base_events.p
+y", line 719, in 
+run_until_complete
+    return 
+future.result()
+           
+~~~~~~~~~~~~~^^
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\check_pdf
+.py", line 34, in main
+    await pipeline_run(
+project_id, filename, 
+pdf_id)
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\app\servi
+ces\indexing_pipeline.p
+y", line 113, in run
+    await asyncio.to_th
+read(do_indexing)
+  File "C:\Python314\Li
+b\asyncio\threads.py", 
+line 26, in to_thread
+    return await loop.r
+un_in_executor(None, 
+func_call)
+           ^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^
+  File "C:\Python314\Li
+b\concurrent\futures\th
+read.py", line 86, in 
+run
+    result = 
+ctx.run(self.task)
+  File "C:\Python314\Li
+b\concurrent\futures\th
+read.py", line 73, in 
+run
+    return fn(*args, 
+**kwargs)
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\app\servi
+ces\indexing_pipeline.p
+y", line 111, in 
+do_indexing
+    embeddings.vector_s
+tore.upsert_chunks(batc
+h)
+    ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~^^^^^
+^^
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\app\servi
+ces\vector_store.py", 
+line 72, in 
+upsert_chunks
+    self._retry_operati
+on(_execute)
+    ~~~~~~~~~~~~~~~~~~~
+~~^^^^^^^^^^
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\app\servi
+ces\vector_store.py", 
+line 40, in 
+_retry_operation
+    return 
+operation(*args, 
+**kwargs)
+  File "C:\Users\HP\One
+Drive\Desktop\.vscode\g
+en ai\backend\app\servi
+ces\vector_store.py", 
+line 67, in _execute
+    self.client.upsert(
+    ~~~~~~~~~~~~~~~~~~^
+        collection_name
+=self.COLLECTION_NAME,
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^
+        points=points
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\qdrant_clie
+nt.py", line 944, in 
+upsert
+    return 
+self._client.upsert(
+           
+~~~~~~~~~~~~~~~~~~~^
+        collection_name
+=collection_name,
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\qdrant_remo
+te.py", line 1181, in 
+upsert
+    http_result = self.
+openapi_client.points_a
+pi.upsert_points(
+                  ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~^
+        collection_name
+=collection_name,
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        
+timeout=timeout,
+        
+^^^^^^^^^^^^^^^^
+    ).result
+    ^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api\po
+ints_api.py", line 
+1056, in upsert_points
+    return self._build_
+for_upsert_points(
+           ~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~^
+        collection_name
+=collection_name,
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        point_insert_op
+erations=point_insert_o
+perations,
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api\po
+ints_api.py", line 
+542, in _build_for_upse
+rt_points
+    return self.api_cli
+ent.request(
+           ~~~~~~~~~~~~
+~~~~~~~~~~~^
+        type_=m.InlineR
+esponse2007,
+        ^^^^^^^^^^^^^^^
+^^^^^^^^^^^^
+    ...<5 lines>...
+        content=body,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api_cl
+ient.py", line 95, in 
+request
+    return 
+self.send(request, 
+type_)
+           ~~~~~~~~~^^^
+^^^^^^^^^^^^^
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api_cl
+ient.py", line 112, in 
+send
+    response = self.mid
+dleware(request, 
+self.send_inner)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api_cl
+ient.py", line 149, in 
+new_middleware
+    return 
+middleware(request, 
+inner_send)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\context_hea
+ders.py", line 39, in 
+rest_headers_middleware
+    return 
+call_next(request)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api_cl
+ient.py", line 147, in 
+inner_send
+    return current_midd
+leware(request, 
+call_next)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api_cl
+ient.py", line 250, in 
+__call__
+    return 
+call_next(request)
+  File "C:\Users\HP\App
+Data\Roaming\Python\Pyt
+hon314\site-packages\qd
+rant_client\http\api_cl
+ient.py", line 136, in 
+send_inner
+    raise ResponseHandl
+ingException(e)
+qdrant_client.http.exce
+ptions.ResponseHandling
+Exception: [WinError 
+10061] No connection 
+could be made because 
+the target machine 
+actively refused it

@@ -1,0 +1,738 @@
+﻿python : C:\Users\HP\Ap
+pData\Roaming\Python\Py
+thon314\site-packages\q
+drant_client\qdrant_rem
+ote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set chec
+k_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python 
+eval_harness.py > 
+eval_results_real.log 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (C:\Users\HP\A   
+ pp... version chec    
+k.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  show_warning(
+Warning: You are 
+sending 
+unauthenticated 
+requests to the HF 
+Hub. Please set a 
+HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%| 
+         | 0/41 
+[00:00<?, ?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 
+3758.09it/s]
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+40.583669398s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'40s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+14.760629605s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'14s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+49.261177562s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'model': 
+'gemini-3.6-flash', 
+'location': 'global'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'49s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+23.445299555s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'23s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+29.195896546s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'model': 
+'gemini-3.6-flash', 
+'location': 'global'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'29s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+3.718743263s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'3s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+38.209928574s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'38s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+Classification failed, 
+defaulting to SIMPLE: 
+429 
+RESOURCE_EXHAUSTED. 
+{'error': {'code': 
+429, 'message': 'You 
+exceeded your current 
+quota, please check 
+your plan and billing 
+details. For more 
+information on this 
+error, head to: https:/
+/ai.google.dev/gemini-a
+pi/docs/rate-limits. 
+To monitor your 
+current usage, head 
+to: https://ai.dev/rate
+-limit. \n* Quota 
+exceeded for metric: ge
+nerativelanguage.google
+apis.com/generate_conte
+nt_free_tier_requests, 
+limit: 20, model: gemin
+i-3.6-flash\nPlease 
+retry in 
+12.404806536s.', 
+'status': 
+'RESOURCE_EXHAUSTED', 
+'details': [{'@type': '
+type.googleapis.com/goo
+gle.rpc.Help', 
+'links': 
+[{'description': 
+'Learn more about 
+Gemini API quotas', 
+'url': 'https://ai.goog
+le.dev/gemini-api/docs/
+rate-limits'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Quot
+aFailure', 
+'violations': 
+[{'quotaMetric': 'gener
+ativelanguage.googleapi
+s.com/generate_content_
+free_tier_requests', 
+'quotaId': 'GenerateReq
+uestsPerDayPerProjectPe
+rModel-FreeTier', 
+'quotaDimensions': 
+{'location': 'global', 
+'model': 
+'gemini-3.6-flash'}, 
+'quotaValue': '20'}]}, 
+{'@type': 'type.googlea
+pis.com/google.rpc.Retr
+yInfo', 'retryDelay': 
+'12s'}]}}
+Retrieval crashed 
+natively bounded 
+globally: RetrievalServ
+ice.retrieve() missing 
+1 required positional 
+argument: 'self'
+
+==================================================
+STARTING RUN 1 (Strict Sandbox)
+==================================================
+
+--- Evaluating Real Ingestion Pipeline ---
+Ingestion Success Rate: 100.0%
+  Photosynthesis_Biology.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  World_War_II_History.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Python_Programming.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Climate_Change_Science.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+
+--- Evaluating Real Chat Pipeline (Full Free-Tier Native Inference) ---
+
+Running Eval Query (1/4): What are the specific light reactions in photosynthesis?
+  Latency: 0.99s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (2/4): When did D-Day occur and what was its significance in World War II?
+  Latency: 0.80s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (3/4): What is the Global Interpreter Lock (GIL) in Python?
+  Latency: 0.50s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (4/4): What is the current gross domestic product (GDP) of Martian agricultural outposts?
+  Latency: 0.80s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+
+  [Rate Limit Sandbox] Regulating inter-run limit bounds: waiting 45s...
+
+==================================================
+STARTING RUN 2 (Strict Sandbox)
+==================================================
+
+--- Evaluating Real Ingestion Pipeline ---
+Ingestion Success Rate: 100.0%
+  Photosynthesis_Biology.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  World_War_II_History.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Python_Programming.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Climate_Change_Science.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+
+--- Evaluating Real Chat Pipeline (Full Free-Tier Native Inference) ---
+
+Running Eval Query (1/4): What are the specific light reactions in photosynthesis?
+  Latency: 0.94s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (2/4): When did D-Day occur and what was its significance in World War II?
+  Latency: 0.38s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (3/4): What is the Global Interpreter Lock (GIL) in Python?
+  Latency: 0.61s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (4/4): What is the current gross domestic product (GDP) of Martian agricultural outposts?
+  Latency: 0.78s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+
+================ EVALUATION SUMMARY ================
+{
+  "summary_run1": {
+    "ingestion_success_rate": 1.0,
+    "average_latency_s": 0.7707300749989372,
+    "average_recall": 0.0,
+    "average_groundedness": 0.0,
+    "average_unsupported_rate": 1.0,
+    "average_citation_correctness": 0.0
+  },
+  "summary_run2": {
+    "ingestion_success_rate": 1.0,
+    "average_latency_s": 0.6761954249996052,
+    "average_recall": 0.0,
+    "average_groundedness": 0.0,
+    "average_unsupported_rate": 1.0,
+    "average_citation_correctness": 0.0
+  },
+  "query_results_run1": [
+    {
+      "query": "What are the specific light reactions in photosynthesis?",
+      "latency_s": 0.9876382000002195,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "When did D-Day occur and what was its significance in World War II?",
+      "latency_s": 0.797685099998489,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the Global Interpreter Lock (GIL) in Python?",
+      "latency_s": 0.49516159999984666,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the current gross domestic product (GDP) of Martian agricultural outposts?",
+      "latency_s": 0.8024353999971936,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    }
+  ],
+  "query_results_run2": [
+    {
+      "query": "What are the specific light reactions in photosynthesis?",
+      "latency_s": 0.940698300000804,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "When did D-Day occur and what was its significance in World War II?",
+      "latency_s": 0.3770719999993162,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the Global Interpreter Lock (GIL) in Python?",
+      "latency_s": 0.6087035999989894,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the current gross domestic product (GDP) of Martian agricultural outposts?",
+      "latency_s": 0.7783077999993111,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    }
+  ],
+  "reproducibility": {
+    "ingestion_match": true,
+    "recall_match": true,
+    "groundedness_match": true,
+    "citation_formats_match": true
+  }
+}
+====================================================
+Generated eval_results.json successfully.
+

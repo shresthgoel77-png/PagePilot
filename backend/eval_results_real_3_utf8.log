@@ -1,0 +1,537 @@
+﻿python : C:\Users\HP\Ap
+pData\Roaming\Python\Py
+thon314\site-packages\q
+drant_client\qdrant_rem
+ote.py:290: 
+UserWarning: Failed to 
+obtain server version. 
+Unable to check 
+client-server 
+compatibility. Set chec
+k_compatibility=False 
+to skip version check.
+At line:1 char:1
++ python 
+eval_harness.py > eval_
+results_real_3.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (C:\Users\HP\A   
+ pp... version chec    
+k.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  show_warning(
+Warning: You are 
+sending 
+unauthenticated 
+requests to the HF 
+Hub. Please set a 
+HF_TOKEN to enable 
+higher rate limits and 
+faster downloads.
+
+Loading weights:   0%| 
+         | 0/41 
+[00:00<?, ?it/s]
+Loading weights: 
+100%|##########| 41/41 
+[00:00<00:00, 
+5600.42it/s]
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+Classification failed, 
+defaulting to SIMPLE: 
+404 NOT_FOUND. 
+{'error': {'code': 
+404, 'message': 'models
+/gemini-1.5-flash is 
+not found for API 
+version v1beta, or is 
+not supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.', 'status': 
+'NOT_FOUND'}}
+Gemini orchestration 
+collapsed safely 
+globally intrinsically 
+bounded inherently 
+mapped: 404 Not Found. 
+{'message': '{\n  
+"error": {\n    
+"code": 404,\n    
+"message": "models/gemi
+ni-1.5-flash is not 
+found for API version 
+v1beta, or is not 
+supported for 
+generateContent. Call M
+odelService.ListModels 
+to see the list of 
+available models and 
+their supported 
+methods.",\n    
+"status": 
+"NOT_FOUND"\n  
+}\n}\n', 'status': 
+'Not Found'}
+
+==================================================
+STARTING RUN 1 (Strict Sandbox)
+==================================================
+
+--- Evaluating Real Ingestion Pipeline ---
+Ingestion Success Rate: 100.0%
+  Photosynthesis_Biology.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  World_War_II_History.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Python_Programming.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Climate_Change_Science.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+
+--- Evaluating Real Chat Pipeline (Full Free-Tier Native Inference) ---
+
+Running Eval Query (1/4): What are the specific light reactions in photosynthesis?
+  Latency: 2.14s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (2/4): When did D-Day occur and what was its significance in World War II?
+  Latency: 2.00s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (3/4): What is the Global Interpreter Lock (GIL) in Python?
+  Latency: 2.30s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (4/4): What is the current gross domestic product (GDP) of Martian agricultural outposts?
+  Latency: 2.61s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+
+  [Rate Limit Sandbox] Regulating inter-run limit bounds: waiting 45s...
+
+==================================================
+STARTING RUN 2 (Strict Sandbox)
+==================================================
+
+--- Evaluating Real Ingestion Pipeline ---
+Ingestion Success Rate: 100.0%
+  Photosynthesis_Biology.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  World_War_II_History.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Python_Programming.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+  Climate_Change_Science.pdf: queued -> PDFStatus.parsing -> PDFStatus.embedding -> PDFStatus.indexing -> PDFStatus.ready
+
+--- Evaluating Real Chat Pipeline (Full Free-Tier Native Inference) ---
+
+Running Eval Query (1/4): What are the specific light reactions in photosynthesis?
+  Latency: 2.26s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (2/4): When did D-Day occur and what was its significance in World War II?
+  Latency: 2.08s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (3/4): What is the Global Interpreter Lock (GIL) in Python?
+  Latency: 2.57s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+  [Rate Limit Sandbox] Regulating API bounds: waiting 25s...
+
+Running Eval Query (4/4): What is the current gross domestic product (GDP) of Martian agricultural outposts?
+  Latency: 2.89s
+  [CITATION VALIDATION DETAILS]: Failed gracefully yielding full drop.
+  Groundedness: 0.00% | Unsupported: 100.00%
+  Citation Syntactically Present: False
+
+================ EVALUATION SUMMARY ================
+{
+  "summary_run1": {
+    "ingestion_success_rate": 1.0,
+    "average_latency_s": 2.263721300000725,
+    "average_recall": 0.8333333333333334,
+    "average_groundedness": 0.0,
+    "average_unsupported_rate": 1.0,
+    "average_citation_correctness": 0.0
+  },
+  "summary_run2": {
+    "ingestion_success_rate": 1.0,
+    "average_latency_s": 2.448828150000736,
+    "average_recall": 0.8333333333333334,
+    "average_groundedness": 0.0,
+    "average_unsupported_rate": 1.0,
+    "average_citation_correctness": 0.0
+  },
+  "query_results_run1": [
+    {
+      "query": "What are the specific light reactions in photosynthesis?",
+      "latency_s": 2.1407569000002695,
+      "recall_score": 1.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "When did D-Day occur and what was its significance in World War II?",
+      "latency_s": 1.998601499999495,
+      "recall_score": 1.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the Global Interpreter Lock (GIL) in Python?",
+      "latency_s": 2.3048121000028914,
+      "recall_score": 1.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the current gross domestic product (GDP) of Martian agricultural outposts?",
+      "latency_s": 2.610714700000244,
+      "recall_score": 0.3333333333333333,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    }
+  ],
+  "query_results_run2": [
+    {
+      "query": "What are the specific light reactions in photosynthesis?",
+      "latency_s": 2.2603509000000486,
+      "recall_score": 1.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "When did D-Day occur and what was its significance in World War II?",
+      "latency_s": 2.0772855000031996,
+      "recall_score": 1.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the Global Interpreter Lock (GIL) in Python?",
+      "latency_s": 2.5704722000009497,
+      "recall_score": 1.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    },
+    {
+      "query": "What is the current gross domestic product (GDP) of Martian agricultural outposts?",
+      "latency_s": 2.8872039999987464,
+      "recall_score": 0.3333333333333333,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
+    }
+  ],
+  "reproducibility": {
+    "ingestion_match": true,
+    "recall_match": true,
+    "groundedness_match": true,
+    "citation_formats_match": true
+  }
+}
+====================================================
+Generated eval_results.json successfully.
+

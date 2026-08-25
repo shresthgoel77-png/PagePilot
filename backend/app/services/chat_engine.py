@@ -48,7 +48,7 @@ class ChatEngine:
         try:
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-3.6-flash",
+                model="gemini-3.5-flash",
                 contents=prompt
             )
             reformulated = response.text.strip()
@@ -69,7 +69,7 @@ class ChatEngine:
         try:
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-3.6-flash",
+                model="gemini-3.5-flash",
                 contents=prompt
             )
             classification = response.text.strip().upper()
@@ -95,7 +95,7 @@ class ChatEngine:
         try:
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-3.6-flash",
+                model="gemini-3.5-flash",
                 contents=prompt,
                 config=types.GenerateContentConfig(response_mime_type="application/json")
             )
@@ -153,7 +153,7 @@ class ChatEngine:
                     # Broadcast transient retry status
                     error_msg = f"Transient failure internally handled gracefully globally securely mapped inherently: {e}. Retrying step ({attempt + 1}/{max_retries})..."
                     yield f"data: {json.dumps({'type': 'step_status', 'step': {'id': str(step_id), 'status': 'retrying', 'error': error_msg}})}\n\n"
-                    await asyncio.sleep(1 * (attempt + 1))
+                    await asyncio.sleep(60.0)
         
         retrieval_artifact = {"chunks": []}
         if retrieval_step:
@@ -164,7 +164,7 @@ class ChatEngine:
                 # Wrap inside transient retry loop
                 async def execute_retrieval():
                     return await retrieval_agent.execute(
-                        step_id=retrieval_step.get("id"), project_id=str(project_id), query=message, pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
+                        step_id=retrieval_step.get("id"), project_id=str(project_id), query=str(message), pdf_ids=[str(p) for p in pdf_ids] if pdf_ids else None
                     )
                 retrieval_artifact = None
                 async for res in run_with_retry(execute_retrieval, retrieval_step.get("id")):
@@ -177,7 +177,7 @@ class ChatEngine:
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
                 
                 # Send structured finding bounds dynamically masking raw processes elegantly natively successfully 
-                yield f"data: {json.dumps({'type': 'artifact', 'step': 'retrieval', 'content': {'retrieved_count': retrieval_artifact.get('retrieved_count', 0)}})}\n\n"
+                yield f"data: {json.dumps({'type': 'artifact', 'step': 'retrieval', 'content': {'retrieved_count': retrieval_artifact.get('retrieved_count', 0), 'chunks': [dict(c) for c in retrieval_artifact.get('chunks', [])]}})}\n\n"
             except Exception as e:
                 updated_step = await self.research_service.update_research_step(run.id, retrieval_step.get("id"), "error", {"error": str(e)})
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
@@ -247,16 +247,17 @@ class ChatEngine:
                 yield f"data: {json.dumps({'type': 'error', 'content': f'Agent pipeline failed gracefully. Comparison step encountered an error: {str(e)}'})}\n\n"
                 return
                 
+        artifact_to_verify = comparison_artifact if comparison_artifact else (analysis_artifacts[0] if analysis_artifacts else None)
         verification_artifact = None
-        if comparison_artifact:
-            v_step_id = verification_step.get("id") if verification_step else comparison_step.get("id")
+        if artifact_to_verify and verification_step:
+            v_step_id = verification_step.get("id")
             if verification_step:
                 updated_step = await self.research_service.update_research_step(run.id, v_step_id, "running")
                 if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
             try:
                 async def execute_verification():
-                    return await verification_agent.execute(v_step_id, comparison_artifact, chunks)
+                    return await verification_agent.execute(v_step_id, artifact_to_verify, chunks)
                 verification_artifact = None
                 async for res in run_with_retry(execute_verification, v_step_id):
                     if isinstance(res, dict):
@@ -268,7 +269,7 @@ class ChatEngine:
                     updated_step = await self.research_service.update_research_step(run.id, v_step_id, "complete", verification_artifact)
                     if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
                     
-                yield f"data: {json.dumps({'type': 'artifact', 'step': 'verification', 'content': {'supported_count': verification_artifact.get('supported_count', 0), 'unsupported_count': verification_artifact.get('unsupported_count', 0)}})}\n\n"
+                yield f"data: {json.dumps({'type': 'artifact', 'step': 'verification', 'content': {'supported_count': verification_artifact.get('supported_count', 0), 'unsupported_count': verification_artifact.get('unsupported_count', 0), 'verified_claims': verification_artifact.get('verified_claims', [])}})}\n\n"
             except Exception as e:
                 if verification_step:
                     updated_step = await self.research_service.update_research_step(run.id, v_step_id, "error", {"error": str(e)})
@@ -285,6 +286,7 @@ class ChatEngine:
 
             v_artifact = verification_artifact or {"verified_claims": []}
             
+            await asyncio.sleep(60.0)
             async for chunk in synthesis_agent.execute_stream(synthesis_step.get("id"), v_artifact, message):
                 full_synthesis += chunk
                 yield f"data: {json.dumps({'type': 'token', 'content': chunk})}\n\n"
@@ -387,7 +389,7 @@ class ChatEngine:
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-3.6-flash",
+                model="gemini-3.5-flash",
                 contents=contents,
                 config=config
             )
