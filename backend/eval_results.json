@@ -1,26 +1,26 @@
 {
   "summary": {
     "ingestion_success_rate": 1.0,
-    "average_latency_s": 0.5544473999998445,
-    "average_recall": 1.0,
-    "average_groundedness": 1.0,
-    "average_unsupported_rate": 0.0
+    "average_latency_s": 18.131246400000236,
+    "average_recall": 0.0,
+    "average_groundedness": 0.0,
+    "average_unsupported_rate": 1.0
   },
   "query_results": [
     {
       "query": "What are the primary energy requirements for a Mars colony?",
-      "latency_s": 0.5639203999999154,
-      "recall_1": 1.0,
-      "grounded_fraction": 1.0,
-      "unsupported_fraction": 0.0,
-      "citation_correct": true
+      "latency_s": 25.054638999999952,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
+      "citation_correct": false
     },
     {
       "query": "Explain the gradient descent decay factor.",
-      "latency_s": 0.5449743999997736,
-      "recall_1": 1.0,
-      "grounded_fraction": 1.0,
-      "unsupported_fraction": 0.0,
+      "latency_s": 11.207853800000521,
+      "recall_score": 0.0,
+      "grounded_fraction": 0.0,
+      "unsupported_fraction": 1.0,
       "citation_correct": true
     }
   ],

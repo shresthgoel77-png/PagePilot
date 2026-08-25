@@ -83,7 +83,7 @@ class GapAnalysisEngine:
         for attempt in range(retries + 1):
             try:
                 response = await self.client.aio.models.generate_content(
-                    model="gemini-2.5-flash",
+                    model="gemini-3.6-flash",
                     contents=prompt_input,
                     config=config
                 )

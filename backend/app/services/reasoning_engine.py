@@ -55,7 +55,7 @@ class ReasoningEngine:
             )
             
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=query,
                 config=config
             )

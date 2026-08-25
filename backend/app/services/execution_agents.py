@@ -88,7 +88,7 @@ class AnalysisAgent:
                 
                 response = await asyncio.to_thread(
                     self.client.models.generate_content,
-                    model="gemini-2.5-flash",
+                    model="gemini-3.6-flash",
                     contents=query,
                     config=config
                 )
@@ -156,7 +156,7 @@ class ComparisonAgent:
             
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt,
                 config=config
             )
@@ -229,7 +229,7 @@ class SynthesisAgent:
             
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt,
                 config=config
             )
@@ -270,7 +270,7 @@ class SynthesisAgent:
             prompt = f"Query: {query}\n\nVerified Claims:\n{claims_text}"
             
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt,
                 config=config
             )

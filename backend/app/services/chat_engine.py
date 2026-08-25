@@ -48,7 +48,7 @@ class ChatEngine:
         try:
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt
             )
             reformulated = response.text.strip()
@@ -69,7 +69,7 @@ class ChatEngine:
         try:
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt
             )
             classification = response.text.strip().upper()
@@ -95,7 +95,7 @@ class ChatEngine:
         try:
             response = await asyncio.to_thread(
                 self.client.models.generate_content,
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt,
                 config=types.GenerateContentConfig(response_mime_type="application/json")
             )
@@ -387,7 +387,7 @@ class ChatEngine:
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
             response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=contents,
                 config=config
             )
