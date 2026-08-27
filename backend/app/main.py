@@ -80,6 +80,14 @@ async def generic_exception_handler(request: Request, exc: Exception):
         content={"detail": "An internal server error occurred.", "type": str(type(exc).__name__)},
     )
 
+from slowapi.errors import RateLimitExceeded
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": f"Rate limit exceeded: {exc.detail}"}
+    )
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}

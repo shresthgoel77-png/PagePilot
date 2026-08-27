@@ -18,6 +18,8 @@ from app.models.ingestion_job import IngestionJob, JobStatus
 from app.schemas.pdf import PDFResponse
 from app.core.config import settings
 from app.core.clerk_auth import get_current_user_clerk
+from app.core.rate_limit import limiter
+from fastapi import Request
 
 logger = logging.getLogger("researchos.pdfs")
 
@@ -32,7 +34,9 @@ async def verify_project(project_id: UUID, user_id: UUID, db: AsyncSession) -> P
     return project
 
 @router.post("", response_model=PDFResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit("5/minute")
 async def upload_pdf(
+    request: Request,
     project_id: UUID,
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user_clerk),
@@ -43,7 +47,7 @@ async def upload_pdf(
     if file.content_type != "application/pdf":
         raise HTTPException(status_code=415, detail="Constraints strictly mandate application/pdf execution formats gracefully.")
         
-    if file.size and file.size > 50 * 1024 * 1024:
+    if file.size and file.size > 10 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
         
     pdf_id = uuid.uuid4()
@@ -53,11 +57,30 @@ async def upload_pdf(
     temp_file_path = os.path.join(project_dir, f"temp_{pdf_id}.pdf")
     hasher = hashlib.sha256()
     
+    # Track byte accumulation to reject payloads dynamically
+    max_size = 10 * 1024 * 1024  # 10MB
+    accumulated = 0
+    is_first_chunk = True
+    
     with open(temp_file_path, 'wb') as temp_file:
         while True:
             chunk = await file.read(1024 * 1024)
             if not chunk:
                 break
+                
+            if is_first_chunk:
+                is_first_chunk = False
+                if not chunk.startswith(b"%PDF-"):
+                    temp_file.close()
+                    os.remove(temp_file_path)
+                    raise HTTPException(status_code=400, detail="Corrupted structural headers explicitly preventing malware traces globally")
+                    
+            accumulated += len(chunk)
+            if accumulated > max_size:
+                temp_file.close()
+                os.remove(temp_file_path)
+                raise HTTPException(status_code=413, detail="Exceeded fundamental payload allocation capacity explicitly tracking sizes")
+                
             hasher.update(chunk)
             temp_file.write(chunk)
             

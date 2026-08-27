@@ -7,6 +7,7 @@ from app.schemas.chat import ChatRequest
 from app.services.chat_service import ChatService
 from app.services.chat_engine import ChatEngine
 from app.core.clerk_auth import get_current_user_clerk
+from app.core.rate_limit import limiter
 
 router = APIRouter(prefix="/chat", tags=["chat_engine"])
 
@@ -15,6 +16,7 @@ def get_chat_engine(db: AsyncSession = Depends(get_db)) -> ChatEngine:
     return ChatEngine(chat_service=chat_svc)
 
 @router.post("/stream")
+@limiter.limit("20/minute")
 async def chat_stream(
     request: Request,
     payload: ChatRequest,
