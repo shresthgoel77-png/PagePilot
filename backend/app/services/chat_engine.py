@@ -292,7 +292,8 @@ class ChatEngine:
             updated_step = await self.research_service.update_research_step(run.id, synthesis_step.get("id"), "running")
             if updated_step: yield f"data: {json.dumps({'type': 'step_status', 'step': updated_step})}\n\n"
             
-            yield f"data: {json.dumps({'type': 'token', 'content': '\n\n**Final Verified Synthesis:**\n\n'})}\n\n"
+            synthesis_payload = json.dumps({'type': 'token', 'content': '\n\n**Final Verified Synthesis:**\n\n'})
+            yield f"data: {synthesis_payload}\n\n"
 
             v_artifact = verification_artifact or {"verified_claims": []}
             

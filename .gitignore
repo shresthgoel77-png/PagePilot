@@ -49,6 +49,7 @@ backend/verify_output.txt
 
 # Generated Text Outputs
 backend/*.txt
+!backend/requirements.txt
 backend/test_out*.txt
 backend/test_failures.txt
 backend/pytest_test_output.txt
