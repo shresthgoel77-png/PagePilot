@@ -3,34 +3,45 @@ import subprocess
 import os
 
 def test_missing_environment():
-    # Remove one required environment variable explicitly 
-    env = os.environ.copy()
-    if 'CLERK_SECRET_KEY' in env:
-        del env['CLERK_SECRET_KEY']
+    required_secrets = ["CLERK_SECRET_KEY", "GEMINI_API_KEY", "DATABASE_URL", "QDRANT_URL"]
     
     # Hide .env to prevent pydantic from falling back
     if os.path.exists(".env"):
         os.rename(".env", ".env.bak")
         
     try:
-        # Try importing the app, which should fail due to Pydantic Settings instantiation constraints
-        result = subprocess.run(
-            [sys.executable, "-c", "from app.main import app"],
-            env=env,
-            capture_output=True,
-            text=True
-        )
+        for secret_to_remove in required_secrets:
+            # Provide baseline env
+            env = os.environ.copy()
+            env["CLERK_SECRET_KEY"] = "mock_clerk"
+            env["GEMINI_API_KEY"] = "mock_gemini"
+            env["DATABASE_URL"] = "mock_db"
+            env["QDRANT_URL"] = "mock_qdrant"
+            env["SECRET_KEY"] = "mock_secret"
+            env["UPLOAD_DIR"] = "mock_upload"
+            
+            # Remove the targeted variable
+            if secret_to_remove in env:
+                del env[secret_to_remove]
+                
+            # Try importing the app, which should fail due to Pydantic Settings instantiation constraints
+            result = subprocess.run(
+                [sys.executable, "-c", "from app.main import app"],
+                env=env,
+                capture_output=True,
+                text=True
+            )
+            
+            if result.returncode != 0 and secret_to_remove in result.stderr:
+                print(f"PASS: Missing {secret_to_remove} properly crashes app instantiation with explicit Pydantic Field failures")
+            else:
+                print(f"FAIL: App did not crash explicitly on missing variable: {secret_to_remove}")
+                print("STDOUT:", result.stdout)
+                print("STDERR:", result.stderr)
+                sys.exit(1)
     finally:
         if os.path.exists(".env.bak"):
             os.rename(".env.bak", ".env")
-    
-    if result.returncode != 0 and "CLERK_SECRET_KEY" in result.stderr:
-        print("PASS: Missing SECRET_KEY properly crashes app instantiation with explicit Pydantic Field failures")
-    else:
-        print("FAIL: App did not crash explicitly on missing variable correctly!")
-        print("STDOUT:", result.stdout)
-        print("STDERR:", result.stderr)
-        sys.exit(1)
 
 def test_no_suppressed_migrations():
     # Provide all mock vars internally
