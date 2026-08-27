@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = Field(..., description="JWT Auth Secret Key")
     UPLOAD_DIR: str = Field(..., description="Local PDF Upload Directory")
     GEMINI_API_KEY: str = Field(..., description="Gemini LLM Key")
+    CLERK_SECRET_KEY: str = Field(..., description="Clerk Auth Key")
 
     # Chunking Configuration
     CHUNK_SIZE: int = 1000

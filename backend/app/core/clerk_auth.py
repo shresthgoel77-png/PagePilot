@@ -13,11 +13,9 @@ from app.models.user import User
 
 logger = logging.getLogger("researchos.auth")
 
-CLERK_SECRET_KEY = os.environ.get("CLERK_SECRET_KEY")
-if not CLERK_SECRET_KEY:
-    raise RuntimeError("CLERK_SECRET_KEY environment variable is missing. Clerk authentication cannot be configured.")
+from app.core.config import settings
 
-clerk_client = Clerk(bearer_auth=CLERK_SECRET_KEY)
+clerk_client = Clerk(bearer_auth=settings.CLERK_SECRET_KEY)
 
 async def get_current_user_clerk(request: Request, db: AsyncSession = Depends(get_db)) -> User:
     credentials_exception = HTTPException(

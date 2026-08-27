@@ -11,12 +11,6 @@ from app.core.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Run Alembic migrations on startup
-    try:
-        subprocess.run(["alembic", "upgrade", "head"], check=True)
-    except Exception as e:
-        print(f"Migrations suppressed: {e}")
-
     # Start the durable job worker as a background asyncio task
     from app.services.job_worker import worker_loop
     shutdown_event = asyncio.Event()
