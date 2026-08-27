@@ -41,15 +41,5 @@ jobs:
         UPLOAD_DIR: "./uploads"
         CLERK_SECRET_KEY: "test_key"
       run: |
-        pytest -v test_prompt_7_3_chat_and_agent.py test_prompt_7_3_chat_and_agent_real.py > CI_ERROR.txt 2>&1
-        python verify_retrieval_grounding_test_suite.py >> CI_ERROR.txt 2>&1
-
-    - name: Commit test logs
-      if: always()
-      working-directory: ./backend
-      run: |
-        git config user.name "CI Bot"
-        git config user.email "bot@github.com"
-        git add -f CI_ERROR.txt
-        git commit -m "Upload test logs" || true
-        git push || true
+        pytest test_prompt_7_3_chat_and_agent.py test_prompt_7_3_chat_and_agent_real.py
+        python verify_retrieval_grounding_test_suite.py
