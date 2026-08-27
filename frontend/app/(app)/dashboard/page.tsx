@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { useUser } from "@clerk/nextjs";
+import { useUser } from "@/lib/demo-auth";
 import { useProjects } from "@/hooks/useProjects";
 import { CreateProjectModal } from "@/components/create-project-modal";
 import { Skeleton } from "@/components/ui/skeleton";

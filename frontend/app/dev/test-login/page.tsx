@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSignIn, useClerk } from "@clerk/nextjs";
+import { useSignIn, useClerk } from "@/lib/demo-auth";
 import { useRouter } from "next/navigation";
 
 /**

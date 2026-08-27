@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@/lib/demo-auth';
 interface StreamState {
     content: string;
     isStreaming: boolean;

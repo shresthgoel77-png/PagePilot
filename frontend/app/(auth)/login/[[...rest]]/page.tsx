@@ -1,6 +1,6 @@
 "use client";
 
-import { SignIn } from "@clerk/nextjs";
+import { SignIn } from "@/lib/demo-auth";
 
 export default function LoginPage() {
     return (

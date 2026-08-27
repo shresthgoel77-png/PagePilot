@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser, useAuth } from "@clerk/nextjs";
+import { useUser, useAuth } from "@/lib/demo-auth";
 import { useHealthStatus } from "@/hooks/useHealthStatus";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
 import { Home, Folder, LogOut } from "lucide-react";

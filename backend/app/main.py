@@ -11,6 +11,10 @@ from app.core.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    logger.info("Running pending model mappings defensively dynamically...")
+    import sys
+    subprocess.run([sys.executable, "-m", "alembic", "upgrade", "head"], check=True)
+    
     # Start the durable job worker as a background asyncio task
     from app.services.job_worker import worker_loop
     shutdown_event = asyncio.Event()
@@ -82,9 +86,25 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
         content={"detail": f"Rate limit exceeded: {exc.detail}"}
     )
 
+from app.db.session import get_db
+from sqlalchemy.ext.asyncio import AsyncSession
+from app.services.vector_store import VectorStoreService
+from fastapi import HTTPException
+import httpx
+
 @app.get("/health")
-async def health_check():
-    return {"status": "ok"}
+@app.get("/ready")
+async def health_check(db: AsyncSession = Depends(get_db)):
+    try:
+        await db.execute(text("SELECT 1"))
+        VectorStoreService().client.get_collections()
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            resp = await client.get(f"https://generativelanguage.googleapis.com/v1beta/models?key={settings.GEMINI_API_KEY}")
+            resp.raise_for_status()
+        return {"status": "healthy", "database": "active", "qdrant": "active", "gemini": "active"}
+    except Exception as e:
+        logger.error(f"Health check explicitly failed evaluating downstream dependencies natively: {e}")
+        raise HTTPException(status_code=503, detail="Architecture explicitly unresolvable functionally intelligently securely.")
 
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from fastapi import Response
@@ -106,16 +126,4 @@ app.include_router(gap_finder.router)
 app.include_router(jobs.router)
 app.include_router(dev_auth.router)
 
-from app.db.session import get_db
-from sqlalchemy.ext.asyncio import AsyncSession
-from app.services.vector_store import VectorStoreService
 
-@app.get("/health/deep")
-async def check_architecture(db: AsyncSession = Depends(get_db)):
-    try:
-        await db.execute(text("SELECT 1"))
-        VectorStoreService().client.get_collections()
-        return {"status": "healthy", "database": "active", "qdrant": "active"}
-    except Exception as e:
-        from fastapi import HTTPException
-        raise HTTPException(status_code=503, detail="Architecture explicitly unresolvable functionally intelligently securely.")

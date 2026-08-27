@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@/lib/demo-auth';
 import api from '../lib/api';
 
 export function AxiosInterceptor({ children }: { children: React.ReactNode }) {

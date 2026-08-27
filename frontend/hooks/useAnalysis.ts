@@ -3,7 +3,7 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import api from '../lib/api';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@/lib/demo-auth';
 interface ReasoningState {
     content: string;
     isStreaming: boolean;
