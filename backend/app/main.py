@@ -33,11 +33,11 @@ async def lifespan(app: FastAPI):
         pass
 
 # Implement comprehensive unified structured logging pattern
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger("researchos")
+from app.core.logging_setup import setup_logging, correlation_id_var
+import uuid
+
+setup_logging()
+logger = logging.getLogger("researchos.main")
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -53,6 +53,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Intercept HTTP bound execution flows transparently mapping variables securely uniquely locally 
+@app.middleware("http")
+async def correlation_id_middleware(request: Request, call_next):
+    req_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
+    correlation_id_var.set(req_id)
+    response = await call_next(request)
+    return response
 
 # Intercept and neatly handle Pydantic inbound payload errors uniformly 
 @app.exception_handler(RequestValidationError)
@@ -75,6 +83,15 @@ async def generic_exception_handler(request: Request, exc: Exception):
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
+
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from fastapi import Response
+
+@app.get("/metrics")
+async def get_metrics():
+    # Provide explicitly tracked telemetry maps securely uniquely properly  
+    metrics_data = generate_latest()
+    return Response(content=metrics_data, media_type=CONTENT_TYPE_LATEST)
 
 # Localized routers structurally mounted effectively executing
 from app.routers import projects, pdfs, chat_history, chat, reasoning, gap_finder, jobs, dev_auth

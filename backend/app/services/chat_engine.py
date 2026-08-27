@@ -14,6 +14,7 @@ from app.services.context_assembler import ContextAssembler
 from app.services.evidence_verifier import EvidenceVerifier
 from app.services.research_service import ResearchService
 from app.services.execution_agents import RetrievalAgent, AnalysisAgent, ComparisonAgent, VerificationAgent, SynthesisAgent
+from app.core.metrics import gemini_requests_total, gemini_request_latency_seconds
 
 logger = logging.getLogger("researchos.chat_engine")
 
@@ -46,15 +47,18 @@ class ChatEngine:
         )
         
         try:
-            response = await asyncio.to_thread(
-                self.client.models.generate_content,
-                model="gemini-3.5-flash",
-                contents=prompt
-            )
+            with gemini_request_latency_seconds.time():
+                response = await asyncio.to_thread(
+                    self.client.models.generate_content,
+                    model="gemini-3.5-flash",
+                    contents=prompt
+                )
+            gemini_requests_total.labels(status="success").inc()
             reformulated = response.text.strip()
             logger.info(f"Original query: '{message}' | Reformulated: '{reformulated}'")
             return reformulated
         except Exception as e:
+            gemini_requests_total.labels(status="error").inc()
             logger.error(f"Query reformulation failed, falling back to original message: {e}")
             return message
 
@@ -67,11 +71,13 @@ class ChatEngine:
             f"Query: {message}\n"
         )
         try:
-            response = await asyncio.to_thread(
-                self.client.models.generate_content,
-                model="gemini-3.5-flash",
-                contents=prompt
-            )
+            with gemini_request_latency_seconds.time():
+                response = await asyncio.to_thread(
+                    self.client.models.generate_content,
+                    model="gemini-3.5-flash",
+                    contents=prompt
+                )
+            gemini_requests_total.labels(status="success").inc()
             classification = response.text.strip().upper()
             if "COMPLEX" in classification:
                 logger.info(f"Supervisor classified query '{message}' as COMPLEX.")
@@ -79,6 +85,7 @@ class ChatEngine:
             logger.info(f"Supervisor classified query '{message}' as SIMPLE.")
             return "SIMPLE"
         except Exception as e:
+            gemini_requests_total.labels(status="error").inc()
             logger.error(f"Classification failed, defaulting to SIMPLE: {e}")
             return "SIMPLE"
 
@@ -93,15 +100,18 @@ class ChatEngine:
             f"Query: {message}"
         )
         try:
-            response = await asyncio.to_thread(
-                self.client.models.generate_content,
-                model="gemini-3.5-flash",
-                contents=prompt,
-                config=types.GenerateContentConfig(response_mime_type="application/json")
-            )
+            with gemini_request_latency_seconds.time():
+                response = await asyncio.to_thread(
+                    self.client.models.generate_content,
+                    model="gemini-3.5-flash",
+                    contents=prompt,
+                    config=types.GenerateContentConfig(response_mime_type="application/json")
+                )
+            gemini_requests_total.labels(status="success").inc()
             data = json.loads(response.text.strip())
             return data
         except Exception as e:
+            gemini_requests_total.labels(status="error").inc()
             print(f"DEBUG EXCEPTION in _decompose_query: {repr(e)}")
             logger.error(f"Decomposition failed: {e}")
             return [{"type": "synthesis", "description": "Synthesize the provided documents based on the complex query."}]
@@ -388,21 +398,23 @@ class ChatEngine:
             )
             
             # Asynchronous generation explicitly emitting Server-Sent streams effectively executing natively locally safely 
-            response_stream = await self.client.aio.models.generate_content_stream(
-                model="gemini-3.5-flash",
-                contents=contents,
-                config=config
-            )
+            with gemini_request_latency_seconds.time():
+                response_stream = await self.client.aio.models.generate_content_stream(
+                    model="gemini-3.5-flash",
+                    contents=contents,
+                    config=config
+                )
+                
+                response_contents = []
+                async for chunk in response_stream:
+                    if chunk.text:
+                        response_contents.append(chunk.text)
+                        payload = json.dumps({"type": "token", "content": chunk.text})
+                        yield f"data: {payload}\n\n"
+                        # Synchronize OS buffer bounds actively resolving explicitly mapping loops smoothly implicitly securely 
+                        await asyncio.sleep(0.01)
             
-            response_contents = []
-            async for chunk in response_stream:
-                if chunk.text:
-                    response_contents.append(chunk.text)
-                    payload = json.dumps({"type": "token", "content": chunk.text})
-                    yield f"data: {payload}\n\n"
-                    # Synchronize OS buffer bounds actively resolving explicitly mapping loops smoothly implicitly securely 
-                    await asyncio.sleep(0.01)
-                    
+            gemini_requests_total.labels(status="success").inc()        
             full_response = "".join(response_contents)
             yield f"data: {json.dumps({'type': 'done', 'content': ''})}\n\n"
             
@@ -419,5 +431,6 @@ class ChatEngine:
                 await self.chat_service.update_message_verification(msg.id, "verified", ver_results)
             
         except Exception as e:
+            gemini_requests_total.labels(status="error").inc()
             logger.error(f"Gemini orchestration collapsed safely globally intrinsically bounded inherently mapped: {e}")
             yield f"data: {json.dumps({'type': 'error', 'content': f'Generation failed structurally: {str(e)}'})}\n\n"

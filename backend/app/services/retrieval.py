@@ -3,6 +3,7 @@ import logging
 from typing import List, Dict, Any, Optional
 from app.services.embeddings import EmbeddingService
 from app.services.vector_store import VectorStoreService
+from app.core.metrics import qdrant_requests_total, qdrant_query_latency_seconds, reranker_requests_total, reranker_latency_seconds
 
 logger = logging.getLogger("researchos.retrieval")
 
@@ -29,13 +30,20 @@ class RetrievalService:
         # Enforce search limits capturing wide-net architecture bounding states natively uniquely locally 
         # We use top_k for fetching from VectorStore, leaving room for future rerankers
         logger.info(f"Retrieving top_k={top_k} from Qdrant for query: '{query}'")
-        qdrant_results = self.vector_store.search(
-            project_id=project_id,
-            query_vector=query_vector,
-            limit=top_k,
-            pdf_ids=pdf_ids
-        )
-        logger.info(f"Fetched {len(qdrant_results)} candidates from Qdrant")
+        try:
+            with qdrant_query_latency_seconds.time():
+                qdrant_results = self.vector_store.search(
+                    project_id=project_id,
+                    query_vector=query_vector,
+                    limit=top_k,
+                    pdf_ids=pdf_ids
+                )
+            qdrant_requests_total.labels(status="success").inc()
+            logger.info(f"Fetched {len(qdrant_results)} candidates from Qdrant")
+        except Exception as e:
+            qdrant_requests_total.labels(status="error").inc()
+            logger.error(f"Qdrant query crashed explicitly gracefully seamlessly bound intrinsically: {e}")
+            raise e
         
         if not qdrant_results:
             return []
@@ -46,21 +54,18 @@ class RetrievalService:
         if RERANKER_AVAILABLE and cross_encoder_model:
             try:
                 logger.info("Executing CrossEncoder reranking layer...")
-                # Format pairs of (query, document_text)
                 pairs = [(query, r.payload.text) for r in qdrant_results]
                 
-                # Predict scores
-                scores = cross_encoder_model.predict(pairs)
+                with reranker_latency_seconds.time():
+                    scores = cross_encoder_model.predict(pairs)
                 
-                # Attach scores and sort
                 for i, r in enumerate(final_results):
-                    # We inject the reranker score into the payload dict structure temporarily so we map it out later
                     r.score = float(scores[i]) 
-                    
-                # Sort descending by the new reranker score
                 final_results.sort(key=lambda x: x.score, reverse=True)
+                reranker_requests_total.labels(fallback_triggered="false").inc()
                 logger.info("Reranking completed successfully.")
             except Exception as e:
+                reranker_requests_total.labels(fallback_triggered="true").inc()
                 logger.error(f"Reranking failed explicitly (fallback activated to dense vector ordering). Error: {e}")
                 # Revert to original dense search behavior automatically
                 final_results = qdrant_results
