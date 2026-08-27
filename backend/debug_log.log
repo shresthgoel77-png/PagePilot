@@ -1,0 +1,96 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.16, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/runner/work/PagePilot/PagePilot/backend
+configfile: pyproject.toml
+plugins: anyio-4.14.2, asyncio-1.4.0, langsmith-0.11.1
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 0 items / 2 errors
+
+==================================== ERRORS ====================================
+______________ ERROR collecting test_prompt_7_3_chat_and_agent.py ______________
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/_pytest/python.py:508: in importtestmodule
+    mod = import_path(
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/_pytest/pathlib.py:596: in import_path
+    importlib.import_module(module_name)
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:188: in exec_module
+    exec(co, module.__dict__)
+test_prompt_7_3_chat_and_agent.py:8: in <module>
+    from app.services.chat_engine import ChatEngine
+E     File "/home/runner/work/PagePilot/PagePilot/backend/app/services/chat_engine.py", line 295
+E       yield f"data: {json.dumps({'type': 'token', 'content': '\n\n**Final Verified Synthesis:**\n\n'})}\n\n"
+E                                                                                                             ^
+E   SyntaxError: f-string expression part cannot include a backslash
+___________ ERROR collecting test_prompt_7_3_chat_and_agent_real.py ____________
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/_pytest/python.py:508: in importtestmodule
+    mod = import_path(
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/_pytest/pathlib.py:596: in import_path
+    importlib.import_module(module_name)
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1204: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1176: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1147: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:690: in _load_unlocked
+    ???
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/_pytest/assertion/rewrite.py:188: in exec_module
+    exec(co, module.__dict__)
+test_prompt_7_3_chat_and_agent_real.py:9: in <module>
+    from app.services.chat_engine import ChatEngine
+E     File "/home/runner/work/PagePilot/PagePilot/backend/app/services/chat_engine.py", line 295
+E       yield f"data: {json.dumps({'type': 'token', 'content': '\n\n**Final Verified Synthesis:**\n\n'})}\n\n"
+E                                                                                                             ^
+E   SyntaxError: f-string expression part cannot include a backslash
+=========================== short test summary info ============================
+ERROR test_prompt_7_3_chat_and_agent.py
+ERROR test_prompt_7_3_chat_and_agent_real.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!
+============================== 2 errors in 0.63s ===============================
+Failed to load sentence_transformers CrossEncoder. Reranking disabled. Error: No module named 'sentence_transformers'
+--- Retrieval & Grounding Test Suite ---
+
+1. Testing relevant query...
+PASS: Relevant query
+
+2. Testing irrelevant query...
+PASS: Irrelevant query
+
+3. Testing exact-keyword query (hybrid simulation)...
+PASS: Exact-keyword/hybrid simulation
+
+4. Testing multi-document query...
+PASS: Multi-document evidence
+
+5. Testing top_k/final_k contract...
+PASS: top_k/final_k contract maintained
+
+6. Testing reranking structure ordering...
+PASS: Reranking structure operative properly prioritizes scores
+
+7. Testing grounded answer (supported claim)...
+PASS: Supported claim case logic
+
+8. Testing unsupported claim (insufficient evidence)...
+PASS: Unsupported claim case caught
+
+9. Testing citation mapping accuracy...
+PASS: Citation accuracy mapped
+
+10. Testing adversarial hallucination interception (Phase 4)...
+PASS: Adversarial hallucination intercepted
+
+ALL VERIFICATIONS PASSED
