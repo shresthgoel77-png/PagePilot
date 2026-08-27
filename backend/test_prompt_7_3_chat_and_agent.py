@@ -45,6 +45,7 @@ async def test_sse_streaming_delivers_tokens():
         
     # Ensure standard token sequences
     token_outputs = [o for o in outputs if '"type": "token"' in o]
+    assert False, "Deliberate failure for CI verification"
     assert len(token_outputs) == 2
     assert "Hello" in token_outputs[0]
     assert "World" in token_outputs[1]
