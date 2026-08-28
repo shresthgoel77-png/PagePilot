@@ -25,7 +25,7 @@ def ensure_collection():
             qdrant_client.create_collection(
                 collection_name=collection_name,
                 vectors_config=models.VectorParams(
-                    size=3072,
+                    size=768,
                     distance=models.Distance.COSINE
                 ),
                 on_disk_payload=True

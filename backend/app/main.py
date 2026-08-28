@@ -15,6 +15,9 @@ async def lifespan(app: FastAPI):
     import sys
     subprocess.run([sys.executable, "-m", "alembic", "upgrade", "head"], check=True)
     
+    from app.db.qdrant import ensure_collection
+    ensure_collection()
+    
     # Start the durable job worker as a background asyncio task
     from app.services.job_worker import worker_loop
     shutdown_event = asyncio.Event()

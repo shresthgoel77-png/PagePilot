@@ -1,0 +1,92 @@
+{"timestamp": "2026-08-27T15:21:47.566398", "name": "sentence_transformers.base.model", "levelname": "INFO", "message": "No device provided, using cpu"}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+{"timestamp": "2026-08-27T15:21:48.386201", "name": "huggingface_hub.utils._http", "levelname": "WARNING", "message": "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads."}
+{"timestamp": "2026-08-27T15:21:48.387426", "name": "sentence_transformers.base.model", "levelname": "INFO", "message": "No modules.json found for cross-encoder/ms-marco-TinyBERT-L-2-v2, initializing a new CrossEncoder model."}
+Loading weights:   0%|          | 0/41 [00:00<?, ?it/s]Loading weights: 100%|##########| 41/41 [00:00<00:00, 1537.36it/s]
+INFO:     Started server process [24288]
+INFO:     Waiting for application startup.
+{"timestamp": "2026-08-27T15:21:59.262453", "name": "researchos.main", "levelname": "INFO", "message": "Running pending model mappings defensively dynamically..."}
+ERROR:    Traceback (most recent call last):
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\starlette\routing.py", line 638, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+               ~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\venv\Lib\site-packages\fastapi\routing.py", line 240, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+               ~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Python314\Lib\contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\OneDrive\Desktop\.vscode\gen ai\backend\app\main.py", line 15, in lifespan
+    subprocess.run(["alembic", "upgrade", "head"], check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 1553, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+ERROR:    Application startup failed. Exiting.
